@@ -1,25 +1,34 @@
 using Microsoft.AspNetCore.Mvc;
 using SchedulingSystem.Models;
 using SchedulingSystem.Persistence;
+using SchedulingSystem.Controllers.Resources;
+using AutoMapper;
 
 namespace SchedulingSystem.Controllers
 {
     [Route("/api/departments")]
     public class DepartmentsController : Controller
     {
-        private readonly SchedulingDbContext _context;
+        private readonly SchedulingDbContext context;
+        private readonly IMapper mapper;
 
-        public DepartmentsController(SchedulingDbContext context)
+        public DepartmentsController(SchedulingDbContext context, IMapper mapper)
         {
-            this._context = context;
+            this.context = context;
+            this.mapper = mapper;
         }
 
         [HttpPost]
-        public Department New(Department department)
+        public IActionResult New([FromBody] DepartmentResource departmentResource)
         {
-            _context.Add(department);
+            var department = mapper.Map<DepartmentResource, Department>(departmentResource);
 
-            return department;
+            context.Departments.Add(department);
+            context.SaveChanges();
+
+            var result = mapper.Map<Department, DepartmentResource>(department);
+
+            return Ok(result);
         }
     }
 }

@@ -10,6 +10,7 @@ namespace SchedulingSystem.Models
         [Required]
         [StringLength(255)]
         public string Name { get; set; }
+
         public College College { get; set; }
 
         [ForeignKey("College")]

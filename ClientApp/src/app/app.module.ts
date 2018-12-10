@@ -11,6 +11,7 @@ import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { CollegeListComponent } from './college-list/college-list.component';
 import { CollegeService } from './services/college.service';
+import { DepartmentFormComponent } from './department-form/department-form.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { CollegeService } from './services/college.service';
     HomeComponent,
     CounterComponent,
     FetchDataComponent,
-    CollegeListComponent
+    CollegeListComponent,
+    DepartmentFormComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
