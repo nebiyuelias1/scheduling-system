@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
@@ -12,6 +12,7 @@ import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { CollegeListComponent } from './college-list/college-list.component';
 import { CollegeService } from './services/college.service';
 import { DepartmentFormComponent } from './department-form/department-form.component';
+import { DepartmentService } from './services/department.service';
 
 @NgModule({
   declarations: [
@@ -27,15 +28,18 @@ import { DepartmentFormComponent } from './department-form/department-form.compo
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     FormsModule,
+    ReactiveFormsModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'colleges', component: CollegeListComponent },
+      { path: 'departments/new', component: DepartmentFormComponent }
     ])
   ],
   providers: [
-    CollegeService
+    CollegeService,
+    DepartmentService
   ],
   bootstrap: [AppComponent]
 })

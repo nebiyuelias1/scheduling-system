@@ -22,6 +22,11 @@
                         <span class='glyphicon glyphicon-home'></span> Colleges
                     </a>
                 </li>
+                <li [routerLinkActive]='["link-active"]' [routerLinkActiveOptions]='{ exact: true }'>
+                    <a [routerLink]='["/departments/new"]' (click)='collapse()'>
+                        <span class='glyphicon glyphicon-plus'></span> Departments
+                    </a>
+                </li>
                 <li [routerLinkActive]='["link-active"]'>
                     <a [routerLink]='["/counter"]' (click)='collapse()'>
                         <span class='glyphicon glyphicon-education'></span> Counter
