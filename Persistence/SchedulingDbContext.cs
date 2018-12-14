@@ -13,5 +13,6 @@ namespace SchedulingSystem.Persistence
 
         public DbSet<College> Colleges { get; set; }
         public DbSet<Department> Departments { get; set; }
+        public DbSet<Program> Programs { get; set; }
     }
 }
