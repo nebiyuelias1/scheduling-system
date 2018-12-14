@@ -1,4 +1,4 @@
-using scheduling_system.Models;
+using SchedulingSystem.Models;
 
 namespace scheduling_system.Models
 {
