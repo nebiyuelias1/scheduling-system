@@ -3,6 +3,8 @@ using SchedulingSystem.Models;
 using SchedulingSystem.Persistence;
 using SchedulingSystem.Controllers.Resources;
 using AutoMapper;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace SchedulingSystem.Controllers
 {
@@ -18,8 +20,16 @@ namespace SchedulingSystem.Controllers
             this.mapper = mapper;
         }
 
+        public IActionResult GetDepartments()
+        {
+            var departments = context.Departments.ToList();
+
+            var result = mapper.Map<IList<Department>, IList<DepartmentResource>>(departments);
+            return Ok(result);
+        }
+
         [HttpPost]
-        public IActionResult New([FromBody] DepartmentResource departmentResource)
+        public IActionResult Create([FromBody] DepartmentResource departmentResource)
         {
             var department = mapper.Map<DepartmentResource, Department>(departmentResource);
 
