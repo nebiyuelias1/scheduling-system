@@ -20,12 +20,15 @@ namespace SchedulingSystem.Controllers
             this.mapper = mapper;
         }
 
+        [HttpGet]
         public IActionResult GetDepartments()
         {
             var departments = context.Departments.ToList();
+            if (departments == null)
+                return NotFound();
 
-            var result = mapper.Map<IList<Department>, IList<DepartmentResource>>(departments);
-            return Ok(result);
+            var departmentsResource = mapper.Map<IList<Department>, IList<DepartmentResource>>(departments);
+            return Ok(departmentsResource);
         }
 
         [HttpPost]

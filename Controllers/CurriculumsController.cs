@@ -33,7 +33,6 @@ namespace SchedulingSystem.Controllers
             mapper.Map<Curriculum, CurriculumResource>(curriculum, curriculumResource);
 
             return Ok(curriculumResource);
-
         }
     }
 }

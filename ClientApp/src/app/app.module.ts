@@ -13,6 +13,8 @@ import { CollegeListComponent } from './college-list/college-list.component';
 import { CollegeService } from './services/college.service';
 import { DepartmentFormComponent } from './department-form/department-form.component';
 import { DepartmentService } from './services/department.service';
+import { CurriculumFormComponent } from './curriculum-form/curriculum-form.component';
+import { CurriculumService } from './services/curriculum.service';
 
 @NgModule({
   declarations: [
@@ -22,7 +24,8 @@ import { DepartmentService } from './services/department.service';
     CounterComponent,
     FetchDataComponent,
     CollegeListComponent,
-    DepartmentFormComponent
+    DepartmentFormComponent,
+    CurriculumFormComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -34,12 +37,14 @@ import { DepartmentService } from './services/department.service';
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'colleges', component: CollegeListComponent },
-      { path: 'departments/new', component: DepartmentFormComponent }
+      { path: 'departments/new', component: DepartmentFormComponent },
+      { path: 'curriculums/new', component: CurriculumFormComponent }
     ])
   ],
   providers: [
     CollegeService,
-    DepartmentService
+    DepartmentService,
+    CurriculumService
   ],
   bootstrap: [AppComponent]
 })

@@ -9,4 +9,8 @@ export class DepartmentService {
   saveDepartment(department) {
     return this.http.post('/api/departments', department);
   }
+
+  getDepartments() {
+    return this.http.get('/api/departments');
+  }
 }

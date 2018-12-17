@@ -27,6 +27,11 @@
                         <span class='glyphicon glyphicon-plus'></span> Departments
                     </a>
                 </li>
+                <li [routerLinkActive]='["link-active"]' [routerLinkActiveOptions]='{ exact: true }'>
+                    <a [routerLink]='["/curriculums/new"]' (click)='collapse()'>
+                        <span class='glyphicon glyphicon-plus'></span> New Curriculum
+                    </a>
+                </li>
                 <li [routerLinkActive]='["link-active"]'>
                     <a [routerLink]='["/counter"]' (click)='collapse()'>
                         <span class='glyphicon glyphicon-education'></span> Counter

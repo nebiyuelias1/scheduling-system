@@ -1,0 +1,26 @@
+<h2>New Curriculum</h2>
+<form [formGroup]="form" (ngSubmit)="save()">
+  <div class="form-group">
+    <label for="nomenclature">Nomenclature</label>
+    <input type="text" id="nomenclature" class="form-control" formControlName="nomenclature">
+  </div>
+  
+  <div class="form-group">
+    <label for="stayYear">Stay Year</label>
+    <input type="text" id="stayYear" class="form-control" formControlName="stayYear">
+  </div>
+
+  <div class="form-group">
+    <label for="staySemester">Stay Semester</label>
+    <input type="text" id="staySemester" class="form-control" formControlName="staySemester">
+  </div>
+  
+  <div class="form-group">
+    <label for="departments">Department</label>
+    <select id="departments" class="form-control" formControlName="departmentId">
+      <option value=""></option>
+      <option *ngFor="let department of departments" value="{{ department.id }}">{{ department.name }}</option>
+    </select>
+  </div>
+  <button type="submit" class="btn btn-primary">Save</button>
+</form>
