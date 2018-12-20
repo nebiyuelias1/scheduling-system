@@ -1,0 +1,42 @@
+<h2>New Course</h2>
+<form [formGroup]="form" (ngSubmit)="save()">
+  <div class="form-group">
+    <label for="curriculum">Curriculum</label>
+    <select id="curriculum" class="form-control" formControlName="curriculumId">
+      <option value=""></option>
+      <option *ngFor="let curriculum of curriculums" value="{{ curriculum.id }}">{{ curriculum.nomenclature }}</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label for="title">Title</label>
+    <input id="title" type="text" class="form-control" formControlName="name">
+  </div>
+  <div class="form-group">
+    <label for="courseCode">Course Code</label>
+    <input id="courseCode" type="text" class="form-control" formControlName="courseCode">
+  </div>
+  <div class="form-group">
+    <label for="lecture">Lecture</label>
+    <input id="lecture" type="text" class="form-control" formControlName="lecture">
+  </div>
+  <div class="form-group">
+    <label for="lab">Lab</label>
+    <input id="lab" type="text" class="form-control" formControlName="lab">
+  </div>
+  <div class="form-group">
+    <label for="tutor">Tutor</label>
+    <input id="tutor" type="text" class="form-control" formControlName="tutor">
+  </div>
+  
+  <div class="form-group">
+    <label for="deliveryYear">Delivery Year</label>
+    <input id="deliveryYear" type="text" class="form-control" formControlName="deliveryYear">
+  </div>
+
+  <div class="form-group">
+    <label for="deliverySemester">Delivery Semester</label>
+    <input id="deliverySemester" type="text" class="form-control" formControlName="deliverySemester">
+  </div>
+  
+  <button type="submit" class="btn btn-primary">Save</button>
+</form>
