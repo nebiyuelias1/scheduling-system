@@ -17,5 +17,6 @@ namespace SchedulingSystem.Persistence
         public DbSet<AdmissionLevel> AdmissionLevels { get; set; }
         public DbSet<Curriculum> Curriculums { get; set; }
         public DbSet<Course> Course { get; set; }
+        public DbSet<Building> Buildings { get; set; }
     }
 }
