@@ -9,4 +9,8 @@ export class BuildingService {
   save(building) {
     return this.http.post('/api/buildings', building);
   }
+
+  get() {
+    return this.http.get('/api/buildings');
+  }
 }

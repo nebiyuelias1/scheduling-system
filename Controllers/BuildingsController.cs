@@ -1,6 +1,9 @@
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SchedulingSystem.Controllers.Resources;
 using SchedulingSystem.Models;
 using SchedulingSystem.Persistence;
@@ -33,6 +36,19 @@ namespace SchedulingSystem.Controllers
             buildingResource = mapper.Map<Building, BuildingResource>(building);
 
             return Ok(buildingResource);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetBuildings()
+        {
+            var buildings = await context.Buildings.ToListAsync();
+
+            if (buildings == null)
+                return NotFound();
+
+            var buildingResources = mapper.Map<IList<Building>, IList<BuildingResource>>(buildings);
+
+            return Ok(buildings);
         }
     }
 }

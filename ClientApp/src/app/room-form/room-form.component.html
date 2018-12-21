@@ -1,0 +1,33 @@
+<form [formGroup]="form" (ngSubmit)="save()">
+  <div class="form-group">
+    <label for="building">Building</label>
+    <select id="building" class="form-control" formControlName="buildingId">
+      <option value=""></option>
+      <option *ngFor="let building of buildings" value="{{ building.id }}">{{ building.name }}-{{ building.number }}</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label for="name">Name</label>
+    <input id="name" type="text" class="form-control" formControlName="name">
+  </div>
+
+  <div class="form-group">
+      <label for="size">Size</label>
+      <input id="size" type="text" class="form-control" formControlName="size">
+    </div>
+  
+  <div class="checkbox">
+    <label><input type="checkbox" formControlName="labRoom"> Is this a lab room</label>
+  </div>
+
+  <div class="checkbox">
+    <label><input type="checkbox" formControlName="lectureRoom"> Is this a lecture room</label>
+  </div>
+
+  <div class="checkbox">
+    <label><input type="checkbox" formControlName="sharedRoom"> Is this a shared room</label>
+  </div>
+
+  <button type="submit" class="btn btn-primary">Save</button>
+</form>
