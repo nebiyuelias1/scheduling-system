@@ -17,6 +17,8 @@ import { CurriculumFormComponent } from './curriculum-form/curriculum-form.compo
 import { CurriculumService } from './services/curriculum.service';
 import { CourseFormComponent } from './course-form/course-form.component';
 import { CourseService } from './services/course.service';
+import { BuildingFormComponent } from './building-form/building-form.component';
+import { BuildingService } from './services/building.service';
 
 @NgModule({
   declarations: [
@@ -28,7 +30,8 @@ import { CourseService } from './services/course.service';
     CollegeListComponent,
     DepartmentFormComponent,
     CurriculumFormComponent,
-    CourseFormComponent
+    CourseFormComponent,
+    BuildingFormComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -42,14 +45,16 @@ import { CourseService } from './services/course.service';
       { path: 'colleges', component: CollegeListComponent },
       { path: 'departments/new', component: DepartmentFormComponent },
       { path: 'curriculums/new', component: CurriculumFormComponent },
-      { path: 'courses/new', component: CourseFormComponent }
+      { path: 'courses/new', component: CourseFormComponent },
+      { path: 'buildings/new', component: BuildingFormComponent }
     ])
   ],
   providers: [
     CollegeService,
     DepartmentService,
     CurriculumService,
-    CourseService
+    CourseService,
+    BuildingService
   ],
   bootstrap: [AppComponent]
 })
