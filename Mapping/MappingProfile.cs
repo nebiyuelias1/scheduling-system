@@ -12,11 +12,13 @@ namespace SchedulingSystem.Mapping
             CreateMap<DepartmentResource, Department>();
             CreateMap<CurriculumResource, Curriculum>();
             CreateMap<CourseResource, Course>();
+            CreateMap<BuildingResource, Building>();
 
             // Domain to API Resource
             CreateMap<Department, DepartmentResource>();
             CreateMap<Curriculum, CurriculumResource>();
             CreateMap<Course, CourseResource>();
+            CreateMap<Building, BuildingResource>();
         }
     }
 }
