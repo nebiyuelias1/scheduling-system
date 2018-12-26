@@ -2,15 +2,17 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SchedulingSystem.Persistence;
 
 namespace SchedulingSystem.Migrations
 {
     [DbContext(typeof(SchedulingDbContext))]
-    partial class SchedulingDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181226032016_ModifySectionsTable")]
+    partial class ModifySectionsTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -139,33 +141,6 @@ namespace SchedulingSystem.Migrations
                     b.ToTable("Departments");
                 });
 
-            modelBuilder.Entity("SchedulingSystem.Models.Instructor", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("DepartmentId");
-
-                    b.Property<string>("FatherName")
-                        .IsRequired()
-                        .HasMaxLength(255);
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasMaxLength(255);
-
-                    b.Property<string>("GrandFatherName")
-                        .IsRequired()
-                        .HasMaxLength(255);
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DepartmentId");
-
-                    b.ToTable("Instructors");
-                });
-
             modelBuilder.Entity("SchedulingSystem.Models.ProgramType", b =>
                 {
                     b.Property<int>("Id")
@@ -260,14 +235,6 @@ namespace SchedulingSystem.Migrations
                     b.HasOne("SchedulingSystem.Models.College", "College")
                         .WithMany("Departments")
                         .HasForeignKey("CollegeId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("SchedulingSystem.Models.Instructor", b =>
-                {
-                    b.HasOne("SchedulingSystem.Models.Department", "Department")
-                        .WithMany()
-                        .HasForeignKey("DepartmentId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

@@ -20,5 +20,6 @@ namespace SchedulingSystem.Persistence
         public DbSet<Building> Buildings { get; set; }
         public DbSet<Room> Rooms { get; set; }
         public DbSet<Section> Sections { get; set; }
+        public DbSet<Instructor> Instructors { get; set; }
     }
 }

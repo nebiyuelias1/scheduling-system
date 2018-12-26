@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { CommonService } from '../services/common.service';
 import { FormGroup, FormControl } from '@angular/forms';
 import { SectionService } from '../services/section.service';
-import { EROFS } from 'constants';
 
 @Component({
   selector: 'app-section-form',
