@@ -24,6 +24,8 @@ import { RoomService } from './services/room.service';
 import { SectionFormComponent } from './section-form/section-form.component';
 import { CommonService } from './services/common.service';
 import { SectionService } from './services/section.service';
+import { InstructorFormComponent } from './instructor-form/instructor-form.component';
+import { InstructorService } from './services/instructor.service';
 
 @NgModule({
   declarations: [
@@ -38,7 +40,8 @@ import { SectionService } from './services/section.service';
     CourseFormComponent,
     BuildingFormComponent,
     RoomFormComponent,
-    SectionFormComponent
+    SectionFormComponent,
+    InstructorFormComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -55,7 +58,8 @@ import { SectionService } from './services/section.service';
       { path: 'courses/new', component: CourseFormComponent },
       { path: 'buildings/new', component: BuildingFormComponent },
       { path: 'rooms/new', component: RoomFormComponent },
-      { path: 'sections/new', component: SectionFormComponent }
+      { path: 'sections/new', component: SectionFormComponent },
+      { path: 'instructors/new', component: InstructorFormComponent }
     ])
   ],
   providers: [
@@ -66,7 +70,8 @@ import { SectionService } from './services/section.service';
     BuildingService,
     RoomService,
     CommonService,
-    SectionService
+    SectionService,
+    InstructorService
   ],
   bootstrap: [AppComponent]
 })

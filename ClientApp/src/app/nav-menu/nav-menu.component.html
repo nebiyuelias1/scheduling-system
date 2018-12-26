@@ -52,6 +52,11 @@
                         <span class='glyphicon glyphicon-plus'></span> New Section
                     </a>
                 </li>
+                <li [routerLinkActive]='["link-active"]' [routerLinkActiveOptions]='{ exact: true }'>
+                    <a [routerLink]='["/instructors/new"]' (click)='collapse()'>
+                        <span class='glyphicon glyphicon-plus'></span> New Instructor
+                    </a>
+                </li>
                 <li [routerLinkActive]='["link-active"]'>
                     <a [routerLink]='["/counter"]' (click)='collapse()'>
                         <span class='glyphicon glyphicon-education'></span> Counter
