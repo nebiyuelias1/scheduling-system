@@ -14,6 +14,7 @@ namespace SchedulingSystem.Mapping
             CreateMap<CourseResource, Course>();
             CreateMap<BuildingResource, Building>();
             CreateMap<RoomResource, Room>();
+            CreateMap<SectionResource, Section>();
 
             // Domain to API Resource
             CreateMap<Department, DepartmentResource>();
@@ -21,6 +22,7 @@ namespace SchedulingSystem.Mapping
             CreateMap<Course, CourseResource>();
             CreateMap<Building, BuildingResource>();
             CreateMap<Room, RoomResource>();
+            CreateMap<Section, SectionResource>();
         }
     }
 }

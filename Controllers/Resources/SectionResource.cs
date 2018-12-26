@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace SchedulingSystem.Models
+namespace SchedulingSystem.Controllers.Resources
 {
-    public class Section
+    public class SectionResource
     {
         public int Id { get; set; }
 
@@ -14,10 +14,6 @@ namespace SchedulingSystem.Models
 
         public int StudentCount { get; set; }
 
-        public Department Department { get; set; }
-        
-        public ProgramType Program { get; set; }
-        public AdmissionLevel AdmissionLevel { get; set; }
         public int DepartmentId { get; set; }
         public int ProgramTypeId { get; set; }
         public int AdmissionLevelId { get; set; }

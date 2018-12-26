@@ -1,0 +1,40 @@
+<h2>New Section</h2>
+<form [formGroup]="form" (ngSubmit)="save()">
+  <div class="form-group">
+    <label for="name">Name</label>
+    <input id="name" type="text" class="form-control" formControlName="name">
+  </div>
+
+  <div class="form-group">
+    <label for="entranceYear">Entrance Year</label>
+    <input id="entranceYear" type="text" class="form-control" formControlName="entranceYear">
+  </div>
+
+  <div class="form-group">
+    <label for="studentCount">Student Count</label>
+    <input id="studentCount" type="text" class="form-control" formControlName="studentCount">
+  </div>
+  
+  <div class="form-group">
+    <label for="department">Department</label>
+    <input id="department" type="text" class="form-control" formControlName="departmentId">
+  </div>
+
+  <div class="form-group">
+    <label for="programType">Program Type</label>
+    <select  id="programType" class="form-control" formControlName="programTypeId">
+      <option value=""></option>
+      <option *ngFor="let program of programTypes" value="{{ program.id }}">{{ program.name }}</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label for="admissionLevel">Admission Level</label>
+    <select id="admissionLevel" class="form-control" formControlName="admissionLevelId">
+      <option value=""></option>
+      <option *ngFor="let admissionLevel of admissionLevels" value="{{ admissionLevel.id }}">{{ admissionLevel.name }}</option>
+    </select>
+  </div>
+
+  <button type="submit" class="btn btn-primary">Save</button>
+</form>

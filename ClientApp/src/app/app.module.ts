@@ -21,6 +21,9 @@ import { BuildingFormComponent } from './building-form/building-form.component';
 import { BuildingService } from './services/building.service';
 import { RoomFormComponent } from './room-form/room-form.component';
 import { RoomService } from './services/room.service';
+import { SectionFormComponent } from './section-form/section-form.component';
+import { CommonService } from './services/common.service';
+import { SectionService } from './services/section.service';
 
 @NgModule({
   declarations: [
@@ -34,7 +37,8 @@ import { RoomService } from './services/room.service';
     CurriculumFormComponent,
     CourseFormComponent,
     BuildingFormComponent,
-    RoomFormComponent
+    RoomFormComponent,
+    SectionFormComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -50,7 +54,8 @@ import { RoomService } from './services/room.service';
       { path: 'curriculums/new', component: CurriculumFormComponent },
       { path: 'courses/new', component: CourseFormComponent },
       { path: 'buildings/new', component: BuildingFormComponent },
-      { path: 'rooms/new', component: RoomFormComponent }
+      { path: 'rooms/new', component: RoomFormComponent },
+      { path: 'sections/new', component: SectionFormComponent }
     ])
   ],
   providers: [
@@ -59,7 +64,9 @@ import { RoomService } from './services/room.service';
     CurriculumService,
     CourseService,
     BuildingService,
-    RoomService
+    RoomService,
+    CommonService,
+    SectionService
   ],
   bootstrap: [AppComponent]
 })
