@@ -5,11 +5,6 @@ namespace SchedulingSystem.Persistence
 {
     public class SchedulingDbContext : DbContext
     {
-        public SchedulingDbContext(DbContextOptions<SchedulingDbContext> options)
-            : base(options)
-        {
-            
-        }
 
         public DbSet<College> Colleges { get; set; }
         public DbSet<Department> Departments { get; set; }
@@ -22,5 +17,16 @@ namespace SchedulingSystem.Persistence
         public DbSet<Section> Sections { get; set; }
         public DbSet<Instructor> Instructors { get; set; }
         public DbSet<RoomAssignmentType> RoomAssignmentTypes { get; set; }
+        public SchedulingDbContext(DbContextOptions<SchedulingDbContext> options)
+            : base(options)
+        {
+            
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelbuilder)
+        {
+            modelbuilder.Entity<RoomSectionAssignment>()
+                .HasKey(rs => new { rs.SectionId, rs.RoomId, rs.TypeId });
+        }
     }
 }

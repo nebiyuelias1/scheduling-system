@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace SchedulingSystem.Models
@@ -18,8 +20,14 @@ namespace SchedulingSystem.Models
         
         public ProgramType Program { get; set; }
         public AdmissionLevel AdmissionLevel { get; set; }
+        public ICollection<RoomSectionAssignment> RoomAssignments { get; set; }
         public int DepartmentId { get; set; }
         public int ProgramTypeId { get; set; }
         public int AdmissionLevelId { get; set; }
+
+        public Section()
+        {
+            RoomAssignments = new Collection<RoomSectionAssignment>();
+        }
     }
 }

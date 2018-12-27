@@ -26,6 +26,7 @@ import { CommonService } from './services/common.service';
 import { SectionService } from './services/section.service';
 import { InstructorFormComponent } from './instructor-form/instructor-form.component';
 import { InstructorService } from './services/instructor.service';
+import { SectionRoomAssignmentFormComponent } from './section-room-assignment-form/section-room-assignment-form.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { InstructorService } from './services/instructor.service';
     BuildingFormComponent,
     RoomFormComponent,
     SectionFormComponent,
-    InstructorFormComponent
+    InstructorFormComponent,
+    SectionRoomAssignmentFormComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
