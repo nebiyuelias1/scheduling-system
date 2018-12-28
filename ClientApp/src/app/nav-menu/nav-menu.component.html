@@ -11,63 +11,68 @@
         </div>
         <div class='clearfix'></div>
         <div class='navbar-collapse collapse' [ngClass]='{ "in": isExpanded }'>
-            <ul class='nav navbar-nav'>
-                <li [routerLinkActive]='["link-active"]' [routerLinkActiveOptions]='{ exact: true }'>
-                    <a [routerLink]='["/"]' (click)='collapse()'>
-                        <span class='glyphicon glyphicon-home'></span> Home
-                    </a>
-                </li>
-                <li [routerLinkActive]='["link-active"]' [routerLinkActiveOptions]='{ exact: true }'>
-                    <a [routerLink]='["/colleges"]' (click)='collapse()'>
-                        <span class='glyphicon glyphicon-home'></span> Colleges
-                    </a>
-                </li>
-                <li [routerLinkActive]='["link-active"]' [routerLinkActiveOptions]='{ exact: true }'>
-                    <a [routerLink]='["/departments/new"]' (click)='collapse()'>
-                        <span class='glyphicon glyphicon-plus'></span> Departments
-                    </a>
-                </li>
-                <li [routerLinkActive]='["link-active"]' [routerLinkActiveOptions]='{ exact: true }'>
-                    <a [routerLink]='["/curriculums/new"]' (click)='collapse()'>
-                        <span class='glyphicon glyphicon-plus'></span> New Curriculum
-                    </a>
-                </li>
-                <li [routerLinkActive]='["link-active"]' [routerLinkActiveOptions]='{ exact: true }'>
-                    <a [routerLink]='["/courses/new"]' (click)='collapse()'>
-                        <span class='glyphicon glyphicon-plus'></span> New Course
-                    </a>
-                </li>
-                <li [routerLinkActive]='["link-active"]' [routerLinkActiveOptions]='{ exact: true }'>
-                    <a [routerLink]='["/buildings/new"]' (click)='collapse()'>
-                        <span class='glyphicon glyphicon-plus'></span> New Building
-                    </a>
-                </li>
-                <li [routerLinkActive]='["link-active"]' [routerLinkActiveOptions]='{ exact: true }'>
-                    <a [routerLink]='["/rooms/new"]' (click)='collapse()'>
-                        <span class='glyphicon glyphicon-plus'></span> New Room
-                    </a>
-                </li>
-                <li [routerLinkActive]='["link-active"]' [routerLinkActiveOptions]='{ exact: true }'>
-                    <a [routerLink]='["/sections/new"]' (click)='collapse()'>
-                        <span class='glyphicon glyphicon-plus'></span> New Section
-                    </a>
-                </li>
-                <li [routerLinkActive]='["link-active"]' [routerLinkActiveOptions]='{ exact: true }'>
-                    <a [routerLink]='["/instructors/new"]' (click)='collapse()'>
-                        <span class='glyphicon glyphicon-plus'></span> New Instructor
-                    </a>
-                </li>
-                <li [routerLinkActive]='["link-active"]'>
-                    <a [routerLink]='["/counter"]' (click)='collapse()'>
-                        <span class='glyphicon glyphicon-education'></span> Counter
-                    </a>
-                </li>
-                <li [routerLinkActive]='["link-active"]'>
-                    <a [routerLink]='["/fetch-data"]' (click)='collapse()'>
-                        <span class='glyphicon glyphicon-th-list'></span> Fetch data
-                    </a>
-                </li>
-            </ul>
+          <ul class='nav navbar-nav'>
+            <li [routerLinkActive]='["link-active"]' [routerLinkActiveOptions]='{ exact: true }'>
+              <a [routerLink]='["/"]' (click)='collapse()'>
+                <span class='glyphicon glyphicon-home'></span> Home
+              </a>
+            </li>
+            <li [routerLinkActive]='["link-active"]' [routerLinkActiveOptions]='{ exact: true }'>
+              <a [routerLink]='["/colleges"]' (click)='collapse()'>
+                <span class='glyphicon glyphicon-home'></span> Colleges
+              </a>
+            </li>
+            <li [routerLinkActive]='["link-active"]' [routerLinkActiveOptions]='{ exact: true }'>
+              <a [routerLink]='["/departments/new"]' (click)='collapse()'>
+                <span class='glyphicon glyphicon-plus'></span> Departments
+              </a>
+            </li>
+            <li [routerLinkActive]='["link-active"]' [routerLinkActiveOptions]='{ exact: true }'>
+              <a [routerLink]='["/curriculums/new"]' (click)='collapse()'>
+                <span class='glyphicon glyphicon-plus'></span> New Curriculum
+              </a>
+            </li>
+            <li [routerLinkActive]='["link-active"]' [routerLinkActiveOptions]='{ exact: true }'>
+              <a [routerLink]='["/courses/new"]' (click)='collapse()'>
+                <span class='glyphicon glyphicon-plus'></span> New Course
+              </a>
+            </li>
+            <li [routerLinkActive]='["link-active"]' [routerLinkActiveOptions]='{ exact: true }'>
+              <a [routerLink]='["/buildings/new"]' (click)='collapse()'>
+                <span class='glyphicon glyphicon-plus'></span> New Building
+              </a>
+            </li>
+            <li [routerLinkActive]='["link-active"]' [routerLinkActiveOptions]='{ exact: true }'>
+              <a [routerLink]='["/rooms/new"]' (click)='collapse()'>
+                <span class='glyphicon glyphicon-plus'></span> New Room
+              </a>
+            </li>
+            <li [routerLinkActive]='["link-active"]' [routerLinkActiveOptions]='{ exact: true }'>
+              <a [routerLink]='["/sections/new"]' (click)='collapse()'>
+                <span class='glyphicon glyphicon-plus'></span> New Section
+              </a>
+            </li>
+            <li [routerLinkActive]='["link-active"]' [routerLinkActiveOptions]='{ exact: true }'>
+              <a [routerLink]='["/instructors/new"]' (click)='collapse()'>
+                <span class='glyphicon glyphicon-plus'></span> New Instructor
+              </a>
+            </li>
+            <li [routerLinkActive]='["link-active"]' [routerLinkActiveOptions]='{ exact: true }'>
+              <a [routerLink]='["/sections"]' (click)='collapse()'>
+                <span class='glyphicon glyphicon-plus'></span> Sections
+              </a>
+            </li>
+            <li [routerLinkActive]='["link-active"]'>
+              <a [routerLink]='["/counter"]' (click)='collapse()'>
+                <span class='glyphicon glyphicon-education'></span> Counter
+              </a>
+            </li>
+            <li [routerLinkActive]='["link-active"]'>
+              <a [routerLink]='["/fetch-data"]' (click)='collapse()'>
+                <span class='glyphicon glyphicon-th-list'></span> Fetch data
+              </a>
+            </li>
+          </ul>
         </div>
     </div>
 </div>

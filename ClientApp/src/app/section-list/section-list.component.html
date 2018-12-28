@@ -1,0 +1,4 @@
+<h2>Sections</h2>
+<ul>
+  <li *ngFor="let section of sections"><a [routerLink]="['/sections', section.id]">{{ section.name }}</a></li>
+</ul>

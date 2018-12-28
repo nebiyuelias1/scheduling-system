@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SchedulingSystem.Controllers.Resources
 {
-    public class SectionResource
+    public class SaveSectionResource
     {
         public int Id { get; set; }
 
@@ -15,7 +15,9 @@ namespace SchedulingSystem.Controllers.Resources
         public int StudentCount { get; set; }
 
         public int DepartmentId { get; set; }
+
         public int ProgramTypeId { get; set; }
+
         public int AdmissionLevelId { get; set; }
     }
 }

@@ -19,10 +19,15 @@ namespace SchedulingSystem.Models
         public Department Department { get; set; }
         
         public ProgramType Program { get; set; }
+
         public AdmissionLevel AdmissionLevel { get; set; }
+
         public ICollection<RoomSectionAssignment> RoomAssignments { get; set; }
+
         public int DepartmentId { get; set; }
+
         public int ProgramTypeId { get; set; }
+
         public int AdmissionLevelId { get; set; }
 
         public Section()

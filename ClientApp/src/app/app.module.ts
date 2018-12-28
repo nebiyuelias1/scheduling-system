@@ -27,6 +27,8 @@ import { SectionService } from './services/section.service';
 import { InstructorFormComponent } from './instructor-form/instructor-form.component';
 import { InstructorService } from './services/instructor.service';
 import { SectionRoomAssignmentFormComponent } from './section-room-assignment-form/section-room-assignment-form.component';
+import { SectionListComponent } from './section-list/section-list.component';
+import { SectionDetailComponent } from './section-detail/section-detail.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +45,9 @@ import { SectionRoomAssignmentFormComponent } from './section-room-assignment-fo
     RoomFormComponent,
     SectionFormComponent,
     InstructorFormComponent,
-    SectionRoomAssignmentFormComponent
+    SectionRoomAssignmentFormComponent,
+    SectionListComponent,
+    SectionDetailComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -61,7 +65,9 @@ import { SectionRoomAssignmentFormComponent } from './section-room-assignment-fo
       { path: 'buildings/new', component: BuildingFormComponent },
       { path: 'rooms/new', component: RoomFormComponent },
       { path: 'sections/new', component: SectionFormComponent },
-      { path: 'instructors/new', component: InstructorFormComponent }
+      { path: 'instructors/new', component: InstructorFormComponent },
+      { path: 'sections', component: SectionListComponent },
+      { path: 'sections/:id', component: SectionDetailComponent }
     ])
   ],
   providers: [
