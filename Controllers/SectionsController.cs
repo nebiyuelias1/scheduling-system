@@ -19,6 +19,13 @@ namespace SchedulingSystem.Controllers
             this.context = context;
         }
 
+        [HttpGet]
+        public IActionResult GetSections()
+        {
+            
+        }
+
+
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] SectionResource sectionResource)
         {
