@@ -13,4 +13,8 @@ export class CommonService {
   getAdmissionLevels() {
     return this.http.get('/api/admissionlevels');
   }
+
+  getRoomTypes() {
+    return this.http.get('/api/roomassignmenttypes');
+  }
 }

@@ -47,7 +47,7 @@ import { SectionDetailComponent } from './section-detail/section-detail.componen
     InstructorFormComponent,
     SectionRoomAssignmentFormComponent,
     SectionListComponent,
-    SectionDetailComponent
+    SectionDetailComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -67,7 +67,8 @@ import { SectionDetailComponent } from './section-detail/section-detail.componen
       { path: 'sections/new', component: SectionFormComponent },
       { path: 'instructors/new', component: InstructorFormComponent },
       { path: 'sections', component: SectionListComponent },
-      { path: 'sections/:id', component: SectionDetailComponent }
+      { path: 'sections/:id', component: SectionDetailComponent },
+      { path: 'sections/assign/:id', component: SectionRoomAssignmentFormComponent }
     ])
   ],
   providers: [

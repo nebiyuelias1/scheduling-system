@@ -34,5 +34,11 @@ namespace SchedulingSystem.Controllers
 
             return Ok(roomResource);
         }
+
+        [HttpGet("/type/{id}")]
+        public IActionResult GetRoomsBasedOnType(int id)
+        {
+            return null;
+        }
     }
 }

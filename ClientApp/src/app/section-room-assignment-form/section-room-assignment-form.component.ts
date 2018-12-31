@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonService } from '../services/common.service';
 
 @Component({
   selector: 'app-section-room-assignment-form',
@@ -6,10 +7,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./section-room-assignment-form.component.css']
 })
 export class SectionRoomAssignmentFormComponent implements OnInit {
+  roomTypes: any[];
 
-  constructor() { }
+  constructor(private commonService: CommonService) { }
 
   ngOnInit() {
+    this.commonService.getRoomTypes()
+      .subscribe((result: any[]) => this.roomTypes = result,
+      (error) => console.error(error));
   }
 
 }

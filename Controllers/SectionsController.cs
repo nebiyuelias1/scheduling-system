@@ -22,15 +22,36 @@ namespace SchedulingSystem.Controllers
             this.context = context;
         }
 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetSection(int id)
+        {
+            var section = await context.Sections
+                            .Include(s => s.Department)
+                            .Include(s => s.Program)
+                            .Include(s => s.AdmissionLevel)
+                            .SingleOrDefaultAsync(s => s.Id == id);
+
+            if (section == null)
+                return NotFound();
+
+            var sectionResource = mapper.Map<Section, SectionResource>(section);
+
+            return Ok(sectionResource);
+        }
+
         [HttpGet]
         public async Task<IActionResult> GetSections()
         {
-            var sections = await context.Sections.ToListAsync();
+            var sections = await context.Sections
+                            .Include(s => s.Department)
+                            .Include(s => s.Program)
+                            .Include(s => s.AdmissionLevel)
+                            .ToListAsync();
 
             if (sections == null)
                 return NotFound();
 
-            var sectionsResource = mapper.Map<IList<Section>, IList<SaveSectionResource>>(sections);
+            var sectionsResource = mapper.Map<IList<Section>, IList<SectionResource>>(sections);
 
             return Ok(sectionsResource);
         }

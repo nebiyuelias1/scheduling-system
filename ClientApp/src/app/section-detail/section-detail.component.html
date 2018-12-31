@@ -1,3 +1,7 @@
-<p>
-  section-detail works!
-</p>
+<h2>Section {{ section['name'] }}</h2>
+<p>Department: {{ section['department']['name'] }}</p>
+<p>Students: {{ section['studentCount'] }}</p>
+<p>Entrance Year: {{ section['entranceYear'] }}</p>
+<p>Program: {{ section['program']['name'] }}</p>
+<p>Admission Level: {{ section['admissionLevel']['name'] }}</p>
+<button [routerLink]="['/sections/assign', section['id']]" class="btn btn-default">Assign Room</button>

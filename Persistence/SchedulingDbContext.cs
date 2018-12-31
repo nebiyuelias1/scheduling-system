@@ -16,7 +16,7 @@ namespace SchedulingSystem.Persistence
         public DbSet<Room> Rooms { get; set; }
         public DbSet<Section> Sections { get; set; }
         public DbSet<Instructor> Instructors { get; set; }
-        public DbSet<RoomAssignmentType> RoomAssignmentTypes { get; set; }
+        public DbSet<RoomType> RoomAssignmentTypes { get; set; }
         public SchedulingDbContext(DbContextOptions<SchedulingDbContext> options)
             : base(options)
         {

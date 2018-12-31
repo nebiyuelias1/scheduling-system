@@ -15,6 +15,7 @@ namespace SchedulingSystem.Mapping
             CreateMap<BuildingResource, Building>();
             CreateMap<RoomResource, Room>();
             CreateMap<SaveSectionResource, Section>();
+            CreateMap<SectionResource, Section>();
             CreateMap<InstructorResource, Instructor>();
 
             // Domain to API Resource
@@ -24,7 +25,13 @@ namespace SchedulingSystem.Mapping
             CreateMap<Building, BuildingResource>();
             CreateMap<Room, RoomResource>();
             CreateMap<Section, SaveSectionResource> ();
+            CreateMap<Section, SectionResource> ()
+                .ForMember(x => x.Program, opt => 
+                    opt.MapFrom(s => new KeyValuePairResource { Id = s.Program.Id, Name = s.Program.Name }))
+                .ForMember(x => x.AdmissionLevel, opt => 
+                    opt.MapFrom(s => new KeyValuePairResource { Id = s.AdmissionLevel.Id, Name = s.AdmissionLevel.Name }));
             CreateMap<Instructor, InstructorResource>();
+            CreateMap<RoomType, KeyValuePairResource>();
         }
     }
 }

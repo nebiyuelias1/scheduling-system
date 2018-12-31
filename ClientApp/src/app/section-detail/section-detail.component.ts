@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { SectionService } from '../services/section.service';
 
 @Component({
   selector: 'app-section-detail',
@@ -7,12 +8,16 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./section-detail.component.css']
 })
 export class SectionDetailComponent implements OnInit {
-  sectionId: number;
+  section: any;
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute,
+    private sectionService: SectionService) { }
 
   ngOnInit() {
-    this.sectionId = +this.route.snapshot.paramMap.get('id'); 
+    const sectionId = +this.route.snapshot.paramMap.get('id');
+    this.sectionService.getSection(sectionId)
+      .subscribe((result) => this.section = result,
+      (error) => console.error(error));
   }
 
 }

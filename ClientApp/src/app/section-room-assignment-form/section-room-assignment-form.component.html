@@ -1,3 +1,17 @@
-<p>
-  section-room-assignment-form works!
-</p>
+<h2>Assign Room</h2>
+<div class="form-group">
+  <label for="assignFor">Assign For</label>
+  <select id="assignFor" class="form-control">
+    <option value=""></option>
+    <option *ngFor="let type of roomTypes" value="{{ type.id }}">{{ type.name }}</option>
+  </select>
+</div>
+
+<div class="form-group">
+  <label for="room">Room</label>
+  <select id="room" class="form-control">
+    <option value=""></option>
+    <option value=""></option>
+  </select>
+</div>
+<button class="btn btn-primary">Assign</button>
