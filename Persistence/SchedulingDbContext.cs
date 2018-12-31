@@ -27,6 +27,9 @@ namespace SchedulingSystem.Persistence
         {
             modelbuilder.Entity<RoomSectionAssignment>()
                 .HasKey(rs => new { rs.SectionId, rs.RoomId, rs.TypeId });
+
+            modelbuilder.Entity<RoomRoomType>()
+                .HasKey(rt => new { rt.RoomId, rt.RoomTypeId });
         }
     }
 }
