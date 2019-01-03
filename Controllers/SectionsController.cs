@@ -72,5 +72,35 @@ namespace SchedulingSystem.Controllers
 
             return Ok(result);
         }
+
+        [HttpPost("{sectionId}/assign")]
+        public async Task<IActionResult> AssignRoom(int sectionId, [FromBody] SaveRoomSectionAssignmentResource resource)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest();
+                
+            var section = await context.Sections
+                        .SingleOrDefaultAsync(s => s.Id == sectionId);
+
+            if (section == null)
+                return NotFound();
+
+            var result = mapper.Map<SaveRoomSectionAssignmentResource, RoomSectionAssignment>(resource);
+            section.RoomAssignments.Add(result);
+            await context.SaveChangesAsync();
+            section =  await context.Sections.Include(s => s.Department)
+                        .Include(s => s.Program)
+                        .Include(s => s.AdmissionLevel)
+                        .Include(s => s.RoomAssignments)
+                            .ThenInclude(r => r.Room)
+                                .ThenInclude(r => r.Building)
+                        .Include(s => s.RoomAssignments)
+                            .ThenInclude(r => r.Type)
+                        .SingleOrDefaultAsync(s => s.Id == sectionId);
+            
+
+            var sectionResource = mapper.Map<Section, SectionResource>(section);
+            return Ok(sectionResource);
+        }
     }
 }

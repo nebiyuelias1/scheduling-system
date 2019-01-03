@@ -9,13 +9,14 @@ import { SectionService } from '../services/section.service';
 })
 export class SectionDetailComponent implements OnInit {
   section: any;
+  sectionId: any;
 
   constructor(private route: ActivatedRoute,
     private sectionService: SectionService) { }
 
   ngOnInit() {
-    const sectionId = +this.route.snapshot.paramMap.get('id');
-    this.sectionService.getSection(sectionId)
+    this.sectionId = +this.route.snapshot.paramMap.get('id');
+    this.sectionService.getSection(this.sectionId)
       .subscribe((result) => this.section = result,
       (error) => console.error(error));
   }

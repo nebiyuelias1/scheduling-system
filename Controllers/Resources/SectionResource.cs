@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using SchedulingSystem.Models;
 
@@ -21,5 +23,11 @@ namespace SchedulingSystem.Controllers.Resources
 
         public KeyValuePairResource AdmissionLevel { get; set; }
 
+        public ICollection<RoomSectionAssignmentResource> RoomAssignments { get; set; }
+
+        public SectionResource()
+        {
+            RoomAssignments = new Collection<RoomSectionAssignmentResource>();
+        }
     }
 }

@@ -10,12 +10,12 @@ using SchedulingSystem.Persistence;
 namespace SchedulingSystem.Controllers
 {
     [Route("/api/[controller]")]
-    public class RoomAssignmentTypesController : Controller
+    public class RoomTypesController : Controller
     {
         private readonly SchedulingDbContext context;
         private readonly IMapper mapper;
 
-        public RoomAssignmentTypesController(SchedulingDbContext context, IMapper mapper)
+        public RoomTypesController(SchedulingDbContext context, IMapper mapper)
         {
             this.context = context;
             this.mapper = mapper;

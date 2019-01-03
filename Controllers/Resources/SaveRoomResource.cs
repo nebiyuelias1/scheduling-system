@@ -1,10 +1,11 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace SchedulingSystem.Controllers.Resources
 {
-    public class RoomResource
+    public class SaveRoomResource
     {
         public int Id { get; set; }
 
@@ -12,15 +13,15 @@ namespace SchedulingSystem.Controllers.Resources
         [StringLength(100)]
         public string Name { get; set; }
 
-        public BuildingResource Building { get; set; }
-        
+        public int BuildingId { get; set; }
+
         public int Size { get; set; }
         
-        public ICollection<KeyValuePairResource> Types { get; set; }
+        public ICollection<int> Types { get; set; }
 
-        public RoomResource()
+        public SaveRoomResource()
         {
-            Types = new Collection<KeyValuePairResource>();
+            Types = new Collection<int>();
         }
     }
 }

@@ -1,6 +1,9 @@
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SchedulingSystem.Controllers.Resources;
 using SchedulingSystem.Models;
 using SchedulingSystem.Persistence;
@@ -20,25 +23,40 @@ namespace SchedulingSystem.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] RoomResource roomResource)
+        public async Task<IActionResult> Create([FromBody] SaveRoomResource roomResource)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var room = mapper.Map<RoomResource, Room>(roomResource);
+            var room = mapper.Map<SaveRoomResource, Room>(roomResource);
 
             context.Rooms.Add(room);
             await context.SaveChangesAsync();
 
-            roomResource = mapper.Map<Room, RoomResource>(room);
+            room =  await context.Rooms
+                    .Include(r => r.Building)
+                    .Include(r => r.Types)
+                        .ThenInclude(t => t.RoomType)
+                    .SingleOrDefaultAsync(r => r.Id == room.Id);
 
-            return Ok(roomResource);
+            var result = mapper.Map<Room, RoomResource>(room);
+
+            return Ok(result);
         }
 
-        [HttpGet("/type/{id}")]
-        public IActionResult GetRoomsBasedOnType(int id)
+        [HttpGet()]
+        public async  Task<IActionResult> GetRoomsBasedOnType([FromQuery] int typeId)
         {
-            return null;
+            var rooms = await context.Rooms
+                .Include(r => r.Building)
+                .Include(r => r.Types)
+                    .ThenInclude(t => t.RoomType)
+                .Where(r => r.Types.Select(t => t.RoomTypeId).Contains(typeId))
+                .ToListAsync();
+
+            var result = mapper.Map<IList<Room>, IList<RoomResource>>(rooms);
+            
+            return Ok(result);
         }
     }
 }

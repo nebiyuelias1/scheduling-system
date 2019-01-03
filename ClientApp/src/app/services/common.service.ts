@@ -15,6 +15,18 @@ export class CommonService {
   }
 
   getRoomTypes() {
-    return this.http.get('/api/roomassignmenttypes');
+    return this.http.get('/api/roomtypes');
+  }
+
+  getRoomsBasedOnType(id: string) {
+    return this.http.get('/api/rooms', {
+      params: {
+        typeId: id
+      }
+    });
+  }
+
+  assignSectionToRoom(id: any, roomAssignmentInfo: any) {
+    return this.http.post(`/api/sections/${id}/assign`, roomAssignmentInfo);
   }
 }

@@ -1,4 +1,5 @@
 <h2>Sections</h2>
 <ul>
-  <li *ngFor="let section of sections"><a [routerLink]="['/sections', section.id]">{{ section.name }}</a>, {{ section.entranceYear }}, {{ section.program.name }}, {{ section.admissionLevel.name }}</li>
+  {{ sections|json }}
+  <li *ngFor="let section of sections"><a [routerLink]="['/sections', section.id]">{{ section.name }}</a></li>
 </ul>
