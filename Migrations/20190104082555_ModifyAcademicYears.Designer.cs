@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SchedulingSystem.Persistence;
 
 namespace SchedulingSystem.Migrations
 {
     [DbContext(typeof(SchedulingDbContext))]
-    partial class SchedulingDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190104082555_ModifyAcademicYears")]
+    partial class ModifyAcademicYears
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,13 +50,9 @@ namespace SchedulingSystem.Migrations
 
                     b.Property<DateTime>("EndDate");
 
-                    b.Property<string>("EtYear")
-                        .IsRequired()
-                        .HasMaxLength(20);
+                    b.Property<int>("EtYear");
 
-                    b.Property<string>("GcYear")
-                        .IsRequired()
-                        .HasMaxLength(20);
+                    b.Property<int>("GcYear");
 
                     b.Property<DateTime>("StartDate");
 

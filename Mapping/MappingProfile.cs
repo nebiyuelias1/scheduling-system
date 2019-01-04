@@ -22,6 +22,8 @@ namespace SchedulingSystem.Mapping
             CreateMap<SaveRoomResource, Room>()
                 .ForMember(r => r.Types, opt => opt.MapFrom(sr => sr.Types.Select(t => new RoomRoomType { RoomTypeId = t })));
             CreateMap<SaveRoomSectionAssignmentResource, RoomSectionAssignment>();
+            CreateMap<SaveAcademicYearResource, AcademicYear>();
+
 
             // Domain to API Resource
             CreateMap<Department, DepartmentResource>();
@@ -43,6 +45,7 @@ namespace SchedulingSystem.Mapping
                 .ForMember(kvp => kvp.Name, opt => opt.MapFrom(rrt => rrt.RoomType.Name));
             CreateMap<Room, RoomResource>();
             CreateMap<RoomSectionAssignment, RoomSectionAssignmentResource>();
+            CreateMap<AcademicYear, AcademicYearResource>();
         }
     }
 }
