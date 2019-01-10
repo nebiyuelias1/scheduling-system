@@ -62,9 +62,14 @@
                 <span class='glyphicon glyphicon-plus'></span> Sections
               </a>
             </li>
+            <li [routerLinkActive]='["link-active"]' [routerLinkActiveOptions]='{ exact: true }'>
+              <a [routerLink]='["/years/new"]' (click)='collapse()'>
+                <span class='glyphicon glyphicon-plus'></span> Academic Year
+              </a>
+            </li>
             <li [routerLinkActive]='["link-active"]'>
-              <a [routerLink]='["/counter"]' (click)='collapse()'>
-                <span class='glyphicon glyphicon-education'></span> Counter
+              <a [routerLink]='["/semesters/new"]' (click)='collapse()'>
+                <span class='glyphicon glyphicon-education'></span> Academic Semester
               </a>
             </li>
             <li [routerLinkActive]='["link-active"]'>

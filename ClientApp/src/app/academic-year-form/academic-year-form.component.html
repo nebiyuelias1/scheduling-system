@@ -1,0 +1,24 @@
+<h2>Academic Year</h2>
+<form [formGroup]="form" (ngSubmit)="save()">
+  <div class="form-group">
+    <label for="ethiopianYear">Ethiopian Year</label>
+    <input id="ethiopianYear" type="text" class="form-control" formControlName="etYear">
+  </div>
+
+  <div class="form-group">
+    <label for="gregorianYear">Gregorian Year</label>
+    <input id="gregorianYear" type="text" class="form-control" formControlName="gcYear">
+  </div>
+
+  <div class="form-group">
+    <label for="startDate">Start Date</label>
+    <input id="startDate" type="date" class="form-control" formControlName="startDate">
+  </div>
+
+  <div class="form-group">
+    <label for="endDate">End Date</label>
+    <input id="endDate" type="date" class="form-control" formControlName="endDate">
+  </div>
+
+  <button class="btn btn-primary">Save</button>
+</form>

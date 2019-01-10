@@ -29,4 +29,16 @@ export class CommonService {
   assignSectionToRoom(id: any, roomAssignmentInfo: any) {
     return this.http.post(`/api/sections/${id}/assign`, roomAssignmentInfo);
   }
+
+  getAcademicYears() {
+    return this.http.get('/api/academicyears');
+  }
+
+  saveAcademicYear(academicYear) {
+    return this.http.post('/api/academicyears', academicYear);
+  }
+
+  saveAcademicSemester(academicSemester) {
+    return this.http.post('/api/academicsemesters', academicSemester);
+  }
 }

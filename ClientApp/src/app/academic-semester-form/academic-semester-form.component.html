@@ -1,0 +1,28 @@
+<h2>Academic Semester</h2>
+<p>{{ academicYears | json }}</p>
+<form [formGroup]="form" (ngSubmit)="save()">
+  <div class="form-group">
+    <label for="semester">Semester</label>
+    <input id="semester" type="text" class="form-control" formControlName="semester">
+  </div>
+
+  <div class="form-group">
+    <label for="startDate">Start Date</label>
+    <input id="startDate" type="date" class="form-control" formControlName="startDate">
+  </div>
+
+  <div class="form-group">
+    <label for="endDate">End Date</label>
+    <input id="endDate" type="date" class="form-control" formControlName="endDate">
+  </div>
+
+  <div class="form-group">
+    <label for="academicYear">Academic Year</label>
+    <select id="academicYear" class="form-control" formControlName="academicYearId">
+      <option value=""></option>
+      <option *ngFor="let academicYear of academicYears" value="{{ academicYear['id'] }}">{{ academicYear['etYear'] }}</option>
+    </select>
+    <a [routerLink]="['/years/new']">New Academic Year</a>
+  </div>
+  <button type="submit" class="btn btn-primary">Save</button>
+</form>

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -39,6 +40,21 @@ namespace SchedulingSystem.Controllers
             var result = mapper.Map<AcademicYear, AcademicYearResource>(academicYear);
 
             return Ok(result);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAcademicYears()
+        {
+           var academicYears = await context.AcademicYears.ToListAsync();
+
+           if (academicYears == null)
+           {
+               return NotFound();
+           }
+
+           var academicYearsResource = mapper.Map<IList<AcademicYear>, IList<AcademicYearResource>>(academicYears);
+
+           return Ok(academicYearsResource);
         }
     }
 }
