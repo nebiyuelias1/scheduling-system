@@ -10,5 +10,6 @@ namespace SchedulingSystem.Models
         public DateTime EndDate { get; set; }
         public AcademicYear AcademicYear { get; set; }
         public int AcademicYearId { get; set; }
+        public bool IsCurrentSemester { get; set; }
     }
 }
