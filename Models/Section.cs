@@ -23,6 +23,8 @@ namespace SchedulingSystem.Models
         public AdmissionLevel AdmissionLevel { get; set; }
 
         public ICollection<RoomSectionAssignment> RoomAssignments { get; set; }
+        
+        public ICollection<CourseOffering> CourseOfferings { get; set; }
 
         public int DepartmentId { get; set; }
 
@@ -33,6 +35,7 @@ namespace SchedulingSystem.Models
         public Section()
         {
             RoomAssignments = new Collection<RoomSectionAssignment>();
+            CourseOfferings = new Collection<CourseOffering>();
         }
     }
 }

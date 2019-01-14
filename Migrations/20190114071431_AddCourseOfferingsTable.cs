@@ -13,10 +13,10 @@ namespace SchedulingSystem.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    SectionId = table.Column<int>(nullable: false),
-                    InstructorId = table.Column<int>(nullable: false),
+                    SectionId = table.Column<int>(nullable: true),
+                    InstructorId = table.Column<int>(nullable: true),
                     CourseId = table.Column<int>(nullable: true),
-                    AcademicSemesterId = table.Column<int>(nullable: false)
+                    AcademicSemesterId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -26,25 +26,25 @@ namespace SchedulingSystem.Migrations
                         column: x => x.AcademicSemesterId,
                         principalTable: "AcademicSemesters",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.SetNull);
                     table.ForeignKey(
                         name: "FK_CourseOfferings_Courses_CourseId",
                         column: x => x.CourseId,
                         principalTable: "Courses",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.SetNull);
                     table.ForeignKey(
                         name: "FK_CourseOfferings_Instructors_InstructorId",
                         column: x => x.InstructorId,
                         principalTable: "Instructors",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_CourseOfferings_Sections_SectionId",
                         column: x => x.SectionId,
                         principalTable: "Sections",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(

@@ -10,7 +10,7 @@ using SchedulingSystem.Persistence;
 namespace SchedulingSystem.Migrations
 {
     [DbContext(typeof(SchedulingDbContext))]
-    [Migration("20190111070117_AddCourseOfferingsTable")]
+    [Migration("20190114071431_AddCourseOfferingsTable")]
     partial class AddCourseOfferingsTable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -150,13 +150,13 @@ namespace SchedulingSystem.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("AcademicSemesterId");
+                    b.Property<int?>("AcademicSemesterId");
 
                     b.Property<int?>("CourseId");
 
-                    b.Property<int>("InstructorId");
+                    b.Property<int?>("InstructorId");
 
-                    b.Property<int>("SectionId");
+                    b.Property<int?>("SectionId");
 
                     b.HasKey("Id");
 
@@ -373,21 +373,22 @@ namespace SchedulingSystem.Migrations
                     b.HasOne("SchedulingSystem.Models.AcademicSemester", "AcademicSemester")
                         .WithMany()
                         .HasForeignKey("AcademicSemesterId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("SchedulingSystem.Models.Course", "Course")
                         .WithMany()
-                        .HasForeignKey("CourseId");
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("SchedulingSystem.Models.Instructor", "Instructor")
                         .WithMany()
                         .HasForeignKey("InstructorId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("SchedulingSystem.Models.Section", "Section")
-                        .WithMany()
+                        .WithMany("CourseOfferings")
                         .HasForeignKey("SectionId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("SchedulingSystem.Models.Curriculum", b =>

@@ -33,6 +33,32 @@ namespace SchedulingSystem.Persistence
 
             modelbuilder.Entity<RoomRoomType>()
                 .HasKey(rt => new { rt.RoomId, rt.RoomTypeId });
+
+            modelbuilder.Entity<CourseOffering>()
+                .HasOne(co => co.Instructor)
+                .WithMany()
+                .HasForeignKey(co => co.InstructorId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelbuilder.Entity<CourseOffering>()
+                .HasOne(co => co.Section)
+                .WithMany(s => s.CourseOfferings)
+                .HasForeignKey(co => co.SectionId)
+                .OnDelete(DeleteBehavior.Restrict);
+                        
+            modelbuilder.Entity<CourseOffering>()
+                .HasOne(co => co.Course)
+                .WithMany()
+                .HasForeignKey(co => co.CourseId)
+                .OnDelete(DeleteBehavior.SetNull);
+            
+            modelbuilder.Entity<CourseOffering>()
+                .HasOne(co => co.AcademicSemester)
+                .WithMany()
+                .HasForeignKey(co => co.AcademicSemesterId)
+                .OnDelete(DeleteBehavior.SetNull);
+                
+            base.OnModelCreating(modelbuilder);
         }
     }
 }
