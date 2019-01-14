@@ -28,6 +28,11 @@ namespace SchedulingSystem.Controllers
 
             var academicSemester = mapper.Map<SaveAcademicSemesterResource, AcademicSemester>(resource);
 
+            var currentActiveSemester = await context.AcademicSemesters.SingleOrDefaultAsync(a => a.IsCurrentSemester);
+            if (currentActiveSemester != null)
+                currentActiveSemester.IsCurrentSemester = false;
+            
+            academicSemester.IsCurrentSemester = true;
             context.AcademicSemesters.Add(academicSemester);
             await context.SaveChangesAsync();
 
