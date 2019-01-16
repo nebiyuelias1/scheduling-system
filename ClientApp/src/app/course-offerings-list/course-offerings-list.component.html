@@ -17,7 +17,7 @@
       <td>{{ co.course.name }}</td>
       <td>
         <a *ngIf="co.instructor; else noInstructor" href="">Instructor Name</a>
-        <ng-template #noInstructor><a href="" >Assign</a></ng-template>
+        <ng-template #noInstructor><a [routerLink]="['/courseofferings', co.id, 'assign']">Assign</a></ng-template>
       </td>
     </tr>
   </tbody>

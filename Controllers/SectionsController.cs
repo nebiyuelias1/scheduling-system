@@ -85,7 +85,7 @@ namespace SchedulingSystem.Controllers
             if (section == null)
                 return NotFound();
 
-            var result = mapper.Map<SaveRoomSectionAssignmentResource, RoomSectionAssignment>(resource);
+            var result = mapper.Map<SaveRoomSectionAssignmentResource, SectionRoomAssignment>(resource);
             section.RoomAssignments.Add(result);
             await context.SaveChangesAsync();
             section =  await context.Sections.Include(s => s.Department)

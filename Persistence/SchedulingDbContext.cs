@@ -16,7 +16,7 @@ namespace SchedulingSystem.Persistence
         public DbSet<Room> Rooms { get; set; }
         public DbSet<Section> Sections { get; set; }
         public DbSet<Instructor> Instructors { get; set; }
-        public DbSet<RoomType> RoomTypes { get; set; }
+        public DbSet<Type> RoomTypes { get; set; }
         public DbSet<AcademicSemester> AcademicSemesters { get; set; }
         public DbSet<AcademicYear> AcademicYears { get; set; }
         public DbSet<CourseOffering> CourseOfferings { get; set; }
@@ -28,11 +28,11 @@ namespace SchedulingSystem.Persistence
 
         protected override void OnModelCreating(ModelBuilder modelbuilder)
         {
-            modelbuilder.Entity<RoomSectionAssignment>()
+            modelbuilder.Entity<SectionRoomAssignment>()
                 .HasKey(rs => new { rs.SectionId, rs.RoomId, rs.TypeId });
 
-            modelbuilder.Entity<RoomRoomType>()
-                .HasKey(rt => new { rt.RoomId, rt.RoomTypeId });
+            modelbuilder.Entity<RoomTypeAssignment>()
+                .HasKey(rt => new { rt.RoomId, rt.TypeId });
 
             modelbuilder.Entity<CourseOffering>()
                 .HasOne(co => co.Instructor)

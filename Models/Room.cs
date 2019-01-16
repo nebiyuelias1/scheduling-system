@@ -18,11 +18,11 @@ namespace SchedulingSystem.Models
         
         public int Size { get; set; }
         
-        public ICollection<RoomRoomType> Types { get; set; }
+        public ICollection<RoomTypeAssignment> Types { get; set; }
 
         public Room()
         {
-            Types = new Collection<RoomRoomType>();
+            Types = new Collection<RoomTypeAssignment>();
         }
     }
 }

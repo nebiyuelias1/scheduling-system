@@ -29,7 +29,7 @@ namespace SchedulingSystem.Controllers
             if (types == null)
                 return NotFound();
 
-            var typesResource = mapper.Map<IList<RoomType>, IList<KeyValuePairResource>>(types);
+            var typesResource = mapper.Map<IList<Type>, IList<KeyValuePairResource>>(types);
 
             return Ok(typesResource);
         }

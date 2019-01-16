@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SchedulingSystem.Persistence;
 
 namespace SchedulingSystem.Migrations
 {
     [DbContext(typeof(SchedulingDbContext))]
-    partial class SchedulingDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190116202608_ModifyDomainModel")]
+    partial class ModifyDomainModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -276,6 +278,23 @@ namespace SchedulingSystem.Migrations
                     b.ToTable("Rooms");
                 });
 
+            modelBuilder.Entity("SchedulingSystem.Models.RoomSectionAssignment", b =>
+                {
+                    b.Property<int>("SectionId");
+
+                    b.Property<int>("RoomId");
+
+                    b.Property<int>("TypeId");
+
+                    b.HasKey("SectionId", "RoomId", "TypeId");
+
+                    b.HasIndex("RoomId");
+
+                    b.HasIndex("TypeId");
+
+                    b.ToTable("RoomSectionAssignment");
+                });
+
             modelBuilder.Entity("SchedulingSystem.Models.RoomTypeAssignment", b =>
                 {
                     b.Property<int>("RoomId");
@@ -286,7 +305,7 @@ namespace SchedulingSystem.Migrations
 
                     b.HasIndex("TypeId");
 
-                    b.ToTable("RoomTypeAssignments");
+                    b.ToTable("RoomTypeAssignment");
                 });
 
             modelBuilder.Entity("SchedulingSystem.Models.Section", b =>
@@ -318,23 +337,6 @@ namespace SchedulingSystem.Migrations
                     b.HasIndex("ProgramTypeId");
 
                     b.ToTable("Sections");
-                });
-
-            modelBuilder.Entity("SchedulingSystem.Models.SectionRoomAssignment", b =>
-                {
-                    b.Property<int>("SectionId");
-
-                    b.Property<int>("RoomId");
-
-                    b.Property<int>("TypeId");
-
-                    b.HasKey("SectionId", "RoomId", "TypeId");
-
-                    b.HasIndex("RoomId");
-
-                    b.HasIndex("TypeId");
-
-                    b.ToTable("SectionRoomAssignments");
                 });
 
             modelBuilder.Entity("SchedulingSystem.Models.Type", b =>
@@ -423,6 +425,24 @@ namespace SchedulingSystem.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("SchedulingSystem.Models.RoomSectionAssignment", b =>
+                {
+                    b.HasOne("SchedulingSystem.Models.Room", "Room")
+                        .WithMany()
+                        .HasForeignKey("RoomId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("SchedulingSystem.Models.Section", "Section")
+                        .WithMany("RoomAssignments")
+                        .HasForeignKey("SectionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("SchedulingSystem.Models.Type", "Type")
+                        .WithMany()
+                        .HasForeignKey("TypeId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("SchedulingSystem.Models.RoomTypeAssignment", b =>
                 {
                     b.HasOne("SchedulingSystem.Models.Room", "Room")
@@ -451,24 +471,6 @@ namespace SchedulingSystem.Migrations
                     b.HasOne("SchedulingSystem.Models.ProgramType", "Program")
                         .WithMany()
                         .HasForeignKey("ProgramTypeId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("SchedulingSystem.Models.SectionRoomAssignment", b =>
-                {
-                    b.HasOne("SchedulingSystem.Models.Room", "Room")
-                        .WithMany()
-                        .HasForeignKey("RoomId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("SchedulingSystem.Models.Section", "Section")
-                        .WithMany("RoomAssignments")
-                        .HasForeignKey("SectionId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("SchedulingSystem.Models.Type", "Type")
-                        .WithMany()
-                        .HasForeignKey("TypeId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

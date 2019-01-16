@@ -36,7 +36,7 @@ namespace SchedulingSystem.Controllers
             room =  await context.Rooms
                     .Include(r => r.Building)
                     .Include(r => r.Types)
-                        .ThenInclude(t => t.RoomType)
+                        .ThenInclude(t => t.Type)
                     .SingleOrDefaultAsync(r => r.Id == room.Id);
 
             var result = mapper.Map<Room, RoomResource>(room);
@@ -50,8 +50,8 @@ namespace SchedulingSystem.Controllers
             var rooms = await context.Rooms
                 .Include(r => r.Building)
                 .Include(r => r.Types)
-                    .ThenInclude(t => t.RoomType)
-                .Where(r => r.Types.Select(t => t.RoomTypeId).Contains(typeId))
+                    .ThenInclude(t => t.Type)
+                .Where(r => r.Types.Select(t => t.TypeId).Contains(typeId))
                 .ToListAsync();
 
             var result = mapper.Map<IList<Room>, IList<RoomResource>>(rooms);

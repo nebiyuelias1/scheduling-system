@@ -20,8 +20,8 @@ namespace SchedulingSystem.Mapping
             CreateMap<SaveSectionResource, Section>();
             CreateMap<InstructorResource, Instructor>();
             CreateMap<SaveRoomResource, Room>()
-                .ForMember(r => r.Types, opt => opt.MapFrom(sr => sr.Types.Select(t => new RoomRoomType { RoomTypeId = t })));
-            CreateMap<SaveRoomSectionAssignmentResource, RoomSectionAssignment>();
+                .ForMember(r => r.Types, opt => opt.MapFrom(sr => sr.Types.Select(t => new RoomTypeAssignment { TypeId = t })));
+            CreateMap<SaveRoomSectionAssignmentResource, SectionRoomAssignment>();
             CreateMap<SaveAcademicYearResource, AcademicYear>();
             CreateMap<SaveAcademicSemesterResource, AcademicSemester>();
 
@@ -38,13 +38,13 @@ namespace SchedulingSystem.Mapping
                 .ForMember(x => x.AdmissionLevel, opt => 
                     opt.MapFrom(s => new KeyValuePairResource { Id = s.AdmissionLevel.Id, Name = s.AdmissionLevel.Name }));
             CreateMap<Instructor, InstructorResource>();
-            CreateMap<RoomType, KeyValuePairResource>();
+            CreateMap<Type, KeyValuePairResource>();
             CreateMap<Room, RoomResource>();
-            CreateMap<RoomRoomType, KeyValuePairResource>()
-                .ForMember(kvp => kvp.Id, opt => opt.MapFrom(rrt => rrt.RoomType.Id))
-                .ForMember(kvp => kvp.Name, opt => opt.MapFrom(rrt => rrt.RoomType.Name));
+            CreateMap<RoomTypeAssignment, KeyValuePairResource>()
+                .ForMember(kvp => kvp.Id, opt => opt.MapFrom(rrt => rrt.Type.Id))
+                .ForMember(kvp => kvp.Name, opt => opt.MapFrom(rrt => rrt.Type.Name));
             CreateMap<Room, RoomResource>();
-            CreateMap<RoomSectionAssignment, RoomSectionAssignmentResource>();
+            CreateMap<SectionRoomAssignment, RoomSectionAssignmentResource>();
             CreateMap<AcademicYear, AcademicYearResource>();
             CreateMap<AcademicSemester, AcademicSemesterResource>()
                 .ForMember(asr => asr.AcademicYear, opt => opt.MapFrom(s => 

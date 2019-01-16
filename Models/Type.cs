@@ -1,8 +1,9 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SchedulingSystem.Models
 {
-    public class RoomType
+    public class Type
     {
         public int Id { get; set; }
         
