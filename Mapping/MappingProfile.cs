@@ -56,6 +56,7 @@ namespace SchedulingSystem.Mapping
                     StartDate = s.AcademicYear.StartDate,
                     EndDate = s.AcademicYear.EndDate
                 }));
+            CreateMap<CourseOffering, CourseOfferingResource>();
         }
     }
 }

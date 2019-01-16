@@ -41,4 +41,12 @@ export class CommonService {
   saveAcademicSemester(academicSemester) {
     return this.http.post('/api/academicsemesters', academicSemester);
   }
+
+  createCourseOfferings() {
+    return this.http.get('/api/courseofferings/create');
+  }
+
+  getCourseOfferings() {
+    return this.http.get('/api/courseofferings');
+  }
 }

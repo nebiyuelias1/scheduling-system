@@ -8,6 +8,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SchedulingSystem.Persistence;
 using AutoMapper;
+using SchedulingSystem.Core;
+using SchedulingSystem.Utilities;
 
 namespace SchedulingSystem
 {
@@ -23,10 +25,12 @@ namespace SchedulingSystem
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddScoped<IHelper, Helper>();
+            
             services.AddAutoMapper();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddDbContext<SchedulingDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Default")));
-            
+
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {

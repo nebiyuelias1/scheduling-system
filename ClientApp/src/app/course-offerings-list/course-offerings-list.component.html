@@ -1,0 +1,24 @@
+<h2>Course Offerings</h2>
+<button class="btn btn-primary" (click)="createCourseOfferings()">Create Course Offerings</button>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Section</th>
+      <th>Course Code</th>
+      <th>Course Title</th>
+      <th>Instructor</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let co of courseOfferings">
+      <td>{{ co.section.name }}</td>
+      <td>{{ co.course.courseCode }}</td>
+      <td>{{ co.course.name }}</td>
+      <td>
+        <a *ngIf="co.instructor; else noInstructor" href="">Instructor Name</a>
+        <ng-template #noInstructor><a href="" >Assign</a></ng-template>
+      </td>
+    </tr>
+  </tbody>
+</table>
