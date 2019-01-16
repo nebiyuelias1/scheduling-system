@@ -37,7 +37,7 @@ namespace SchedulingSystem.Controllers
                 return BadRequest();
 
             var courseOfferings = await context.CourseOfferings
-                                    .Include(co => co.Instructor)
+                                    .Include(co => co.Instructors)
                                     .Include(co => co.Course)
                                     .Include(co => co.Section)
                                     .Where(co => co.AcademicSemesterId == currentActiveSemester.Id)
@@ -93,7 +93,7 @@ namespace SchedulingSystem.Controllers
             context.SaveChanges();
 
             var courseOfferings = await context.CourseOfferings
-                                    .Include(co => co.Instructor)
+                                    .Include(co => co.Instructors)
                                     .Include(co => co.Course)
                                     .Include(co => co.Section)
                                     .Where(co => co.AcademicSemesterId == currentActiveSemester.Id)
