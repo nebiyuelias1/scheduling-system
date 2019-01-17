@@ -1,3 +1,20 @@
-<p>
-  assign-instructor works!
-</p>
+<h2>Assign Instructor</h2>
+<p>Course Offering Id: {{ courseOfferingId }}</p>
+<form [formGroup]="form" (ngSubmit)="assignInstructor()">
+  <div class="form-group">
+    <label for="assignFor">Assign For</label>
+    <select id="assignFor" class="form-control" formControlName="typeId">
+      <option value=""></option>
+      <option *ngFor="let type of types" value="{{ type.id }}">{{ type.name }}</option>
+    </select>
+  </div>
+  
+  <div class="form-group">
+    <label for="room">Room</label>
+    <select id="room" class="form-control" formControlName="instructorId">
+      <option value=""></option>
+      <option *ngFor="let i of instructors" value="{{ i.id }}">{{ i.firstName }} {{ i.fatherName }} {{ i.grandFatherName }}</option>
+    </select>
+  </div>
+  <button class="btn btn-primary">Assign</button>
+</form>

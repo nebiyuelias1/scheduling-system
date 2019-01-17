@@ -23,7 +23,7 @@ export class SectionRoomAssignmentFormComponent implements OnInit {
 
   ngOnInit() {
     this.sectionId = this.route.snapshot.paramMap.get('id');
-    this.commonService.getRoomTypes()
+    this.commonService.getTypes()
       .subscribe((result: any[]) => this.roomTypes = result,
       (error) => console.error(error));
   }

@@ -24,6 +24,7 @@ namespace SchedulingSystem.Mapping
             CreateMap<SaveRoomSectionAssignmentResource, SectionRoomAssignment>();
             CreateMap<SaveAcademicYearResource, AcademicYear>();
             CreateMap<SaveAcademicSemesterResource, AcademicSemester>();
+            CreateMap<SaveInstructorAssignmentResource, InstructorAssignment>();
 
             // Domain to API Resource
             CreateMap<Department, DepartmentResource>();
@@ -57,6 +58,7 @@ namespace SchedulingSystem.Mapping
                     EndDate = s.AcademicYear.EndDate
                 }));
             CreateMap<CourseOffering, CourseOfferingResource>();
+            CreateMap<InstructorAssignment, InstructorAssignmentResource>();
         }
     }
 }

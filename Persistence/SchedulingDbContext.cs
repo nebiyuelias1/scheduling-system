@@ -20,6 +20,7 @@ namespace SchedulingSystem.Persistence
         public DbSet<AcademicSemester> AcademicSemesters { get; set; }
         public DbSet<AcademicYear> AcademicYears { get; set; }
         public DbSet<CourseOffering> CourseOfferings { get; set; }
+        public DbSet<InstructorAssignment> CourseOfferingInstructorAssignments { get; set; }
         public SchedulingDbContext(DbContextOptions<SchedulingDbContext> options)
             : base(options)
         {
@@ -34,7 +35,7 @@ namespace SchedulingSystem.Persistence
             modelbuilder.Entity<RoomTypeAssignment>()
                 .HasKey(rt => new { rt.RoomId, rt.TypeId });
 
-            modelbuilder.Entity<CourseOfferingInstructorAssignment>()
+            modelbuilder.Entity<InstructorAssignment>()
                 .HasKey(co => new { co.CourseOfferingId, co.InstructorId, co.TypeId });
 
             modelbuilder.Entity<CourseOffering>()

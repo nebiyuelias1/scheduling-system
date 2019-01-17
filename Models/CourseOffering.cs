@@ -7,7 +7,7 @@ namespace SchedulingSystem.Models
     {
         public int Id { get; set; }
         public Section Section { get; set; }
-        public ICollection<CourseOfferingInstructorAssignment> Instructors { get; set; }
+        public ICollection<InstructorAssignment> Instructors { get; set; }
         public Course Course { get; set; }
         public AcademicSemester AcademicSemester { get; set; }
         public int? SectionId { get; set; }
@@ -16,7 +16,7 @@ namespace SchedulingSystem.Models
 
         public CourseOffering()
         {
-            Instructors = new Collection<CourseOfferingInstructorAssignment>();
+            Instructors = new Collection<InstructorAssignment>();
         }
     }
 }

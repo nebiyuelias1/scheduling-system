@@ -103,5 +103,31 @@ namespace SchedulingSystem.Controllers
             
             return Ok(result);
         }
+
+        [HttpPost("{id}")]
+        public async Task<IActionResult> AssignInstructor(int id, [FromBody] SaveInstructorAssignmentResource resource)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            resource.CourseOfferingId = id;
+            var courseOffering = mapper.Map<SaveInstructorAssignmentResource, InstructorAssignment>(resource);
+
+            context.CourseOfferingInstructorAssignments.Add(courseOffering);
+            await context.SaveChangesAsync();
+            
+            courseOffering = await context.CourseOfferingInstructorAssignments
+                            .Include(co => co.CourseOffering)
+                            .Include(co => co.Instructor)
+                            .Include(co => co.Type)
+                            .SingleAsync(co => co.CourseOfferingId == resource.CourseOfferingId &&
+                            co.InstructorId == resource.InstructorId &&
+                            co.TypeId == resource.TypeId);
+
+            var result = mapper.Map<InstructorAssignment, InstructorAssignmentResource>(courseOffering);
+            
+
+            return Ok(result);
+        }
     }
 }

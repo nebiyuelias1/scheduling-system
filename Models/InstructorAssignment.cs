@@ -1,6 +1,9 @@
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace SchedulingSystem.Models
 {
-    public class CourseOfferingInstructorAssignment
+    [Table("InstructorAssignments")]
+    public class InstructorAssignment
     {
         public CourseOffering CourseOffering { get; set; }
         public Instructor Instructor { get; set; }

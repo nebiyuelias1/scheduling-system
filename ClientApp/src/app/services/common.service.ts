@@ -14,8 +14,8 @@ export class CommonService {
     return this.http.get('/api/admissionlevels');
   }
 
-  getRoomTypes() {
-    return this.http.get('/api/roomtypes');
+  getTypes() {
+    return this.http.get('/api/types');
   }
 
   getRoomsBasedOnType(id: string) {
@@ -48,5 +48,9 @@ export class CommonService {
 
   getCourseOfferings() {
     return this.http.get('/api/courseofferings');
+  }
+
+  getInstructors() {
+    return this.http.get('/api/instructors');
   }
 }

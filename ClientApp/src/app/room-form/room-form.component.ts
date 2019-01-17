@@ -27,7 +27,7 @@ export class RoomFormComponent implements OnInit {
       .subscribe((result: any[]) => this.buildings = result,
         (error) => console.error(error));
 
-    this.commonService.getRoomTypes()
+    this.commonService.getTypes()
       .subscribe((result: any[]) => this.roomTypes = result,
       (error) => console.error(error));
   }
