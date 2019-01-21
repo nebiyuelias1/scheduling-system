@@ -7,7 +7,8 @@
       <th>Section</th>
       <th>Course Code</th>
       <th>Course Title</th>
-      <th>Instructor</th>
+      <th>Instructors</th>
+      <th></th>
     </tr>
   </thead>
   <tbody>
@@ -16,9 +17,10 @@
       <td>{{ co.course.courseCode }}</td>
       <td>{{ co.course.name }}</td>
       <td>
-        <a *ngIf="co.instructor; else noInstructor" href="">Instructor Name</a>
-        <ng-template #noInstructor><a [routerLink]="['/courseofferings', co.id, 'assign']">Assign</a></ng-template>
+        <a *ngIf="co.instructors.length > 0; else noInstructor" href="">{{ co.instructors | json }}</a>
+        <ng-template #noInstructor><span>No instructor</span></ng-template>
       </td>
+      <td><a [routerLink]="['/courseofferings', 'assign', co.id]">Assign</a></td>
     </tr>
   </tbody>
 </table>

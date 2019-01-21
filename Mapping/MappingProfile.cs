@@ -25,6 +25,7 @@ namespace SchedulingSystem.Mapping
             CreateMap<SaveAcademicYearResource, AcademicYear>();
             CreateMap<SaveAcademicSemesterResource, AcademicSemester>();
             CreateMap<SaveInstructorAssignmentResource, InstructorAssignment>();
+            CreateMap<SaveScheduleConfigurationResource, ScheduleConfiguration>();
 
             // Domain to API Resource
             CreateMap<Department, DepartmentResource>();
@@ -59,6 +60,7 @@ namespace SchedulingSystem.Mapping
                 }));
             CreateMap<CourseOffering, CourseOfferingResource>();
             CreateMap<InstructorAssignment, InstructorAssignmentResource>();
+            CreateMap<ScheduleConfiguration, ScheduleConfigurationResource>();
         }
     }
 }

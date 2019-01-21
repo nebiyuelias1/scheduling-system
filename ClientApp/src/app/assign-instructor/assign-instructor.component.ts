@@ -14,7 +14,9 @@ export class AssignInstructorComponent implements OnInit {
   types: any[];
   instructors: any[];
   courseOfferingId;
+
   form = new FormGroup({
+    courseOfferingId: new FormControl(),
     instructorId: new FormControl(),
     typeId: new FormControl()
   });
@@ -24,6 +26,8 @@ export class AssignInstructorComponent implements OnInit {
 
   ngOnInit() {
     this.courseOfferingId = this.activatedRoute.snapshot.paramMap.get('id');
+    this.form.controls['courseOfferingId']
+    .setValue(this.courseOfferingId);
 
     this.commonService.getTypes()
       .subscribe((result: any[]) => this.types = result,
@@ -35,6 +39,8 @@ export class AssignInstructorComponent implements OnInit {
   }
 
   assignInstructor() {
-    console.log(this.courseOfferingId, this.form.value);
+    this.commonService.assignInstructor(this.form.value)
+      .subscribe((result) => console.log(result),
+      (error) => console.error(error));
   }
 }

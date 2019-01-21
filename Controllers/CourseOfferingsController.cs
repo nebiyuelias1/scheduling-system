@@ -38,6 +38,9 @@ namespace SchedulingSystem.Controllers
 
             var courseOfferings = await context.CourseOfferings
                                     .Include(co => co.Instructors)
+                                        .ThenInclude(i => i.Instructor)
+                                    .Include(co => co.Instructors)
+                                        .ThenInclude(i => i.Type)
                                     .Include(co => co.Course)
                                     .Include(co => co.Section)
                                     .Where(co => co.AcademicSemesterId == currentActiveSemester.Id)
@@ -104,13 +107,12 @@ namespace SchedulingSystem.Controllers
             return Ok(result);
         }
 
-        [HttpPost("{id}")]
-        public async Task<IActionResult> AssignInstructor(int id, [FromBody] SaveInstructorAssignmentResource resource)
+        [HttpPost()]
+        public async Task<IActionResult> AssignInstructor([FromBody] SaveInstructorAssignmentResource resource)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            resource.CourseOfferingId = id;
             var courseOffering = mapper.Map<SaveInstructorAssignmentResource, InstructorAssignment>(resource);
 
             context.CourseOfferingInstructorAssignments.Add(courseOffering);

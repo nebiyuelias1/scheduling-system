@@ -79,7 +79,7 @@ import { AssignInstructorComponent } from './assign-instructor/assign-instructor
       { path: 'sections/assign/:id', component: SectionRoomAssignmentFormComponent },
       { path: 'years/new', component: AcademicYearFormComponent },
       { path: 'semesters/new', component: AcademicSemesterFormComponent },
-      { path: 'courseofferings/:id/assign', component: AssignInstructorComponent },
+      { path: 'courseofferings/assign/:id', component: AssignInstructorComponent },
       { path: 'courseofferings', component: CourseOfferingsListComponent }
     ])
   ],

@@ -21,6 +21,7 @@ namespace SchedulingSystem.Persistence
         public DbSet<AcademicYear> AcademicYears { get; set; }
         public DbSet<CourseOffering> CourseOfferings { get; set; }
         public DbSet<InstructorAssignment> CourseOfferingInstructorAssignments { get; set; }
+        public DbSet<ScheduleConfiguration> ScheduleConfigurations { get; set; }
         public SchedulingDbContext(DbContextOptions<SchedulingDbContext> options)
             : base(options)
         {
@@ -38,6 +39,9 @@ namespace SchedulingSystem.Persistence
             modelbuilder.Entity<InstructorAssignment>()
                 .HasKey(co => new { co.CourseOfferingId, co.InstructorId, co.TypeId });
 
+            modelbuilder.Entity<ScheduleConfiguration>()
+                .HasKey(s => new { s.AdmissionLevelId, s.ProgramTypeId });
+                
             modelbuilder.Entity<CourseOffering>()
                 .HasOne(co => co.Section)
                 .WithMany(s => s.CourseOfferings)

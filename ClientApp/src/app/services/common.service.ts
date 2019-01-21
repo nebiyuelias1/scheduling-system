@@ -53,4 +53,8 @@ export class CommonService {
   getInstructors() {
     return this.http.get('/api/instructors');
   }
+
+  assignInstructor(instructorAssignment) {
+    return this.http.post('/api/courseofferings', instructorAssignment);
+  }
 }
