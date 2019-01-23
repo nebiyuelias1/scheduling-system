@@ -24,6 +24,7 @@ namespace SchedulingSystem.Persistence
         public DbSet<ScheduleConfiguration> ScheduleConfigurations { get; set; }
         public DbSet<WeekDay> WeekDays { get; set; }
         public DbSet<ScheduleEntry> ScheduleEntries { get; set; }
+        public DbSet<Day> Days { get; set; }
         public SchedulingDbContext(DbContextOptions<SchedulingDbContext> options)
             : base(options)
         {
