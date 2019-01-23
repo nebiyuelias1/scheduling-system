@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SchedulingSystem.Persistence;
 
 namespace SchedulingSystem.Migrations
 {
     [DbContext(typeof(SchedulingDbContext))]
-    partial class SchedulingDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190123195940_AddSchedules")]
+    partial class AddSchedules
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -198,11 +200,15 @@ namespace SchedulingSystem.Migrations
 
                     b.Property<int>("ScheduleId");
 
+                    b.Property<int?>("ScheduleId1");
+
                     b.Property<int?>("WeekDayId");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ScheduleId");
+
+                    b.HasIndex("ScheduleId1");
 
                     b.HasIndex("WeekDayId");
 
@@ -515,9 +521,13 @@ namespace SchedulingSystem.Migrations
             modelBuilder.Entity("SchedulingSystem.Models.Day", b =>
                 {
                     b.HasOne("SchedulingSystem.Models.Schedule", "Schedule")
-                        .WithMany("Days")
+                        .WithMany()
                         .HasForeignKey("ScheduleId")
                         .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("SchedulingSystem.Models.Schedule")
+                        .WithMany("Days")
+                        .HasForeignKey("ScheduleId1");
 
                     b.HasOne("SchedulingSystem.Models.WeekDay", "WeekDay")
                         .WithMany()
