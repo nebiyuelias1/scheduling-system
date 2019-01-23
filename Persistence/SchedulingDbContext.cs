@@ -23,6 +23,7 @@ namespace SchedulingSystem.Persistence
         public DbSet<InstructorAssignment> CourseOfferingInstructorAssignments { get; set; }
         public DbSet<ScheduleConfiguration> ScheduleConfigurations { get; set; }
         public DbSet<WeekDay> WeekDays { get; set; }
+        public DbSet<ScheduleEntry> ScheduleEntries { get; set; }
         public SchedulingDbContext(DbContextOptions<SchedulingDbContext> options)
             : base(options)
         {
@@ -60,6 +61,13 @@ namespace SchedulingSystem.Persistence
                 .WithMany()
                 .HasForeignKey(co => co.AcademicSemesterId)
                 .OnDelete(DeleteBehavior.SetNull);
+
+            modelbuilder.Entity<ScheduleEntry>()
+                .HasOne(s => s.Instructor)
+                .WithMany()
+                .HasForeignKey(s => s.InstructorId)
+                .OnDelete(DeleteBehavior.Restrict);
+
                 
             base.OnModelCreating(modelbuilder);
         }
