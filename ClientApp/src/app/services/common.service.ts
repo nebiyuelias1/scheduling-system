@@ -57,4 +57,8 @@ export class CommonService {
   assignInstructor(instructorAssignment) {
     return this.http.post('/api/courseofferings', instructorAssignment);
   }
+
+  saveScheduleConfiguration(scheduleConfiguration) {
+    return this.http.post('/api/scheduleconfigurations', scheduleConfiguration);
+  }
 }

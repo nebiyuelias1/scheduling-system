@@ -1,0 +1,30 @@
+<h2>Schedule Configuration Form</h2>
+<form [formGroup]="form" (ngSubmit)="save()">
+  <div class="form-group">
+    <label for="admissionLevel">Admission Level</label>
+    <select id="admissionLevel" class="form-control" formControlName="admissionLevelId">
+      <option value=""></option>
+      <option *ngFor="let a of admissionLevels" value="{{ a.id }}">{{ a.name }}</option>
+    </select>
+  </div>
+  
+  <div class="form-group">
+    <label for="programType">Program Type</label>
+    <select id="programType" class="form-control" formControlName="programTypeId">
+      <option value=""></option>
+      <option *ngFor="let p of programTypes" value="{{ p.id }}">{{ p.name }}</option>
+    </select>
+  </div>
+  
+  <div class="form-group">
+    <label for="daysPerWeek">Days per week</label>
+    <input id="daysPerWeek" type="number" class="form-control" formControlName="numberOfDaysPerWeek">
+  </div>
+  
+  <div class="form-group">
+    <label for="periodsPerDay">Periods per day</label>
+    <input id="periodsPerDay" type="number" class="form-control" formControlName="numberOfPeriodsPerDay">
+  </div>
+
+  <button class="btn btn-primary">Save</button>
+</form>

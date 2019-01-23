@@ -18,6 +18,11 @@
               </a>
             </li>
             <li [routerLinkActive]='["link-active"]' [routerLinkActiveOptions]='{ exact: true }'>
+              <a [routerLink]='["/scheduleconfigurations"]' (click)='collapse()'>
+                <span class='glyphicon glyphicon-home'></span> Schedule Configuration
+              </a>
+            </li>
+            <li [routerLinkActive]='["link-active"]' [routerLinkActiveOptions]='{ exact: true }'>
               <a [routerLink]='["/courseofferings"]' (click)='collapse()'>
                 <span class='glyphicon glyphicon-home'></span> Course Offerings
               </a>

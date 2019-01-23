@@ -21,7 +21,7 @@ namespace SchedulingSystem.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> Create(SaveScheduleConfigurationResource resource)
+        public async Task<IActionResult> Create([FromBody] SaveScheduleConfigurationResource resource)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
