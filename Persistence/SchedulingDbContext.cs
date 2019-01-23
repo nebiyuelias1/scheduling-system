@@ -22,6 +22,7 @@ namespace SchedulingSystem.Persistence
         public DbSet<CourseOffering> CourseOfferings { get; set; }
         public DbSet<InstructorAssignment> CourseOfferingInstructorAssignments { get; set; }
         public DbSet<ScheduleConfiguration> ScheduleConfigurations { get; set; }
+        public DbSet<WeekDay> WeekDays { get; set; }
         public SchedulingDbContext(DbContextOptions<SchedulingDbContext> options)
             : base(options)
         {
