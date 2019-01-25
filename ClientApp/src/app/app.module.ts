@@ -34,6 +34,7 @@ import { AcademicSemesterFormComponent } from './academic-semester-form/academic
 import { CourseOfferingsListComponent } from './course-offerings-list/course-offerings-list.component';
 import { AssignInstructorComponent } from './assign-instructor/assign-instructor.component';
 import { ScheduleConfigurationFormComponent } from './schedule-configuration-form/schedule-configuration-form.component';
+import { ScheduleComponent } from './schedule/schedule.component';
 
 @NgModule({
   declarations: [
@@ -58,6 +59,7 @@ import { ScheduleConfigurationFormComponent } from './schedule-configuration-for
     CourseOfferingsListComponent,
     AssignInstructorComponent,
     ScheduleConfigurationFormComponent,
+    ScheduleComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -83,6 +85,7 @@ import { ScheduleConfigurationFormComponent } from './schedule-configuration-for
       { path: 'semesters/new', component: AcademicSemesterFormComponent },
       { path: 'courseofferings/assign/:id', component: AssignInstructorComponent },
       { path: 'courseofferings', component: CourseOfferingsListComponent },
+      { path: 'schedules/:id', component: ScheduleComponent },
       { path: 'scheduleconfigurations', component: ScheduleConfigurationFormComponent }
     ])
   ],
