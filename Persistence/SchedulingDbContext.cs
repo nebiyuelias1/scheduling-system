@@ -16,7 +16,7 @@ namespace SchedulingSystem.Persistence
         public DbSet<Room> Rooms { get; set; }
         public DbSet<Section> Sections { get; set; }
         public DbSet<Instructor> Instructors { get; set; }
-        public DbSet<Type> RoomTypes { get; set; }
+        public DbSet<Type> Types { get; set; }
         public DbSet<AcademicSemester> AcademicSemesters { get; set; }
         public DbSet<AcademicYear> AcademicYears { get; set; }
         public DbSet<CourseOffering> CourseOfferings { get; set; }

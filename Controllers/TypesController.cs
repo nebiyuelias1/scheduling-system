@@ -24,7 +24,7 @@ namespace SchedulingSystem.Controllers
         [HttpGet]
         public async Task<IActionResult> GetTypes()
         {
-            var types = await context.RoomTypes.ToListAsync();
+            var types = await context.Types.ToListAsync();
 
             if (types == null)
                 return NotFound();

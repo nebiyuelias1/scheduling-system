@@ -1,7 +1,10 @@
-namespace scheduling_system.Core
+using System.Threading.Tasks;
+using SchedulingSystem.Models;
+
+namespace SchedulingSystem.Core
 {
-    public class IGeneticAlgorithm
+    public interface IGeneticAlgorithm
     {
-        
+        Task<Schedule> GenerateScheduleForSection(int sectionId);
     }
 }
