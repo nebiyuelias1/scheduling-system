@@ -26,6 +26,7 @@ namespace SchedulingSystem
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<IHelper, Helper>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             
             services.AddAutoMapper();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);

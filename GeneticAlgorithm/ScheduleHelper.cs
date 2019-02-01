@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using SchedulingSystem.Core;
 using SchedulingSystem.Core.Models;
 using SchedulingSystem.Persistence;
 using Type = SchedulingSystem.Core.Models.Type;
@@ -12,34 +13,17 @@ namespace SchedulingSystem.GeneticAlgorithm
 {
     public class ScheduleHelper : IScheduleHelper
     {
-        private readonly SchedulingDbContext context;
-        public ScheduleHelper(SchedulingDbContext context)
+        private readonly IUnitOfWork unitOfWork;
+
+        public ScheduleHelper(IUnitOfWork unitOfWork)
         {
-            this.context = context;
+            this.unitOfWork = unitOfWork;
         }
 
-        private async Task<Type> GetLectureType()
-        {
-            return await context.Types.Where(t => t.Name == "Lecture")
-                        .FirstOrDefaultAsync();
-        }
-
-        private async Task<Type> GetTutorType()
-        {
-            return await context.Types.Where(t => t.Name == "Tutor")
-                        .FirstOrDefaultAsync();
-        }
-
-        private async Task<Type> GetLabType()
-        {
-            return await context.Types.Where(t => t.Name == "Lab")
-                        .FirstOrDefaultAsync();
-        }
         public async Task<Schedule> InitializeScheduleForSection(Section section)
         {
-            var scheduleConfiguration = await context
-                                        .ScheduleConfigurations
-                                        .SingleOrDefaultAsync(s => s.AdmissionLevelId == section.AdmissionLevelId && s.ProgramTypeId == section.ProgramTypeId);
+            var scheduleConfiguration = await unitOfWork.ScheduleConfigurations
+                                        .GetScheduleConfiguration(section.AdmissionLevelId, section.ProgramTypeId);
             
             var schedule = new Schedule();
 
@@ -63,7 +47,7 @@ namespace SchedulingSystem.GeneticAlgorithm
 
                 while (lecture > 0)
                 {
-                    var lectureType = await GetLectureType();
+                    var lectureType = await unitOfWork.Types.GetLectureType();
                     var lectureInstructor = courseOffering.Instructors
                                                 .Where(i => i.TypeId == lectureType.Id)
                                                 .FirstOrDefault()
@@ -98,7 +82,7 @@ namespace SchedulingSystem.GeneticAlgorithm
 
                 while (tutor > 0)
                 {
-                    var tutorType = await GetTutorType();
+                    var tutorType = await unitOfWork.Types.GetTutorType();
                     var tutorInstructor = courseOffering.Instructors
                                                 .Where(i => i.TypeId == tutorType.Id)
                                                 .FirstOrDefault()
@@ -133,7 +117,7 @@ namespace SchedulingSystem.GeneticAlgorithm
 
                 while (lab > 0)
                 {
-                    var labType = await GetLabType();
+                    var labType = await unitOfWork.Types.GetLabType();
                     var labInstructor = courseOffering.Instructors
                                                 .Where(i => i.TypeId == labType.Id)
                                                 .FirstOrDefault()

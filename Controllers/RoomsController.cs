@@ -5,6 +5,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SchedulingSystem.Controllers.Resources;
+using SchedulingSystem.Core;
 using SchedulingSystem.Core.Models;
 using SchedulingSystem.Persistence;
 
@@ -13,12 +14,12 @@ namespace SchedulingSystem.Controllers
     [Route("/api/rooms")]
     public class RoomsController : Controller
     {
-        private readonly SchedulingDbContext context;
+        private readonly IUnitOfWork unitOfWork;
         private readonly IMapper mapper;
 
-        public RoomsController(SchedulingDbContext context, IMapper mapper)
+        public RoomsController(IUnitOfWork unitOfWork, IMapper mapper)
         {
-            this.context = context;
+            this.unitOfWork = unitOfWork;
             this.mapper = mapper;
         }
 
@@ -30,14 +31,10 @@ namespace SchedulingSystem.Controllers
 
             var room = mapper.Map<SaveRoomResource, Room>(roomResource);
 
-            context.Rooms.Add(room);
-            await context.SaveChangesAsync();
+            unitOfWork.Rooms.Add(room);
+            await unitOfWork.CompleteAsync();
 
-            room =  await context.Rooms
-                    .Include(r => r.Building)
-                    .Include(r => r.Types)
-                        .ThenInclude(t => t.Type)
-                    .SingleOrDefaultAsync(r => r.Id == room.Id);
+            room = await unitOfWork.Rooms.GetRoomWithBuildingAndType(room.Id);
 
             var result = mapper.Map<Room, RoomResource>(room);
 
@@ -47,14 +44,9 @@ namespace SchedulingSystem.Controllers
         [HttpGet("{typeId}")]
         public async  Task<IActionResult> GetRoomsBasedOnType([FromRoute] int typeId)
         {
-            var rooms = await context.Rooms
-                .Include(r => r.Building)
-                .Include(r => r.Types)
-                    .ThenInclude(t => t.Type)
-                .Where(r => r.Types.Select(t => t.TypeId).Contains(typeId))
-                .ToListAsync();
+            var rooms = await unitOfWork.Rooms.GetRooms(typeId);
 
-            var result = mapper.Map<IList<Room>, IList<RoomResource>>(rooms);
+            var result = mapper.Map<IEnumerable<Room>, IEnumerable<RoomResource>>(rooms);
             
             return Ok(result);
         }
@@ -62,13 +54,9 @@ namespace SchedulingSystem.Controllers
         [HttpGet]
         public async Task<IActionResult> GetRooms()
         {
-            var rooms = await context.Rooms
-                .Include(r => r.Building)
-                .Include(r => r.Types)
-                    .ThenInclude(t => t.Type)
-                .ToListAsync();
+            var rooms = await unitOfWork.Rooms.GetRooms();
 
-            var result = mapper.Map<IList<Room>, IList<RoomResource>>(rooms);
+            var result = mapper.Map<IEnumerable<Room>, IEnumerable<RoomResource>>(rooms);
             
             return Ok(result);
         }
