@@ -1,7 +1,8 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace SchedulingSystem.Models
+
+namespace SchedulingSystem.Core.Models
 {
     public class College
     {

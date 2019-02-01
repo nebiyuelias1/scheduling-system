@@ -1,14 +1,15 @@
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
-namespace SchedulingSystem.Models
+
+namespace SchedulingSystem.Core.Models
 {
-    public class Type
+    public class WeekDay
     {
         public int Id { get; set; }
-        
+
         [Required]
-        [StringLength(100)]
+        [StringLength(15)]
         public string Name { get; set; }
+        public int Number { get; set; }
     }
 }

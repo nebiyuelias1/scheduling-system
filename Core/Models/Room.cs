@@ -2,7 +2,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace SchedulingSystem.Models
+
+namespace SchedulingSystem.Core.Models
 {
     public class Room
     {

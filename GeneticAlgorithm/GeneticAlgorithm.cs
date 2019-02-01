@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using SchedulingSystem.Core;
-using SchedulingSystem.Models;
+using SchedulingSystem.Core.Models;
 using SchedulingSystem.Persistence;
 
 namespace SchedulingSystem.GeneticAlgorithm

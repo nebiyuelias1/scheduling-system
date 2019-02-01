@@ -1,4 +1,5 @@
-namespace SchedulingSystem.Models
+
+namespace SchedulingSystem.Core.Models
 {
     public class ScheduleConfiguration
     {

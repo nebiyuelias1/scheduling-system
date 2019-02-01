@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using SchedulingSystem.Controllers.Resources;
-using SchedulingSystem.Models;
+using SchedulingSystem.Core.Models;
 using SchedulingSystem.Persistence;
 
 namespace SchedulingSystem.Controllers

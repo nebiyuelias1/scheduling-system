@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using SchedulingSystem.Models;
+using SchedulingSystem.Core.Models;
 using SchedulingSystem.Persistence;
 using SchedulingSystem.Controllers.Resources;
 using AutoMapper;

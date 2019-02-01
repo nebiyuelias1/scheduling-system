@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace SchedulingSystem.Models
+
+namespace SchedulingSystem.Core.Models
 {
     [Table("InstructorAssignments")]
     public class InstructorAssignment

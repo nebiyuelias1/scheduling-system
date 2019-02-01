@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace SchedulingSystem.Models
+
+namespace SchedulingSystem.Core.Models
 {
     public class AdmissionLevel
     {

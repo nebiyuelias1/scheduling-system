@@ -1,7 +1,8 @@
 using System.ComponentModel.DataAnnotations;
-using SchedulingSystem.Models;
+using SchedulingSystem.Core.Models;
 
-namespace SchedulingSystem.Models
+
+namespace SchedulingSystem.Core.Models
 {
     public class Curriculum
     {

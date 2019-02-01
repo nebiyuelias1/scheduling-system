@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using SchedulingSystem.Models;
+using SchedulingSystem.Core.Models;
 
 namespace SchedulingSystem.Persistence
 {

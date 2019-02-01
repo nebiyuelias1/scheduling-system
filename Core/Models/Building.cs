@@ -1,14 +1,16 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace SchedulingSystem.Models
+
+namespace SchedulingSystem.Core.Models
 {
-    public class WeekDay
+    public class Building
     {
         public int Id { get; set; }
 
         [Required]
-        [StringLength(15)]
+        [StringLength(20)]
         public string Name { get; set; }
+        
         public int Number { get; set; }
     }
 }

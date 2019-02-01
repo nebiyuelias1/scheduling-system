@@ -5,7 +5,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SchedulingSystem.Controllers.Resources;
-using SchedulingSystem.Models;
+using SchedulingSystem.Core.Models;
 using SchedulingSystem.Persistence;
 
 namespace SchedulingSystem.Controllers
@@ -44,14 +44,28 @@ namespace SchedulingSystem.Controllers
             return Ok(result);
         }
 
-        [HttpGet()]
-        public async  Task<IActionResult> GetRoomsBasedOnType([FromQuery] int typeId)
+        [HttpGet("{typeId}")]
+        public async  Task<IActionResult> GetRoomsBasedOnType([FromRoute] int typeId)
         {
             var rooms = await context.Rooms
                 .Include(r => r.Building)
                 .Include(r => r.Types)
                     .ThenInclude(t => t.Type)
                 .Where(r => r.Types.Select(t => t.TypeId).Contains(typeId))
+                .ToListAsync();
+
+            var result = mapper.Map<IList<Room>, IList<RoomResource>>(rooms);
+            
+            return Ok(result);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetRooms()
+        {
+            var rooms = await context.Rooms
+                .Include(r => r.Building)
+                .Include(r => r.Types)
+                    .ThenInclude(t => t.Type)
                 .ToListAsync();
 
             var result = mapper.Map<IList<Room>, IList<RoomResource>>(rooms);

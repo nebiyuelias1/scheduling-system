@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
-using SchedulingSystem.Models;
+using SchedulingSystem.Core.Models;
 
 namespace SchedulingSystem.Controllers.Resources
 {

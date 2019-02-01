@@ -19,11 +19,7 @@ export class CommonService {
   }
 
   getRoomsBasedOnType(id: string) {
-    return this.http.get('/api/rooms', {
-      params: {
-        typeId: id
-      }
-    });
+    return this.http.get('/api/rooms/' + id);
   }
 
   assignSectionToRoom(id: any, roomAssignmentInfo: any) {

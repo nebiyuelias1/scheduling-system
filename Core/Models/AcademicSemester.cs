@@ -1,6 +1,6 @@
 using System;
 
-namespace SchedulingSystem.Models
+namespace SchedulingSystem.Core.Models
 {
     public class AcademicSemester
     {

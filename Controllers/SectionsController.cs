@@ -5,7 +5,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SchedulingSystem.Controllers.Resources;
-using SchedulingSystem.Models;
+using SchedulingSystem.Core.Models;
 using SchedulingSystem.Persistence;
 
 namespace SchedulingSystem.Controllers
@@ -29,6 +29,10 @@ namespace SchedulingSystem.Controllers
                             .Include(s => s.Department)
                             .Include(s => s.Program)
                             .Include(s => s.AdmissionLevel)
+                            .Include(s => s.RoomAssignments)
+                                .ThenInclude(r => r.Room)
+                            .Include(s => s.RoomAssignments)
+                                .ThenInclude(r => r.Type)
                             .SingleOrDefaultAsync(s => s.Id == id);
 
             if (section == null)
@@ -46,6 +50,10 @@ namespace SchedulingSystem.Controllers
                             .Include(s => s.Department)
                             .Include(s => s.Program)
                             .Include(s => s.AdmissionLevel)
+                            .Include(s => s.RoomAssignments)
+                                .ThenInclude(r => r.Room)
+                            .Include(s => s.RoomAssignments)
+                                .ThenInclude(r => r.Type)
                             .ToListAsync();
 
             if (sections == null)

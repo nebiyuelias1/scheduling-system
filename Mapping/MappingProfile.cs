@@ -2,7 +2,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using AutoMapper;
 using SchedulingSystem.Controllers.Resources;
-using SchedulingSystem.Models;
+using SchedulingSystem.Core.Models;
 
 namespace SchedulingSystem.Mapping
 {

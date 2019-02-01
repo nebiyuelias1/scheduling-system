@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-using SchedulingSystem.Models;
+using SchedulingSystem.Core.Models;
 
 namespace SchedulingSystem.GeneticAlgorithm
 {

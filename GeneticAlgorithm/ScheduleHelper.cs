@@ -4,9 +4,9 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using SchedulingSystem.Models;
+using SchedulingSystem.Core.Models;
 using SchedulingSystem.Persistence;
-using Type = SchedulingSystem.Models.Type;
+using Type = SchedulingSystem.Core.Models.Type;
 
 namespace SchedulingSystem.GeneticAlgorithm
 {
