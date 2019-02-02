@@ -9,6 +9,7 @@ namespace SchedulingSystem.Core
         IScheduleConfigurationRepository ScheduleConfigurations { get; }
         ITypeRepository Types { get; }
         IRoomRepository Rooms { get; }
+        ICourseRepository Courses { get; }
         Task<int> CompleteAsync();
     }
 }

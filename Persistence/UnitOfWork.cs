@@ -11,6 +11,7 @@ namespace SchedulingSystem.Persistence
         public IScheduleConfigurationRepository ScheduleConfigurations { get; private set; }
         public ITypeRepository Types { get; private set; }
         public IRoomRepository Rooms { get; private set; }
+        public ICourseRepository Courses { get; private set; }
 
         public UnitOfWork(SchedulingDbContext context)
         {
@@ -18,6 +19,7 @@ namespace SchedulingSystem.Persistence
             ScheduleConfigurations = new ScheduleConfigurationRepository(context);
             Types = new TypeRepository(context);
             Rooms = new RoomRepository(context);
+            Courses = new CourseRepository(context);
         }
 
 
