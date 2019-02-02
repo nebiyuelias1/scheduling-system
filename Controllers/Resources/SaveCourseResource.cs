@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SchedulingSystem.Controllers.Resources
 {
-    public class CourseResource
+    public class SaveCourseResource
     {
         public int Id { get; set; }
 
@@ -16,9 +16,8 @@ namespace SchedulingSystem.Controllers.Resources
         public byte Lecture { get; set; }
         public byte Lab { get; set; }
         public byte Tutor { get; set; }
-        public CurriculumResource Curriculum { get; set; }
         public int CurriculumId { get; set; }
         public byte DeliveryYear { get; set; }
-        public byte DeliverySemester { get; set; }
+        public byte DeliverySemester { get; set; } 
     }
 }

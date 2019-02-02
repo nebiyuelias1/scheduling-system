@@ -7,7 +7,7 @@ namespace SchedulingSystem.Controllers.Resources
     {
         public int Id { get; set; }
         public SectionResource Section { get; set; }
-        public CourseResource Course { get; set; }
+        public SaveCourseResource Course { get; set; }
         public AcademicSemesterResource AcademicSemester { get; set; }
 
         public ICollection<InstructorAssignmentResource> Instructors { get; set; }

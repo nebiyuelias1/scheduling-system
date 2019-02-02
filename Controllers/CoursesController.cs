@@ -1,7 +1,9 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using SchedulingSystem.Controllers.Resources;
+using SchedulingSystem.Core;
 using SchedulingSystem.Core.Models;
 using SchedulingSystem.Persistence;
 
@@ -11,25 +13,25 @@ namespace SchedulingSystem.Controllers
     public class CoursesController : Controller
     {
         private readonly IMapper mapper;
-        private readonly SchedulingDbContext context;
-        public CoursesController(IMapper mapper, SchedulingDbContext context)
+        private readonly IUnitOfWork unitOfWork;
+        public CoursesController(IMapper mapper, IUnitOfWork unitOfWork)
         {
-            this.context = context;
             this.mapper = mapper;
+            this.unitOfWork = unitOfWork;
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CourseResource courseResource)
+        public async Task<IActionResult> Create([FromBody] SaveCourseResource courseResource)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var course = mapper.Map<CourseResource, Course>(courseResource);
+            var course = mapper.Map<SaveCourseResource, Course>(courseResource);
             
-            context.Add(course);
-            await context.SaveChangesAsync();
+            unitOfWork.Courses.Add(course);
+            await unitOfWork.CompleteAsync();
 
-            var result = mapper.Map<Course, CourseResource>(course);
+            var result = mapper.Map<Course, SaveCourseResource>(course);
 
             return Ok(result);
         }
@@ -37,7 +39,14 @@ namespace SchedulingSystem.Controllers
         [HttpGet]
         public async Task<IActionResult> GetCourses()
         {
-            
+            var courses = await unitOfWork.Courses.GetCoursesWithCurriculum();
+
+            if (courses == null)
+                return NotFound();
+
+            var result = mapper.Map<IEnumerable<Course>, IEnumerable<CourseResource>>(courses);
+
+            return Ok(result);
         }
     }
 }
