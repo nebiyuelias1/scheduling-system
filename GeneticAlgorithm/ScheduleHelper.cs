@@ -47,18 +47,6 @@ namespace SchedulingSystem.GeneticAlgorithm
 
                 while (lecture > 0)
                 {
-                    var lectureType = await unitOfWork.Types.GetLectureType();
-                    var lectureInstructor = courseOffering.Instructors
-                                                .Where(i => i.TypeId == lectureType.Id)
-                                                .FirstOrDefault()
-                                                .Instructor;
-
-                    var lectureRoom = section
-                                        .RoomAssignments
-                                        .Where(r => r.TypeId == lectureType.Id)
-                                        .FirstOrDefault()
-                                        .Room;
-                    
                     var rand = new Random();
                     var randDay = rand.Next(scheduleConfiguration.NumberOfDaysPerWeek);
                     var randPeriod = Convert.ToByte(rand.Next(scheduleConfiguration.NumberOfPeriodsPerDay));
@@ -66,33 +54,32 @@ namespace SchedulingSystem.GeneticAlgorithm
 
                     if (schedule.TimeTable[randDay][randPeriod].Course == null)
                     {
-                        new ScheduleEntry
-                        {
-                            Course = courseOffering.Course,
-                            Instructor = lectureInstructor,
-                            Room = lectureRoom,
-                            Period = randPeriod,
-                            Type = lectureType
-                        };
+                        var lectureType = await unitOfWork.Types.GetLectureType();
+                        var lectureInstructor = courseOffering.Instructors
+                                                    .Where(i => i.TypeId == lectureType.Id)
+                                                    .FirstOrDefault()
+                                                    .Instructor;
+
+                        var lectureRoom = section
+                                            .RoomAssignments
+                                            .Where(r => r.TypeId == lectureType.Id)
+                                            .FirstOrDefault()
+                                            .Room;
+
+                        schedule.TimeTable[randDay][randPeriod].Course = courseOffering.Course;
+                        schedule.TimeTable[randDay][randPeriod].Instructor = lectureInstructor;
+                        schedule.TimeTable[randDay][randPeriod].Room = lectureRoom;
+                        schedule.TimeTable[randDay][randPeriod].Period = randPeriod;
+                        schedule.TimeTable[randDay][randPeriod].Type = lectureType;
                         
+                        lecture--;
                     }
                     
-                    lecture--;
                 }
 
                 while (tutor > 0)
                 {
-                    var tutorType = await unitOfWork.Types.GetTutorType();
-                    var tutorInstructor = courseOffering.Instructors
-                                                .Where(i => i.TypeId == tutorType.Id)
-                                                .FirstOrDefault()
-                                                .Instructor;
-
-                    var tutorRoom = section
-                                        .RoomAssignments
-                                        .Where(r => r.TypeId == tutorType.Id)
-                                        .FirstOrDefault()
-                                        .Room;
+                    
                     
                     var rand = new Random();
                     var randDay = rand.Next(scheduleConfiguration.NumberOfDaysPerWeek);
@@ -101,33 +88,32 @@ namespace SchedulingSystem.GeneticAlgorithm
 
                     if (schedule.TimeTable[randDay][randPeriod].Course == null)
                     {
-                        new ScheduleEntry
-                        {
-                            Course = courseOffering.Course,
-                            Instructor = tutorInstructor,
-                            Room = tutorRoom,
-                            Period = randPeriod,
-                            Type = tutorType
-                        };
+                        var tutorType = await unitOfWork.Types.GetTutorType();
+                        var tutorInstructor = courseOffering.Instructors
+                                                    .Where(i => i.TypeId == tutorType.Id)
+                                                    .FirstOrDefault()
+                                                    .Instructor;
+
+                        var tutorRoom = section
+                                            .RoomAssignments
+                                            .Where(r => r.TypeId == tutorType.Id)
+                                            .FirstOrDefault()
+                                            .Room;
+
+                        schedule.TimeTable[randDay][randPeriod].Course = courseOffering.Course;
+                        schedule.TimeTable[randDay][randPeriod].Instructor = tutorInstructor;
+                        schedule.TimeTable[randDay][randPeriod].Room = tutorRoom;
+                        schedule.TimeTable[randDay][randPeriod].Period = randPeriod;
+                        schedule.TimeTable[randDay][randPeriod].Type = tutorType;
                         
+                        tutor--;
                     }
                     
-                    tutor--;
                 }
 
                 while (lab > 0)
                 {
-                    var labType = await unitOfWork.Types.GetLabType();
-                    var labInstructor = courseOffering.Instructors
-                                                .Where(i => i.TypeId == labType.Id)
-                                                .FirstOrDefault()
-                                                .Instructor;
-
-                    var labRoom = section
-                                        .RoomAssignments
-                                        .Where(r => r.TypeId == labType.Id)
-                                        .FirstOrDefault()
-                                        .Room;
+                    
                     
                     var rand = new Random();
                     var randDay = rand.Next(scheduleConfiguration.NumberOfDaysPerWeek);
@@ -136,18 +122,27 @@ namespace SchedulingSystem.GeneticAlgorithm
 
                     if (schedule.TimeTable[randDay][randPeriod].Course == null)
                     {
-                        new ScheduleEntry
-                        {
-                            Course = courseOffering.Course,
-                            Instructor = labInstructor,
-                            Room = labRoom,
-                            Period = randPeriod,
-                            Type = labType
-                        };
+                        var labType = await unitOfWork.Types.GetLabType();
+                        var labInstructor = courseOffering.Instructors
+                                                    .Where(i => i.TypeId == labType.Id)
+                                                    .FirstOrDefault()
+                                                    .Instructor;
+
+                        var labRoom = section
+                                            .RoomAssignments
+                                            .Where(r => r.TypeId == labType.Id)
+                                            .FirstOrDefault()
+                                            .Room;
+
+                        schedule.TimeTable[randDay][randPeriod].Course = courseOffering.Course;
+                        schedule.TimeTable[randDay][randPeriod].Instructor = labInstructor;
+                        schedule.TimeTable[randDay][randPeriod].Room = labRoom;
+                        schedule.TimeTable[randDay][randPeriod].Period = randPeriod;
+                        schedule.TimeTable[randDay][randPeriod].Type = labType;
                         
+                        lab--;
                     }
                     
-                    lab--;
                 }
             }
 

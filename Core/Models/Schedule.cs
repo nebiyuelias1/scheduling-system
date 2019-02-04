@@ -26,6 +26,7 @@ namespace SchedulingSystem.Core.Models
         public Schedule()
         {
             Days = new Collection<Day>();
+            TimeTable = new Dictionary<int, IList<ScheduleEntry>>();
         }
     }
 }
