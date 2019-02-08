@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using SchedulingSystem.Core;
@@ -26,6 +27,8 @@ namespace SchedulingSystem.GeneticAlgorithm
             var section = await helper.GetSectionWithCourseOfferings(sectionId, currentSemester.Id);
             
             helper.InitializePopulation(section);
+            var matingPool = helper.NaturalSelection().ToList();
+            helper.CreateNextGeneration(matingPool);
 
             return null;
         }

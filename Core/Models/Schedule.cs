@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -18,6 +19,9 @@ namespace SchedulingSystem.Core.Models
         
         [NotMapped]
         public IDictionary<int, IList<ScheduleEntry>> TimeTable { get; set; }
+        
+        [NotMapped]
+        public double Fitness { get; set; }
         
         public int AcademicSemesterId { get; set; }
         
