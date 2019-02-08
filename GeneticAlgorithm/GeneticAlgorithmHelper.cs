@@ -19,14 +19,6 @@ namespace SchedulingSystem.GeneticAlgorithm
             this.helper = helper;
             Population = new Collection<Schedule>();
         }
-        public async Task<Section> GetSectionWithCourseOfferings(int sectionId, int semesterId)
-        {
-            return await context.Sections
-                    .Include(s => s.Department)
-                    .Include(s => s.CourseOfferings)
-                        .ThenInclude(c => c.Course)
-                    .SingleOrDefaultAsync(s => s.Id == sectionId && s.CourseOfferings.Select(c => c.AcademicSemesterId).Contains(semesterId));
-        }
 
         public async void InitializePopulation(Section section)
         {

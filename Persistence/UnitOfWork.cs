@@ -13,6 +13,10 @@ namespace SchedulingSystem.Persistence
         public IRoomRepository Rooms { get; private set; }
         public ICourseRepository Courses { get; private set; }
 
+        public ISectionRepository Sections { get; private set; }
+
+        public IAcademicSemesterRepository AcademicSemesters { get; private set; }
+
         public UnitOfWork(SchedulingDbContext context)
         {
             this.context = context;
@@ -20,6 +24,8 @@ namespace SchedulingSystem.Persistence
             Types = new TypeRepository(context);
             Rooms = new RoomRepository(context);
             Courses = new CourseRepository(context);
+            Sections = new SectionRepository(context);
+            AcademicSemesters = new AcademicSemesterRepository(context);
         }
 
 

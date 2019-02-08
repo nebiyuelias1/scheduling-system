@@ -10,21 +10,22 @@ namespace SchedulingSystem.GeneticAlgorithm
     public class GeneticAlgorithm : IGeneticAlgorithm
     {
         private readonly IGeneticAlgorithmHelper helper;
-        private readonly SchedulingDbContext context;
+        private readonly IUnitOfWork unitOfWork;
 
-        public GeneticAlgorithm(IGeneticAlgorithmHelper helper, SchedulingDbContext context)
+        public GeneticAlgorithm(IGeneticAlgorithmHelper helper, IUnitOfWork unitOfWork)
         {
             this.helper = helper;
-            this.context = context;
+            this.unitOfWork = unitOfWork;
         }
 
         public async Task<Schedule> GenerateScheduleForSection(int sectionId)
         {
-            var currentSemester = await context.AcademicSemesters
-                                    .Include(a => a.AcademicYear)
-                                    .SingleOrDefaultAsync(a => a.IsCurrentSemester);
+            var currentSemester = await unitOfWork.AcademicSemesters
+                                    .GetCurrentAcademicSemester();
 
-            var section = await helper.GetSectionWithCourseOfferings(sectionId, currentSemester.Id);
+            var section = await unitOfWork
+                                .Sections
+                                .GetSectionWithCourseOfferings(sectionId, currentSemester.Id);
             
             helper.InitializePopulation(section);
             var matingPool = helper.NaturalSelection().ToList();

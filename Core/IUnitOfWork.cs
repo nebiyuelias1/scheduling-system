@@ -10,6 +10,8 @@ namespace SchedulingSystem.Core
         ITypeRepository Types { get; }
         IRoomRepository Rooms { get; }
         ICourseRepository Courses { get; }
+        ISectionRepository Sections { get; }
+        IAcademicSemesterRepository AcademicSemesters { get; }
         Task<int> CompleteAsync();
     }
 }
