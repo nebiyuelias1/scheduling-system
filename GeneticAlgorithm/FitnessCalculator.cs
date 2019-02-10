@@ -9,14 +9,14 @@ namespace SchedulingSystem.GeneticAlgorithm
     {
         private readonly static byte MAX_CONSECUTIVE_LECTURE = 2;
         private readonly static byte MAX_CONSECUTIVE_LAB = 2;
-
-        public static double CalculateFitness(this Schedule schedule, ICollection<CourseOffering> courseOfferings, ScheduleConfiguration scheduleConfiguration)
+        
+        public static void CalculateFitness(this Schedule schedule, ICollection<CourseOffering> courseOfferings)
         {
             int conflicts = 0;
             conflicts += CountConflictsBasedOnLectureConsecutiveness(courseOfferings, schedule);
             conflicts += CountConflictsBasedOnLabConsecutiveness(courseOfferings, schedule);
 
-            return 1.0/conflicts;
+            schedule.Fitness = 1.0/conflicts;
         }
 
         private static int CountConflictsBasedOnLabConsecutiveness(ICollection<CourseOffering> courseOfferings, Schedule schedule)
@@ -61,7 +61,8 @@ namespace SchedulingSystem.GeneticAlgorithm
                     {
                         var courses = schedule.TimeTable[key]
                                         .Where(s => s.Course.Id == c.Course.Id && s.Type.Name == "Lecture")
-                                        .OrderBy(s => s.Period);
+                                        .OrderBy(s => s.Period)
+                                        .ToList();
 
                         if (courses.Count() == MAX_CONSECUTIVE_LECTURE)
                         {

@@ -31,7 +31,7 @@ namespace SchedulingSystem.GeneticAlgorithm
             var matingPool = helper.NaturalSelection().ToList();
             helper.CreateNextGeneration(matingPool);
 
-            return null;
+            return helper.FindBestSchedule();
         }
     }
 }

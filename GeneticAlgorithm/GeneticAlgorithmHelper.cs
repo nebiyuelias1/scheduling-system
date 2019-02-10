@@ -81,13 +81,16 @@ namespace SchedulingSystem.GeneticAlgorithm
                 {
                     child.Mutate();
                 }
-                child.CalculateFitness();
-
-                //Console.WriteLine("Child: {0}", child.Fitness);
-                //child.PrintSchedule();
+                child.CalculateFitness(child.Section.CourseOfferings);
+                
                 population.Add(child);
             }
             Population = population; 
+        }
+
+        public Schedule FindBestSchedule()
+        {
+            throw new NotImplementedException();
         }
     }
 }

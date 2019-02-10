@@ -9,5 +9,6 @@ namespace SchedulingSystem.GeneticAlgorithm
         void InitializePopulation(Section section);
         ICollection<Schedule> NaturalSelection();
         void CreateNextGeneration(IList<Schedule> matingPool);
+        Schedule FindBestSchedule();
     }
 }

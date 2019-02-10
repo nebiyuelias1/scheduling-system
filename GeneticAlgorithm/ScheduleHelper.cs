@@ -146,7 +146,7 @@ namespace SchedulingSystem.GeneticAlgorithm
                 }
             }
 
-            schedule.Fitness = schedule.CalculateFitness(section.CourseOfferings, scheduleConfiguration);
+            schedule.CalculateFitness(section.CourseOfferings);
             return schedule;
         }
     }
