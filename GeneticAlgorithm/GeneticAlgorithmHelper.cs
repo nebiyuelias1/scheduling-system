@@ -13,12 +13,6 @@ namespace SchedulingSystem.GeneticAlgorithm
 {
     public class GeneticAlgorithmHelper : IGeneticAlgorithmHelper
     {
-
-        public GeneticAlgorithmHelper()
-        {
-            
-        }
-
         public Schedule InitializeScheduleForSection(Section section, ScheduleConfiguration scheduleConfiguration, Types types)
         {
             var schedule = new Schedule();
