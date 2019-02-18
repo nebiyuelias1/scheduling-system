@@ -6,9 +6,7 @@ namespace SchedulingSystem.GeneticAlgorithm
 {
     public interface IGeneticAlgorithmHelper
     {
-        void InitializePopulation(Section section);
-        ICollection<Schedule> NaturalSelection();
-        void CreateNextGeneration(IList<Schedule> matingPool);
-        Schedule FindBestSchedule();
+        Schedule InitializeScheduleForSection(Section section, ScheduleConfiguration scheduleConfiguration, Types types);
+        Task<ScheduleConfiguration> GetScheduleConfiguration(Section section);
     }
 }

@@ -12,19 +12,14 @@ namespace SchedulingSystem.Persistence.Repositories
         {
         }
 
-        public async Task<Type> GetLabType()
+        public async Task<Types> GetTypes()
         {
-            return await SchedulingDbContext.Types.SingleOrDefaultAsync(t => t.Name == "Lab");
-        }
-
-        public async Task<Type> GetLectureType()
-        {
-            return await SchedulingDbContext.Types.SingleOrDefaultAsync(t => t.Name == "Lecture");
-        }
-
-        public async Task<Type> GetTutorType()
-        {
-            return await SchedulingDbContext.Types.SingleOrDefaultAsync(t => t.Name == "Tutor");
+            return new Types
+            {
+                LectureType = await SchedulingDbContext.Types.SingleOrDefaultAsync(t => t.Name == "Lecture"),
+                TutorType = await SchedulingDbContext.Types.SingleOrDefaultAsync(t => t.Name == "Tutor"),
+                LabType = await SchedulingDbContext.Types.SingleOrDefaultAsync(t => t.Name == "Lab")
+            };
         }
     }
 }

@@ -4,93 +4,153 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using SchedulingSystem.Core;
 using SchedulingSystem.Core.Models;
 using SchedulingSystem.Persistence;
+using Type = SchedulingSystem.Core.Models.Type;
 
 namespace SchedulingSystem.GeneticAlgorithm
 {
     public class GeneticAlgorithmHelper : IGeneticAlgorithmHelper
     {
-        private readonly IScheduleHelper helper;
-        public ICollection<Schedule> Population { get; set; }
+        private readonly IUnitOfWork unitOfWork;
 
-        public GeneticAlgorithmHelper(IScheduleHelper helper)
+        public GeneticAlgorithmHelper(IUnitOfWork unitOfWork)
         {
-            this.helper = helper;
-            Population = new Collection<Schedule>();
+            this.unitOfWork = unitOfWork;
+            
         }
 
-        public async void InitializePopulation(Section section)
+        public Schedule InitializeScheduleForSection(Section section, ScheduleConfiguration scheduleConfiguration, Types types)
         {
-            ICollection<Schedule> population = new Collection<Schedule>();
+            var schedule = new Schedule();
+            schedule.Section = section;
 
-            for (int i = 0; i < Configurations.POPULATION_SIZE; i++)
+            for (int i = 0; i < scheduleConfiguration.NumberOfDaysPerWeek; i++)
             {
-                population.Add(await helper.InitializeScheduleForSection(section));
+                var periods = new List<ScheduleEntry>(scheduleConfiguration.NumberOfPeriodsPerDay);
+
+                for (int j = 0; j < scheduleConfiguration.NumberOfPeriodsPerDay; j++)
+                {
+                    periods.Add(new ScheduleEntry());
+                }
+                schedule.TimeTable[i] = periods;
             }
-            Population = population;
-        }
 
-        public ICollection<Schedule> NaturalSelection()
-        {
-            List<Schedule> matingPool = new List<Schedule>();
-            var fitnessSum = Population.Sum(p => p.Fitness);  
-
-            foreach (var item in Population)
+            foreach (var courseOffering in section.CourseOfferings)
             {
-                var normalizedFitness = (item.Fitness*100 / fitnessSum) * Configurations.POPULATION_SIZE;
+                var lecture = courseOffering.Course.Lecture;
+                var tutor = courseOffering.Course.Tutor;
+                var lab = courseOffering.Course.Lab;
 
-                for (int i = 0; i < normalizedFitness; i++)
+
+                while (lecture > 0)
                 {
-                    matingPool.Add(item); 
+                    var rand = new Random();
+                    var randDay = rand.Next(scheduleConfiguration.NumberOfDaysPerWeek);
+                    var randPeriod = Convert.ToByte(rand.Next(scheduleConfiguration.NumberOfPeriodsPerDay));
+
+
+                    if (schedule.TimeTable[randDay][randPeriod].Course == null)
+                    {
+                        
+                        var lectureInstructor = courseOffering.Instructors
+                                                    .Where(i => i.TypeId == types.LectureType.Id)
+                                                    .FirstOrDefault()
+                                                    .Instructor;
+
+                        var lectureRoom = section
+                                            .RoomAssignments
+                                            .Where(r => r.TypeId == types.LectureType.Id)
+                                            .FirstOrDefault()
+                                            .Room;
+
+                        schedule.TimeTable[randDay][randPeriod].Course = courseOffering.Course;
+                        schedule.TimeTable[randDay][randPeriod].CourseId = courseOffering.Course.Id;
+                        schedule.TimeTable[randDay][randPeriod].Instructor = lectureInstructor;
+                        schedule.TimeTable[randDay][randPeriod].Room = lectureRoom;
+                        schedule.TimeTable[randDay][randPeriod].Period = randPeriod;
+                        schedule.TimeTable[randDay][randPeriod].TypeId = types.LectureType.Id;
+
+                        lecture--;
+                    }
+
+                }
+
+                while (tutor > 0)
+                {
+                    var rand = new Random();
+                    var randDay = rand.Next(scheduleConfiguration.NumberOfDaysPerWeek);
+                    var randPeriod = Convert.ToByte(rand.Next(scheduleConfiguration.NumberOfPeriodsPerDay));
+
+
+                    if (schedule.TimeTable[randDay][randPeriod].Course == null)
+                    {
+                        
+                        var tutorInstructor = courseOffering.Instructors
+                                                    .Where(i => i.TypeId == types.TutorType.Id)
+                                                    .FirstOrDefault()
+                                                    .Instructor;
+
+                        var tutorRoom = section
+                                            .RoomAssignments
+                                            .Where(r => r.TypeId == types.TutorType.Id)
+                                            .FirstOrDefault()
+                                            .Room;
+
+                        schedule.TimeTable[randDay][randPeriod].Course = courseOffering.Course;
+                        schedule.TimeTable[randDay][randPeriod].CourseId = courseOffering.Course.Id;
+                        schedule.TimeTable[randDay][randPeriod].Instructor = tutorInstructor;
+                        schedule.TimeTable[randDay][randPeriod].Room = tutorRoom;
+                        schedule.TimeTable[randDay][randPeriod].Period = randPeriod;
+                        schedule.TimeTable[randDay][randPeriod].TypeId = types.TutorType.Id;
+
+                        tutor--;
+                    }
+
+                }
+
+                while (lab > 0)
+                {
+
+
+                    var rand = new Random();
+                    var randDay = rand.Next(scheduleConfiguration.NumberOfDaysPerWeek);
+                    var randPeriod = Convert.ToByte(rand.Next(scheduleConfiguration.NumberOfPeriodsPerDay));
+
+
+                    if (schedule.TimeTable[randDay][randPeriod].Course == null)
+                    {
+                        
+                        var labInstructor = courseOffering.Instructors
+                                                    .Where(i => i.TypeId == types.LabType.Id)
+                                                    .FirstOrDefault()
+                                                    .Instructor;
+
+                        var labRoom = section
+                                            .RoomAssignments
+                                            .Where(r => r.TypeId == types.LabType.Id)
+                                            .FirstOrDefault()
+                                            .Room;
+
+                        schedule.TimeTable[randDay][randPeriod].CourseId = courseOffering.Course.Id;
+                        schedule.TimeTable[randDay][randPeriod].Instructor = labInstructor;
+                        schedule.TimeTable[randDay][randPeriod].Room = labRoom;
+                        schedule.TimeTable[randDay][randPeriod].Period = randPeriod;
+                        schedule.TimeTable[randDay][randPeriod].TypeId = types.LabType.Id;
+
+                        lab--;
+                    }
+
                 }
             }
-            return matingPool; 
+            return schedule;
         }
 
-        public void CreateNextGeneration(IList<Schedule> matingPool)
+        public async Task<ScheduleConfiguration> GetScheduleConfiguration(Section section)
         {
-            Random rand = new Random();
-            var population = new Collection<Schedule>(); 
-
-            for (int i = 0; i < Configurations.POPULATION_SIZE; i++)
-            {
-                int a = rand.Next(matingPool.Count);
-                int b = rand.Next(matingPool.Count);
-                
-                var parentA = matingPool[a];
-                var parentB = matingPool[b];
-
-                Schedule child = null;
-
-                if (rand.NextDouble() <= Configurations.CROSSOVER_RATE)
-                {
-                    child = parentA.Crossover(parentB);
-                }
-                else if (parentA.Fitness > parentB.Fitness)
-                {
-                    child = parentA; 
-                }
-                else if ( parentA.Fitness < parentB.Fitness)
-                {
-                    child = parentB;
-                }
-
-
-                if (rand.NextDouble() <= Configurations.MUTATION_RATE)
-                {
-                    child.Mutate();
-                }
-                child.CalculateFitness(child.Section.CourseOfferings);
-                
-                population.Add(child);
-            }
-            Population = population; 
-        }
-
-        public Schedule FindBestSchedule()
-        {
-            throw new NotImplementedException();
+            return await unitOfWork.ScheduleConfigurations
+                        .GetScheduleConfiguration(section.AdmissionLevelId, section.ProgramTypeId);
         }
     }
 }

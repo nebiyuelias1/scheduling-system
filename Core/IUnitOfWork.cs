@@ -4,7 +4,7 @@ using SchedulingSystem.Core.Repositories;
 
 namespace SchedulingSystem.Core
 {
-    public interface IUnitOfWork : IDisposable
+    public interface IUnitOfWork
     {
         IScheduleConfigurationRepository ScheduleConfigurations { get; }
         ITypeRepository Types { get; }

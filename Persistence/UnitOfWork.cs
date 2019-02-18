@@ -33,10 +33,5 @@ namespace SchedulingSystem.Persistence
         {
             return await context.SaveChangesAsync();
         }
-
-        public void Dispose()
-        {
-            context.Dispose();
-        }
     }
 }

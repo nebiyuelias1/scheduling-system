@@ -18,6 +18,16 @@ namespace SchedulingSystem.Persistence.Repositories
                             .Include(s => s.Department)
                             .Include(s => s.CourseOfferings)
                                 .ThenInclude(c => c.Course)
+                            .Include(s => s.CourseOfferings)
+                                .ThenInclude(c => c.Instructors)
+                                    .ThenInclude(i => i.Instructor)
+                            .Include(s => s.CourseOfferings)
+                                .ThenInclude(c => c.Instructors)
+                                    .ThenInclude(i => i.Type)
+                            .Include(s => s.RoomAssignments)
+                                .ThenInclude(r => r.Room)
+                            .Include(s => s.RoomAssignments)
+                                .ThenInclude(r => r.Type)
                             .SingleOrDefaultAsync(s => s.Id == sectionId && s.CourseOfferings.Select(c => c.AcademicSemesterId).Contains(semesterId));
         }
     }

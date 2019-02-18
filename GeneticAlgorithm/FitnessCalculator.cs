@@ -1,27 +1,39 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using SchedulingSystem.Core;
 using SchedulingSystem.Core.Models;
+using Type = SchedulingSystem.Core.Models.Type;
 
 namespace SchedulingSystem.GeneticAlgorithm
 {
-    public static class FitnessCalculator
+    public class FitnessCalculator : IFitnessCalculator
     {
         private readonly static byte MAX_CONSECUTIVE_LECTURE = 2;
         private readonly static byte MAX_CONSECUTIVE_LAB = 2;
-        
-        public static void CalculateFitness(this Schedule schedule, ICollection<CourseOffering> courseOfferings)
+        private readonly IUnitOfWork unitOfWork;
+        private Types types;
+
+        public FitnessCalculator(IUnitOfWork unitOfWork)
         {
+            this.unitOfWork = unitOfWork;
+        }
+
+        public double CalculateFitness(Schedule schedule, ICollection<CourseOffering> courseOfferings, Types types)
+        {
+            this.types = types;
             int conflicts = 0;
             conflicts += CountConflictsBasedOnLectureConsecutiveness(courseOfferings, schedule);
             conflicts += CountConflictsBasedOnLabConsecutiveness(courseOfferings, schedule);
 
-            schedule.Fitness = 1.0/conflicts;
+            return 1.0/conflicts;
         }
 
-        private static int CountConflictsBasedOnLabConsecutiveness(ICollection<CourseOffering> courseOfferings, Schedule schedule)
+        private int CountConflictsBasedOnLabConsecutiveness(ICollection<CourseOffering> courseOfferings, Schedule schedule)
         {
             int conflicts = 0;
+
             foreach (var c in courseOfferings)
             {
                 if (c.Course.Lab >= MAX_CONSECUTIVE_LAB)
@@ -30,15 +42,23 @@ namespace SchedulingSystem.GeneticAlgorithm
                     foreach (var key in schedule.TimeTable.Keys)
                     {
                         var courses = schedule.TimeTable[key]
-                                        .Where(s => s.Course.Id == c.Course.Id && s.Type.Name == "Lab")
-                                        .OrderBy(s => s.Period);
-
-                        if (courses.Count() == MAX_CONSECUTIVE_LAB)
+                                        .Where(s => s.Course != null)
+                                        .ToList();
+                        
+                        if (courses.Count() > 0)
                         {
-                            if ((courses.Last().Period - courses.First().Period == 2))
+                            courses = courses.Where(s => s.CourseId == c.Course.Id && s.TypeId == types.LabType.Id)
+                                        .OrderBy(s => s.Period)
+                                        .ToList();
+
+                            if (courses.Count() == MAX_CONSECUTIVE_LAB)
                             {
-                                consecutiveFound = true;
+                                if ((courses.Last().Period - courses.First().Period == 2))
+                                {
+                                    consecutiveFound = true;
+                                }
                             }
+
                         }
                     }
                     if (!consecutiveFound)
@@ -49,7 +69,7 @@ namespace SchedulingSystem.GeneticAlgorithm
             return conflicts;
         }
 
-        private static int CountConflictsBasedOnLectureConsecutiveness(ICollection<CourseOffering> courseOfferings, Schedule schedule)
+        private int CountConflictsBasedOnLectureConsecutiveness(ICollection<CourseOffering> courseOfferings, Schedule schedule)
         {
             int conflicts = 0;
             foreach (var c in courseOfferings)
@@ -60,18 +80,26 @@ namespace SchedulingSystem.GeneticAlgorithm
                     foreach (var key in schedule.TimeTable.Keys)
                     {
                         var courses = schedule.TimeTable[key]
-                                        .Where(s => s.Course.Id == c.Course.Id && s.Type.Name == "Lecture")
+                                        .Where(s => s.Course != null)
+                                        .ToList();
+
+                        if (courses.Count() > 0)
+                        {
+                            courses = courses.Where(s => s.CourseId == c.Course.Id && s.TypeId == types.LectureType.Id)
                                         .OrderBy(s => s.Period)
                                         .ToList();
 
-                        if (courses.Count() == MAX_CONSECUTIVE_LECTURE)
-                        {
-                            if ((courses.Last().Period - courses.First().Period == 1))
+                            if (courses.Count() == MAX_CONSECUTIVE_LECTURE)
                             {
-                                consecutiveFound = true;
+                                if ((courses.Last().Period - courses.First().Period == 1))
+                                {
+                                    consecutiveFound = true;
+                                }
                             }
+                            
                         }
                     }
+                    
                     if (!consecutiveFound)
                         conflicts++;
                 }

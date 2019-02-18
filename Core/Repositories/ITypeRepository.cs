@@ -5,8 +5,6 @@ namespace SchedulingSystem.Core.Repositories
 {
     public interface ITypeRepository : IRepository<Type>
     {
-        Task<Type> GetLectureType();
-        Task<Type> GetTutorType();
-        Task<Type> GetLabType();
+        Task<Types> GetTypes();
     }
 }

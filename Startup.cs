@@ -10,6 +10,7 @@ using SchedulingSystem.Persistence;
 using AutoMapper;
 using SchedulingSystem.Core;
 using SchedulingSystem.Utilities;
+using SchedulingSystem.GeneticAlgorithm;
 
 namespace SchedulingSystem
 {
@@ -26,6 +27,9 @@ namespace SchedulingSystem
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<IHelper, Helper>();
+            services.AddScoped<IGeneticAlgorithm, GeneticAlgorithm.GeneticAlgorithm>();
+            services.AddScoped<IGeneticAlgorithmHelper, GeneticAlgorithmHelper>();
+            services.AddScoped<IFitnessCalculator, FitnessCalculator>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             
             services.AddAutoMapper();

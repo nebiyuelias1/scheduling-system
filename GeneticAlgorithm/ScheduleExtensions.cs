@@ -10,6 +10,8 @@ namespace SchedulingSystem.GeneticAlgorithm
         public static Schedule Crossover(this Schedule scheduleA, Schedule scheduleB)
         {
             var schedule = new Schedule();
+            schedule.Section = scheduleA.Section;
+            
             var numberOfDays = scheduleA.TimeTable.Count;
             for (int i = 0; i < numberOfDays; i++)
             {
@@ -35,7 +37,7 @@ namespace SchedulingSystem.GeneticAlgorithm
             var randDayOne = rand.Next(schedule.TimeTable.Count);
             var randDayTwo = rand.Next(schedule.TimeTable.Count);
 
-            while (randDayOne != randDayTwo)
+            while (randDayOne == randDayTwo)
             {
                 randDayTwo = rand.Next(schedule.TimeTable.Count);
             }
@@ -51,17 +53,24 @@ namespace SchedulingSystem.GeneticAlgorithm
         {
             foreach (var scheduleEntry in daySchedule)
             {
-                foreach (var key in scheduleB.TimeTable.Keys)
+                if (scheduleEntry.Course != null)
                 {
-                    var foundSchedule = scheduleB.TimeTable[key]
-                                        .Where(s => s.Course.Id == scheduleEntry.Course.Id && s.Type.Id == scheduleEntry.Type.Id)
+                    foreach (var key in scheduleB.TimeTable.Keys)
+                    {
+                        
+                        var foundSchedule = scheduleB.TimeTable[key]
+                                        .Where(s => s.Course != null)
+                                        .ToList()
+                                        .Where(s => s.Course.CourseCode == scheduleEntry.Course.CourseCode && s.TypeId == scheduleEntry.TypeId)
                                         .FirstOrDefault();
 
-                    if (foundSchedule != null)
-                    {
-                        foundSchedule = null;
-                        break;
+                        if (foundSchedule != null)
+                        {
+                            foundSchedule = null;
+                            break;
+                        }
                     }
+
                 }
             }
         }
