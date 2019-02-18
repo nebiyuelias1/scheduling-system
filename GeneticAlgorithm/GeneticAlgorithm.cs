@@ -124,7 +124,9 @@ namespace SchedulingSystem.GeneticAlgorithm
         {
             ICollection<Schedule> population = new Collection<Schedule>();
 
-            var scheduleConfiguration = await helper.GetScheduleConfiguration(section);
+            var scheduleConfiguration = await unitOfWork
+                                                .ScheduleConfigurations
+                                                .GetScheduleConfiguration(section.AdmissionLevelId, section.ProgramTypeId);
 
             for (int i = 0; i < Configurations.POPULATION_SIZE; i++)
             {

@@ -13,11 +13,9 @@ namespace SchedulingSystem.GeneticAlgorithm
 {
     public class GeneticAlgorithmHelper : IGeneticAlgorithmHelper
     {
-        private readonly IUnitOfWork unitOfWork;
 
-        public GeneticAlgorithmHelper(IUnitOfWork unitOfWork)
+        public GeneticAlgorithmHelper()
         {
-            this.unitOfWork = unitOfWork;
             
         }
 
@@ -145,12 +143,6 @@ namespace SchedulingSystem.GeneticAlgorithm
                 }
             }
             return schedule;
-        }
-
-        public async Task<ScheduleConfiguration> GetScheduleConfiguration(Section section)
-        {
-            return await unitOfWork.ScheduleConfigurations
-                        .GetScheduleConfiguration(section.AdmissionLevelId, section.ProgramTypeId);
         }
     }
 }
