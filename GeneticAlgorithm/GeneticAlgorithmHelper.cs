@@ -45,7 +45,7 @@ namespace SchedulingSystem.GeneticAlgorithm
 
                     if (schedule.TimeTable[randDay][randPeriod].Course == null)
                     {
-                        
+
                         var lectureInstructor = courseOffering.Instructors
                                                     .Where(i => i.TypeId == types.LectureType.Id)
                                                     .FirstOrDefault()
@@ -78,7 +78,7 @@ namespace SchedulingSystem.GeneticAlgorithm
 
                     if (schedule.TimeTable[randDay][randPeriod].Course == null)
                     {
-                        
+
                         var tutorInstructor = courseOffering.Instructors
                                                     .Where(i => i.TypeId == types.TutorType.Id)
                                                     .FirstOrDefault()
@@ -113,7 +113,7 @@ namespace SchedulingSystem.GeneticAlgorithm
 
                     if (schedule.TimeTable[randDay][randPeriod].Course == null)
                     {
-                        
+
                         var labInstructor = courseOffering.Instructors
                                                     .Where(i => i.TypeId == types.LabType.Id)
                                                     .FirstOrDefault()
@@ -125,6 +125,7 @@ namespace SchedulingSystem.GeneticAlgorithm
                                             .FirstOrDefault()
                                             .Room;
 
+                        schedule.TimeTable[randDay][randPeriod].Course = courseOffering.Course;
                         schedule.TimeTable[randDay][randPeriod].CourseId = courseOffering.Course.Id;
                         schedule.TimeTable[randDay][randPeriod].Instructor = labInstructor;
                         schedule.TimeTable[randDay][randPeriod].Room = labRoom;

@@ -46,7 +46,7 @@ namespace SchedulingSystem.GeneticAlgorithm
             var randDayTwoSchedule = schedule.TimeTable[randDayTwo].ToList();
 
             schedule.TimeTable[randDayOne] = randDayTwoSchedule;
-            schedule.TimeTable[randDayTwo] = randDayTwoSchedule;
+            schedule.TimeTable[randDayTwo] = randDayOneSchedule;
         }
 
         private static void RemoveScheduleEntries(IList<ScheduleEntry> daySchedule, Schedule scheduleB)
