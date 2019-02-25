@@ -35,6 +35,8 @@ import { CourseOfferingsListComponent } from './course-offerings-list/course-off
 import { AssignInstructorComponent } from './assign-instructor/assign-instructor.component';
 import { ScheduleConfigurationFormComponent } from './schedule-configuration-form/schedule-configuration-form.component';
 import { ScheduleComponent } from './schedule/schedule.component';
+import { ListGroupComponent } from './list-group/list-group.component';
+import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
 
 @NgModule({
   declarations: [
@@ -60,6 +62,8 @@ import { ScheduleComponent } from './schedule/schedule.component';
     AssignInstructorComponent,
     ScheduleConfigurationFormComponent,
     ScheduleComponent,
+    ListGroupComponent,
+    BreadcrumbComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
