@@ -4,5 +4,5 @@
 <p>Entrance Year: {{ section['entranceYear'] }}</p>
 <p>Program: {{ section['program']['name'] }}</p>
 <p>Admission Level: {{ section['admissionLevel']['name'] }}</p>
-<button [routerLink]="['/sections/assign', sectionId]" class="btn btn-default">Assign Room</button>
-<button [routerLink]="['/schedules', sectionId]" class="btn btn-default">Schedule</button>
+<button [routerLink]="['/sections', sectionId, 'assign']" class="btn btn-default">Assign Room</button>
+<router-outlet></router-outlet>

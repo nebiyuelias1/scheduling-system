@@ -1,5 +1,5 @@
 <h2>Sections</h2>
 <ul>
   {{ sections|json }}
-  <li *ngFor="let section of sections"><a [routerLink]="['/sections', section.id]">{{ section.name }}</a></li>
+  <li *ngFor="let section of sections"><a [routerLink]="['/sections', section.id ]">{{ section.name }}</a></li>
 </ul>

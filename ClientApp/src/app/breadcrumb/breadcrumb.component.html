@@ -1,7 +1,8 @@
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a [routerLink]="['/']" routerLinkActive="active">Home</a></li>
-    <li class="breadcrumb-item"><a [routerLink]="['/sections']" routerLinkActive="active">Library</a></li>
-    <li class="breadcrumb-item" aria-current="page"><a href>Data</a></li>
+    <li><a routerLink="" class="breadcrumb-item selected">Home</a></li>
+    <li *ngFor="let breadcrumb of breadcrumbs">
+      <a class="breadcrumb-item" [routerLink]="[ breadcrumb.url ]">{{ breadcrumb.label }}</a>
+    </li>
   </ol>
 </nav>

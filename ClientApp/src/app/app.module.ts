@@ -2,7 +2,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
@@ -37,6 +36,8 @@ import { ScheduleConfigurationFormComponent } from './schedule-configuration-for
 import { ScheduleComponent } from './schedule/schedule.component';
 import { ListGroupComponent } from './list-group/list-group.component';
 import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
+import { AppRoutingModule } from './app-routing.module';
+import { CurriculumListComponent } from './curriculum-list/curriculum-list.component';
 
 @NgModule({
   declarations: [
@@ -64,34 +65,14 @@ import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
     ScheduleComponent,
     ListGroupComponent,
     BreadcrumbComponent,
+    CurriculumListComponent,
   ],
   imports: [
+    AppRoutingModule,
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule,
-    RouterModule.forRoot([
-      { path: '', component: HomeComponent, pathMatch: 'full' },
-      { path: 'counter', component: CounterComponent },
-      { path: 'fetch-data', component: FetchDataComponent },
-      { path: 'colleges', component: CollegeListComponent },
-      { path: 'departments/new', component: DepartmentFormComponent },
-      { path: 'curriculums/new', component: CurriculumFormComponent },
-      { path: 'courses/new', component: CourseFormComponent },
-      { path: 'buildings/new', component: BuildingFormComponent },
-      { path: 'rooms/new', component: RoomFormComponent },
-      { path: 'sections/new', component: SectionFormComponent },
-      { path: 'instructors/new', component: InstructorFormComponent },
-      { path: 'sections', component: SectionListComponent },
-      { path: 'sections/:id', component: SectionDetailComponent },
-      { path: 'sections/assign/:id', component: SectionRoomAssignmentFormComponent },
-      { path: 'years/new', component: AcademicYearFormComponent },
-      { path: 'semesters/new', component: AcademicSemesterFormComponent },
-      { path: 'courseofferings/assign/:id', component: AssignInstructorComponent },
-      { path: 'courseofferings', component: CourseOfferingsListComponent },
-      { path: 'schedules/:id', component: ScheduleComponent },
-      { path: 'scheduleconfigurations', component: ScheduleConfigurationFormComponent }
-    ])
+    ReactiveFormsModule
   ],
   providers: [
     CollegeService,
