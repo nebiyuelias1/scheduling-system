@@ -1,8 +1,18 @@
-<ul class="list-group">
-  <li [routerLinkActive]='["link-active"]' [routerLinkActiveOptions]='{ exact: true }'
-    class="list-group-item d-flex justify-content-between align-items-center">
-    <a [routerLink]='["/curriculums/new"]'><i class="fas fa-university"></i> Curriculums</a>  
+<!-- <ul class="list-group">
+  <li class="list-group-item link-active d-flex justify-content-between align-items-center">
+    <a><i class="fas fa-cog"></i> Dashboard</a>
+  </li>
+  <li class="list-group-item d-flex justify-content-between align-items-center">
+    <a [routerLink]='["/curriculums"]' data-toggle="collapse" data-target="#collapseOne" aria-expanded="true"
+    aria-controls="collapseOne"><i class="fas fa-university"></i> Curriculums</a>
     <span class="badge badge-default badge-pill">14</span>
+    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+      <div class="card-body">
+        <ul>
+          <li>one</li>
+        </ul>
+      </div>
+    </div>
   </li>
   <li class="list-group-item d-flex justify-content-between align-items-center">
     <a [routerLink]='["/sections"]'><i class="fa fa-users"></i> Sections</a>
@@ -16,4 +26,96 @@
     <a href="#"><i class="fas fa-user-graduate"></i> Students</a>
     <span class="badge badge-primary badge-pill">1</span>
   </li>
-</ul>
+</ul> -->
+
+<div id="accordion">
+  <div class="card">
+    <div class="card-header" id="headingOne">
+      <h5 class="mb-0">
+        <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true"
+          aria-controls="collapseOne">
+          <i class="fas fa-university"></i> Curriculums
+        </button>
+      </h5>
+    </div>
+    <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+      <div class="card-body">
+        <ul>
+          <li><a [routerLink]="['/curriculums']">View</a></li>
+          <li><a [routerLink]="['/curriculums/new']">New</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header" id="headingTwo">
+      <h5 class="mb-0">
+        <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false"
+          aria-controls="collapseTwo">
+          <i class="fa fa-users"></i> Sections
+        </button>
+      </h5>
+    </div>
+    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+      <div class="card-body">
+        <ul>
+          <li><a [routerLink]="[ '/sections']">View</a></li>
+          <li><a [routerLink]="[ '/sections/new']">New</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header" id="headingThree">
+      <h5 class="mb-0">
+        <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false"
+          aria-controls="collapseThree">
+          <i class="fas fa-chalkboard-teacher"></i> Instructors
+        </button>
+      </h5>
+    </div>
+    <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+      <div class="card-body">
+        <ul>
+          <li><a [routerLink]="[ '/instructors']">View</a></li>
+          <li><a [routerLink]="[ '/instructors/new']">New</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header" id="headingFour">
+      <h5 class="mb-0">
+        <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false"
+          aria-controls="collapseFour">
+          <i class="fas fa-book"></i> Courses
+        </button>
+      </h5>
+    </div>
+    <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordion">
+      <div class="card-body">
+        <ul>
+          <li><a [routerLink]="[ '/courses']">View</a></li>
+          <li><a [routerLink]="[ '/courses/new']">New</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header" id="headingFive">
+      <h5 class="mb-0">
+        <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false"
+          aria-controls="collapseFive">
+          <i class="fas fa-chalkboard"></i> Course Offerings
+        </button>
+      </h5>
+    </div>
+    <div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordion">
+      <div class="card-body">
+        <ul>
+          <li><a [routerLink]="[ '/courseofferings']">View</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
