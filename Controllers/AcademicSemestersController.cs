@@ -44,5 +44,11 @@ namespace SchedulingSystem.Controllers
 
             return Ok(result);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetCurrentSemester()
+        {
+
+        }
     }
 }

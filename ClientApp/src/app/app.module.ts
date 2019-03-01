@@ -38,6 +38,7 @@ import { ListGroupComponent } from './list-group/list-group.component';
 import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
 import { AppRoutingModule } from './app-routing.module';
 import { CurriculumListComponent } from './curriculum-list/curriculum-list.component';
+import { HomeHeaderComponent } from './home-header/home-header.component';
 
 @NgModule({
   declarations: [
@@ -66,6 +67,7 @@ import { CurriculumListComponent } from './curriculum-list/curriculum-list.compo
     ListGroupComponent,
     BreadcrumbComponent,
     CurriculumListComponent,
+    HomeHeaderComponent,
   ],
   imports: [
     AppRoutingModule,
