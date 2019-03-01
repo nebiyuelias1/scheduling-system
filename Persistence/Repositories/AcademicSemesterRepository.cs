@@ -11,6 +11,13 @@ namespace SchedulingSystem.Persistence.Repositories
         {
         }
 
+        public async Task<AcademicSemester> GetAcademicSemester(int id)
+        {
+            return await SchedulingDbContext.AcademicSemesters
+                    .Include(a => a.AcademicYear)
+                    .SingleOrDefaultAsync(a => a.Id == id);
+        }
+
         public async Task<AcademicSemester> GetCurrentAcademicSemester()
         {
             return await SchedulingDbContext.AcademicSemesters

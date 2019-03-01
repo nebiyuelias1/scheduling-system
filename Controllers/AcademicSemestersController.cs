@@ -3,7 +3,9 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SchedulingSystem.Controllers.Resources;
+using SchedulingSystem.Core;
 using SchedulingSystem.Core.Models;
+using SchedulingSystem.Core.Repositories;
 using SchedulingSystem.Persistence;
 
 namespace SchedulingSystem.Controllers
@@ -11,12 +13,12 @@ namespace SchedulingSystem.Controllers
     [Route("/api/[controller]")]
     public class AcademicSemestersController : Controller
     {
-        private readonly SchedulingDbContext context;
+        private readonly IUnitOfWork unitOfWork;
         private readonly IMapper mapper;
 
-        public AcademicSemestersController(SchedulingDbContext context, IMapper mapper)
+        public AcademicSemestersController(IUnitOfWork unitOfWork, IMapper mapper)
         {
-            this.context = context;
+            this.unitOfWork = unitOfWork;
             this.mapper = mapper;
         }
 
@@ -28,17 +30,15 @@ namespace SchedulingSystem.Controllers
 
             var academicSemester = mapper.Map<SaveAcademicSemesterResource, AcademicSemester>(resource);
 
-            var currentActiveSemester = await context.AcademicSemesters.SingleOrDefaultAsync(a => a.IsCurrentSemester);
+            var currentActiveSemester = await unitOfWork.AcademicSemesters.GetCurrentAcademicSemester();
             if (currentActiveSemester != null)
                 currentActiveSemester.IsCurrentSemester = false;
             
             academicSemester.IsCurrentSemester = true;
-            context.AcademicSemesters.Add(academicSemester);
-            await context.SaveChangesAsync();
+            unitOfWork.AcademicSemesters.Add(academicSemester);
+            await unitOfWork.CompleteAsync();
 
-            academicSemester = await context.AcademicSemesters
-                                .Include(s => s.AcademicYear)
-                                .SingleOrDefaultAsync(s => s.Id == academicSemester.Id);
+            academicSemester = await unitOfWork.AcademicSemesters.GetAcademicSemester(academicSemester.Id);
 
             var result = mapper.Map<AcademicSemester, AcademicSemesterResource>(academicSemester);
 
@@ -48,7 +48,12 @@ namespace SchedulingSystem.Controllers
         [HttpGet]
         public async Task<IActionResult> GetCurrentSemester()
         {
-
+            var currentActiveSemester = await unitOfWork.AcademicSemesters.GetCurrentAcademicSemester();
+            
+            if (currentActiveSemester == null)
+                return NotFound();
+                
+            return Ok(currentActiveSemester);
         }
     }
 }
