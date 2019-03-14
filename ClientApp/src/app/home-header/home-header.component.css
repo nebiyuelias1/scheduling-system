@@ -1,0 +1,16 @@
+.header-container {
+    position: relative;
+}
+
+.department-header {
+    position: relative;
+    width: 75%;
+}
+
+.semester-container {
+    position: absolute;
+    width: 25%;
+    top: 0;
+    right: 0;
+    text-align: right;
+}

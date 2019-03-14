@@ -53,7 +53,8 @@ namespace SchedulingSystem.Controllers
             if (currentActiveSemester == null)
                 return NotFound();
                 
-            return Ok(currentActiveSemester);
+            var result = mapper.Map<AcademicSemester, AcademicSemesterResource>(currentActiveSemester);
+            return Ok(result);
         }
     }
 }

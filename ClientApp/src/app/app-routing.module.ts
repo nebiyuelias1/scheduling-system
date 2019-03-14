@@ -228,8 +228,36 @@ const routes: Routes = [
             }
         ]
     },
-    { path: 'years/new', component: AcademicYearFormComponent },
-    { path: 'semesters/new', component: AcademicSemesterFormComponent },
+    {
+        path: 'years',
+        data: {
+            breadcrumb: 'Years'
+        },
+        children: [
+            {
+                path: 'new',
+                data: {
+                    breadcrumb: 'New'
+                },
+                component: AcademicYearFormComponent
+            }
+        ]
+    },
+    {
+        path: 'semesters',
+        data: {
+            breadcrumb: 'Semesters'
+        },
+        children: [
+            {
+                path: 'new',
+                data: {
+                    breadcrumb: 'New'
+                },
+                component: AcademicSemesterFormComponent
+            }
+        ]
+    }
 ];
 
 

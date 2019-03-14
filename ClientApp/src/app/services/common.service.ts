@@ -57,4 +57,8 @@ export class CommonService {
   saveScheduleConfiguration(scheduleConfiguration) {
     return this.http.post('/api/scheduleconfigurations', scheduleConfiguration);
   }
+
+  getCurrentAcademicSemester() {
+    return this.http.get('/api/academicsemesters');
+  }
 }
