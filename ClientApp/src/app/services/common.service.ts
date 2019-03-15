@@ -61,4 +61,8 @@ export class CommonService {
   getCurrentAcademicSemester() {
     return this.http.get('/api/academicsemesters');
   }
+
+  getSchedule(sectionId) {
+    return this.http.get('/api/schedules/' + sectionId);
+  }
 }
