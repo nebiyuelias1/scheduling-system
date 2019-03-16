@@ -16,9 +16,9 @@ namespace SchedulingSystem.Core.Models
         [Required]
         [StringLength(100)]
         public string CourseCode { get; set; }
-        public byte Lecture { get; set; }
-        public byte Lab { get; set; }
-        public byte Tutor { get; set; }
+        public int Lecture { get; set; }
+        public int Lab { get; set; }
+        public int Tutor { get; set; }
         public Curriculum Curriculum { get; set; }
         public int CurriculumId { get; set; }
         public byte DeliveryYear { get; set; }

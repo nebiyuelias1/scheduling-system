@@ -22,7 +22,9 @@ namespace SchedulingSystem.Core.Models
         
         [NotMapped]
         public double Fitness { get; set; }
+
         
+
         public int AcademicSemesterId { get; set; }
         
         public int SectionId { get; set; }
@@ -31,6 +33,19 @@ namespace SchedulingSystem.Core.Models
         {
             Days = new Collection<Day>();
             TimeTable = new Dictionary<int, IList<ScheduleEntry>>();
+        }
+
+        public static Schedule GetNewScheduleForSection(Section section, int numberOfDaysPerWeek)
+        {
+            var schedule = new Schedule();
+            schedule.Section = section;
+
+            for (int i = 0; i < numberOfDaysPerWeek; i++)
+            {
+                schedule.TimeTable[i] = new List<ScheduleEntry>();
+            }
+
+            return schedule;
         }
     }
 }

@@ -63,7 +63,7 @@ namespace SchedulingSystem.GeneticAlgorithm
             Random rand = new Random();
             var population = new Collection<Schedule>();
 
-            for (int i = 0; i < Configurations.POPULATION_SIZE; i++)
+            for (int i = 0; i < GeneticAlgorithmConf.POPULATION_SIZE; i++)
             {
                 int a = rand.Next(matingPool.Count);
                 int b = rand.Next(matingPool.Count);
@@ -73,7 +73,7 @@ namespace SchedulingSystem.GeneticAlgorithm
 
                 Schedule child = null;
 
-                if (rand.NextDouble() <= Configurations.CROSSOVER_RATE)
+                if (rand.NextDouble() <= GeneticAlgorithmConf.CROSSOVER_RATE)
                 {
                     child = parentA.Crossover(parentB);
                 }
@@ -87,7 +87,7 @@ namespace SchedulingSystem.GeneticAlgorithm
                 }
 
 
-                if (rand.NextDouble() <= Configurations.MUTATION_RATE)
+                if (rand.NextDouble() <= GeneticAlgorithmConf.MUTATION_RATE)
                 {
                     child.Mutate();
                 }
@@ -110,7 +110,7 @@ namespace SchedulingSystem.GeneticAlgorithm
 
             foreach (var item in Population)
             {
-                var normalizedFitness = (item.Fitness * 100 / fitnessSum) * Configurations.POPULATION_SIZE;
+                var normalizedFitness = (item.Fitness * 100 / fitnessSum) * GeneticAlgorithmConf.POPULATION_SIZE;
 
                 for (int i = 0; i < normalizedFitness; i++)
                 {
@@ -128,7 +128,7 @@ namespace SchedulingSystem.GeneticAlgorithm
                                                 .ScheduleConfigurations
                                                 .GetScheduleConfiguration(section.AdmissionLevelId, section.ProgramTypeId);
 
-            for (int i = 0; i < Configurations.POPULATION_SIZE; i++)
+            for (int i = 0; i < GeneticAlgorithmConf.POPULATION_SIZE; i++)
             {
                 var schedule = helper.InitializeScheduleForSection(section, scheduleConfiguration, types);
                 population.Add(schedule);

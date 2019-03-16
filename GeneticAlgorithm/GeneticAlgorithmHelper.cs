@@ -15,19 +15,7 @@ namespace SchedulingSystem.GeneticAlgorithm
     {
         public Schedule InitializeScheduleForSection(Section section, ScheduleConfiguration scheduleConfiguration, Types types)
         {
-            var schedule = new Schedule();
-            schedule.Section = section;
-
-            for (int i = 0; i < scheduleConfiguration.NumberOfDaysPerWeek; i++)
-            {
-                var periods = new List<ScheduleEntry>(scheduleConfiguration.NumberOfPeriodsPerDay);
-
-                for (int j = 0; j < scheduleConfiguration.NumberOfPeriodsPerDay; j++)
-                {
-                    periods.Add(new ScheduleEntry());
-                }
-                schedule.TimeTable[i] = periods;
-            }
+            var schedule = Schedule.GetNewScheduleForSection(section, scheduleConfiguration.NumberOfDaysPerWeek);
 
             foreach (var courseOffering in section.CourseOfferings)
             {
@@ -38,106 +26,164 @@ namespace SchedulingSystem.GeneticAlgorithm
 
                 while (lecture > 0)
                 {
-                    var rand = new Random();
-                    var randDay = rand.Next(scheduleConfiguration.NumberOfDaysPerWeek);
-                    var randPeriod = Convert.ToByte(rand.Next(scheduleConfiguration.NumberOfPeriodsPerDay));
-
-
-                    if (schedule.TimeTable[randDay][randPeriod].Course == null)
+                    var randDay = GetRandomInteger(scheduleConfiguration.NumberOfDaysPerWeek);
+                    var durationSum = 0;
+                    var sum = schedule.TimeTable[randDay].Sum(s => s?.Duration);
+                    if (sum != null)
                     {
+                        durationSum = Convert.ToInt32(sum);
+                    }
 
-                        var lectureInstructor = courseOffering.Instructors
+                    var lectureInstructor = courseOffering.Instructors
                                                     .Where(i => i.TypeId == types.LectureType.Id)
                                                     .FirstOrDefault()
                                                     .Instructor;
 
-                        var lectureRoom = section
-                                            .RoomAssignments
-                                            .Where(r => r.TypeId == types.LectureType.Id)
-                                            .FirstOrDefault()
-                                            .Room;
+                    var lectureRoom = section
+                                        .RoomAssignments
+                                        .Where(r => r.TypeId == types.LectureType.Id)
+                                        .FirstOrDefault()
+                                        .Room;
 
-                        schedule.TimeTable[randDay][randPeriod].Course = courseOffering.Course;
-                        schedule.TimeTable[randDay][randPeriod].CourseId = courseOffering.Course.Id;
-                        schedule.TimeTable[randDay][randPeriod].Instructor = lectureInstructor;
-                        schedule.TimeTable[randDay][randPeriod].Room = lectureRoom;
-                        schedule.TimeTable[randDay][randPeriod].Period = randPeriod;
-                        schedule.TimeTable[randDay][randPeriod].TypeId = types.LectureType.Id;
+                    if (lecture >= GeneticAlgorithmConf.MAX_CONSECUTIVE_LECTURE &&
+                        durationSum <= (scheduleConfiguration.NumberOfPeriodsPerDay - GeneticAlgorithmConf.MAX_CONSECUTIVE_LECTURE))
+                    {
 
+
+                        var scheduleEntry = new ScheduleEntry
+                        {
+                            Course = courseOffering.Course,
+                            CourseId = courseOffering.Course.Id,
+                            Instructor = lectureInstructor,
+                            Room = lectureRoom,
+                            Period = durationSum + 1,
+                            TypeId = types.LectureType.Id,
+                            Duration = GeneticAlgorithmConf.MAX_CONSECUTIVE_LECTURE
+                        };
+
+                        schedule.TimeTable[randDay].Add(scheduleEntry);
+                        lecture -= GeneticAlgorithmConf.MAX_CONSECUTIVE_LECTURE;
+                    }
+                    else if (durationSum < scheduleConfiguration.NumberOfPeriodsPerDay)
+                    {
+                        var scheduleEntry = new ScheduleEntry
+                        {
+                            Course = courseOffering.Course,
+                            CourseId = courseOffering.Course.Id,
+                            Instructor = lectureInstructor,
+                            Room = lectureRoom,
+                            Period = durationSum + 1,
+                            TypeId = types.LectureType.Id,
+                            Duration = 1
+                        };
+
+                        schedule.TimeTable[randDay].Add(scheduleEntry);
                         lecture--;
                     }
-
                 }
 
                 while (tutor > 0)
                 {
-                    var rand = new Random();
-                    var randDay = rand.Next(scheduleConfiguration.NumberOfDaysPerWeek);
-                    var randPeriod = Convert.ToByte(rand.Next(scheduleConfiguration.NumberOfPeriodsPerDay));
-
-
-                    if (schedule.TimeTable[randDay][randPeriod].Course == null)
+                    var randDay = GetRandomInteger(scheduleConfiguration.NumberOfDaysPerWeek);
+                    var durationSum = 0;
+                    var sum = schedule.TimeTable[randDay].Sum(s => s?.Duration);
+                    if (sum != null)
                     {
+                        durationSum = Convert.ToInt32(sum);
+                    }
 
-                        var tutorInstructor = courseOffering.Instructors
+                    var tutorInstructor = courseOffering.Instructors
                                                     .Where(i => i.TypeId == types.TutorType.Id)
                                                     .FirstOrDefault()
                                                     .Instructor;
 
-                        var tutorRoom = section
-                                            .RoomAssignments
-                                            .Where(r => r.TypeId == types.TutorType.Id)
-                                            .FirstOrDefault()
-                                            .Room;
+                    var tutorRoom = section
+                                        .RoomAssignments
+                                        .Where(r => r.TypeId == types.TutorType.Id)
+                                        .FirstOrDefault()
+                                        .Room;
 
-                        schedule.TimeTable[randDay][randPeriod].Course = courseOffering.Course;
-                        schedule.TimeTable[randDay][randPeriod].CourseId = courseOffering.Course.Id;
-                        schedule.TimeTable[randDay][randPeriod].Instructor = tutorInstructor;
-                        schedule.TimeTable[randDay][randPeriod].Room = tutorRoom;
-                        schedule.TimeTable[randDay][randPeriod].Period = randPeriod;
-                        schedule.TimeTable[randDay][randPeriod].TypeId = types.TutorType.Id;
+                    if (durationSum < scheduleConfiguration.NumberOfPeriodsPerDay)
+                    {
+                        var scheduleEntry = new ScheduleEntry
+                        {
+                            Course = courseOffering.Course,
+                            CourseId = courseOffering.Course.Id,
+                            Instructor = tutorInstructor,
+                            Room = tutorRoom,
+                            Period = durationSum + 1,
+                            TypeId = types.TutorType.Id,
+                            Duration = 1
+                        };
 
+                        schedule.TimeTable[randDay].Add(scheduleEntry);
                         tutor--;
                     }
-
                 }
 
                 while (lab > 0)
                 {
-
-
-                    var rand = new Random();
-                    var randDay = rand.Next(scheduleConfiguration.NumberOfDaysPerWeek);
-                    var randPeriod = Convert.ToByte(rand.Next(scheduleConfiguration.NumberOfPeriodsPerDay));
-
-
-                    if (schedule.TimeTable[randDay][randPeriod].Course == null)
+                    var randDay = GetRandomInteger(scheduleConfiguration.NumberOfDaysPerWeek);
+                    var durationSum = 0;
+                    var sum = schedule.TimeTable[randDay].Sum(s => s?.Duration);
+                    if (sum != null)
                     {
+                        durationSum = Convert.ToInt32(sum);
+                    }
 
-                        var labInstructor = courseOffering.Instructors
+                    var labInstructor = courseOffering.Instructors
                                                     .Where(i => i.TypeId == types.LabType.Id)
                                                     .FirstOrDefault()
                                                     .Instructor;
 
-                        var labRoom = section
-                                            .RoomAssignments
-                                            .Where(r => r.TypeId == types.LabType.Id)
-                                            .FirstOrDefault()
-                                            .Room;
+                    var labRoom = section
+                                        .RoomAssignments
+                                        .Where(r => r.TypeId == types.LabType.Id)
+                                        .FirstOrDefault()
+                                        .Room;
 
-                        schedule.TimeTable[randDay][randPeriod].Course = courseOffering.Course;
-                        schedule.TimeTable[randDay][randPeriod].CourseId = courseOffering.Course.Id;
-                        schedule.TimeTable[randDay][randPeriod].Instructor = labInstructor;
-                        schedule.TimeTable[randDay][randPeriod].Room = labRoom;
-                        schedule.TimeTable[randDay][randPeriod].Period = randPeriod;
-                        schedule.TimeTable[randDay][randPeriod].TypeId = types.LabType.Id;
+                    if (lab >= GeneticAlgorithmConf.MAX_CONSECUTIVE_LAB &&
+                        durationSum <= (scheduleConfiguration.NumberOfPeriodsPerDay - GeneticAlgorithmConf.MAX_CONSECUTIVE_LAB))
+                    {
+                        var scheduleEntry = new ScheduleEntry
+                        {
+                            Course = courseOffering.Course,
+                            CourseId = courseOffering.Course.Id,
+                            Instructor = labInstructor,
+                            Room = labRoom,
+                            Period = durationSum + 1,
+                            TypeId = types.LabType.Id,
+                            Duration = GeneticAlgorithmConf.MAX_CONSECUTIVE_LAB
+                        };
 
-                        lab--;
+                        schedule.TimeTable[randDay].Add(scheduleEntry);
+                        lab -= GeneticAlgorithmConf.MAX_CONSECUTIVE_LAB;
                     }
+                    else if (lab >= (GeneticAlgorithmConf.MAX_CONSECUTIVE_LAB - 1) &&
+                        durationSum <= (scheduleConfiguration.NumberOfPeriodsPerDay - GeneticAlgorithmConf.MAX_CONSECUTIVE_LAB - 1))
+                    {
+                        var scheduleEntry = new ScheduleEntry
+                        {
+                            Course = courseOffering.Course,
+                            CourseId = courseOffering.Course.Id,
+                            Instructor = labInstructor,
+                            Room = labRoom,
+                            Period = durationSum + 1,
+                            TypeId = types.LabType.Id,
+                            Duration = GeneticAlgorithmConf.MAX_CONSECUTIVE_LAB - 1
+                        };
 
+                        schedule.TimeTable[randDay].Add(scheduleEntry);
+                        lab -= GeneticAlgorithmConf.MAX_CONSECUTIVE_LAB - 1;
+                    }
                 }
             }
             return schedule;
+        }
+
+        private int GetRandomInteger(int upperLimit)
+        {
+            return new Random().Next(upperLimit);
         }
     }
 }

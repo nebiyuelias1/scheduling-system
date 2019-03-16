@@ -10,8 +10,7 @@ namespace SchedulingSystem.GeneticAlgorithm
 {
     public class FitnessCalculator : IFitnessCalculator
     {
-        private readonly static byte MAX_CONSECUTIVE_LECTURE = 2;
-        private readonly static byte MAX_CONSECUTIVE_LAB = 2;
+        
         private readonly IUnitOfWork unitOfWork;
         private Types types;
 
@@ -36,7 +35,7 @@ namespace SchedulingSystem.GeneticAlgorithm
 
             foreach (var c in courseOfferings)
             {
-                if (c.Course.Lab >= MAX_CONSECUTIVE_LAB)
+                if (c.Course.Lab >= GeneticAlgorithmConf.MAX_CONSECUTIVE_LAB)
                 {
                     var consecutiveFound = false;
                     foreach (var key in schedule.TimeTable.Keys)
@@ -51,7 +50,7 @@ namespace SchedulingSystem.GeneticAlgorithm
                                         .OrderBy(s => s.Period)
                                         .ToList();
 
-                            if (courses.Count() == MAX_CONSECUTIVE_LAB)
+                            if (courses.Count() == GeneticAlgorithmConf.MAX_CONSECUTIVE_LAB)
                             {
                                 if ((courses.Last().Period - courses.First().Period == 2))
                                 {
@@ -74,7 +73,7 @@ namespace SchedulingSystem.GeneticAlgorithm
             int conflicts = 0;
             foreach (var c in courseOfferings)
             {
-                if (c.Course.Lecture >= MAX_CONSECUTIVE_LECTURE)
+                if (c.Course.Lecture >= GeneticAlgorithmConf.MAX_CONSECUTIVE_LECTURE)
                 {
                     var consecutiveFound = false;
                     foreach (var key in schedule.TimeTable.Keys)
@@ -89,7 +88,7 @@ namespace SchedulingSystem.GeneticAlgorithm
                                         .OrderBy(s => s.Period)
                                         .ToList();
 
-                            if (courses.Count() == MAX_CONSECUTIVE_LECTURE)
+                            if (courses.Count() == GeneticAlgorithmConf.MAX_CONSECUTIVE_LECTURE)
                             {
                                 if ((courses.Last().Period - courses.First().Period == 1))
                                 {

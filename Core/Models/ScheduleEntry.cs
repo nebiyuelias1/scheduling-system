@@ -9,8 +9,8 @@ namespace SchedulingSystem.Core.Models
         public Room Room { get; set; }
         public Type Type { get; set; }
         public Day Day { get; set; }
-        public byte Period { get; set; }
-        public byte Duration { get; set; }
+        public int Period { get; set; }
+        public int Duration { get; set; }
         public int CourseId { get; set; }
         public int InstructorId { get; set; }
         public int RoomId { get; set; }
