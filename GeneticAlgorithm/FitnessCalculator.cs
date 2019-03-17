@@ -46,18 +46,8 @@ namespace SchedulingSystem.GeneticAlgorithm
                         
                         if (courses.Count() > 0)
                         {
-                            courses = courses.Where(s => s.CourseId == c.Course.Id && s.TypeId == types.LabType.Id)
-                                        .OrderBy(s => s.Period)
-                                        .ToList();
-
-                            if (courses.Count() == GeneticAlgorithmConf.MAX_CONSECUTIVE_LAB)
-                            {
-                                if ((courses.Last().Period - courses.First().Period == 2))
-                                {
-                                    consecutiveFound = true;
-                                }
-                            }
-
+                            consecutiveFound = courses
+                                                .Any(s => s.CourseId == c.Course.Id && s.TypeId == types.LabType.Id && s.Duration >= GeneticAlgorithmConf.MAX_CONSECUTIVE_LAB);
                         }
                     }
                     if (!consecutiveFound)
@@ -84,18 +74,8 @@ namespace SchedulingSystem.GeneticAlgorithm
 
                         if (courses.Count() > 0)
                         {
-                            courses = courses.Where(s => s.CourseId == c.Course.Id && s.TypeId == types.LectureType.Id)
-                                        .OrderBy(s => s.Period)
-                                        .ToList();
-
-                            if (courses.Count() == GeneticAlgorithmConf.MAX_CONSECUTIVE_LECTURE)
-                            {
-                                if ((courses.Last().Period - courses.First().Period == 1))
-                                {
-                                    consecutiveFound = true;
-                                }
-                            }
-                            
+                            consecutiveFound = courses
+                                        .Any(s => s.CourseId == c.Course.Id && s.TypeId == types.LectureType.Id && s.Duration >= GeneticAlgorithmConf.MAX_CONSECUTIVE_LECTURE);
                         }
                     }
                     
