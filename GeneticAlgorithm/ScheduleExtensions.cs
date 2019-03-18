@@ -9,20 +9,19 @@ namespace SchedulingSystem.GeneticAlgorithm
     {
         public static Schedule Crossover(this Schedule scheduleA, Schedule scheduleB)
         {
-            var schedule = new Schedule();
-            schedule.Section = scheduleA.Section;
+            var schedule = Schedule.GetNewScheduleForSection(scheduleA.Section, scheduleA.TimeTable.Count);
             
             var numberOfDays = scheduleA.TimeTable.Count;
             for (int i = 0; i < numberOfDays; i++)
             {
                 if (i % 2 == 0)
                 {
-                    schedule.TimeTable.Add(i, scheduleA.TimeTable[i]);
+                    schedule.TimeTable[i] = scheduleA.TimeTable[i];
                     RemoveScheduleEntries(scheduleA.TimeTable[i], scheduleB);
                 }
                 else
                 {
-                    schedule.TimeTable.Add(i, scheduleB.TimeTable[i]);
+                    schedule.TimeTable[i] = scheduleB.TimeTable[i];
                     RemoveScheduleEntries(scheduleB.TimeTable[i], scheduleA);
                 }
             }
@@ -57,11 +56,12 @@ namespace SchedulingSystem.GeneticAlgorithm
                 {
                     foreach (var key in scheduleB.TimeTable.Keys)
                     {
-                        
                         var foundSchedule = scheduleB.TimeTable[key]
                                         .Where(s => s.Course != null)
                                         .ToList()
-                                        .Where(s => s.Course.CourseCode == scheduleEntry.Course.CourseCode && s.TypeId == scheduleEntry.TypeId)
+                                        .Where(s => s.Course.CourseCode == scheduleEntry.Course.CourseCode && 
+                                                s.TypeId == scheduleEntry.TypeId &&
+                                                s.Duration == scheduleEntry.Duration)
                                         .FirstOrDefault();
 
                         if (foundSchedule != null)

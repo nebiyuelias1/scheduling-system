@@ -49,7 +49,7 @@ namespace SchedulingSystem.GeneticAlgorithm
                 var matingPool = NaturalSelection();
                 CreateNextGeneration(matingPool.ToList());
 
-                if (Population.Any(p => p.Fitness >= 0.5))
+                if (Population.Any(p => p.Fitness >= 0.1))
                 {
                     break;
                 }
