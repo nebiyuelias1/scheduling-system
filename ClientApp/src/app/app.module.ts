@@ -39,6 +39,7 @@ import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
 import { AppRoutingModule } from './app-routing.module';
 import { CurriculumListComponent } from './curriculum-list/curriculum-list.component';
 import { HomeHeaderComponent } from './home-header/home-header.component';
+import { TimetableComponent } from './timetable/timetable.component';
 
 @NgModule({
   declarations: [
@@ -68,6 +69,7 @@ import { HomeHeaderComponent } from './home-header/home-header.component';
     BreadcrumbComponent,
     CurriculumListComponent,
     HomeHeaderComponent,
+    TimetableComponent,
   ],
   imports: [
     AppRoutingModule,

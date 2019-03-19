@@ -64,6 +64,7 @@ namespace SchedulingSystem.Mapping
             CreateMap<AdmissionLevel, KeyValuePairResource>();
             CreateMap<ProgramType, KeyValuePairResource>();
             CreateMap<Course, CourseResource>();
+            CreateMap<Schedule, ScheduleResource>();
         }
     }
 }

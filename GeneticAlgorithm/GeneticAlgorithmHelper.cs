@@ -48,15 +48,13 @@ namespace SchedulingSystem.GeneticAlgorithm
                     if (lecture >= GeneticAlgorithmConf.MAX_CONSECUTIVE_LECTURE &&
                         durationSum <= (scheduleConfiguration.NumberOfPeriodsPerDay - GeneticAlgorithmConf.MAX_CONSECUTIVE_LECTURE))
                     {
-
-
                         var scheduleEntry = new ScheduleEntry
                         {
                             Course = courseOffering.Course,
                             CourseId = courseOffering.Course.Id,
                             Instructor = lectureInstructor,
                             Room = lectureRoom,
-                            Period = durationSum + 1,
+                            Period = durationSum,
                             TypeId = types.LectureType.Id,
                             Duration = GeneticAlgorithmConf.MAX_CONSECUTIVE_LECTURE
                         };
@@ -72,7 +70,7 @@ namespace SchedulingSystem.GeneticAlgorithm
                             CourseId = courseOffering.Course.Id,
                             Instructor = lectureInstructor,
                             Room = lectureRoom,
-                            Period = durationSum + 1,
+                            Period = durationSum,
                             TypeId = types.LectureType.Id,
                             Duration = 1
                         };
@@ -111,7 +109,7 @@ namespace SchedulingSystem.GeneticAlgorithm
                             CourseId = courseOffering.Course.Id,
                             Instructor = tutorInstructor,
                             Room = tutorRoom,
-                            Period = durationSum + 1,
+                            Period = durationSum,
                             TypeId = types.TutorType.Id,
                             Duration = 1
                         };
@@ -151,7 +149,7 @@ namespace SchedulingSystem.GeneticAlgorithm
                             CourseId = courseOffering.Course.Id,
                             Instructor = labInstructor,
                             Room = labRoom,
-                            Period = durationSum + 1,
+                            Period = durationSum,
                             TypeId = types.LabType.Id,
                             Duration = GeneticAlgorithmConf.MAX_CONSECUTIVE_LAB
                         };
@@ -168,7 +166,7 @@ namespace SchedulingSystem.GeneticAlgorithm
                             CourseId = courseOffering.Course.Id,
                             Instructor = labInstructor,
                             Room = labRoom,
-                            Period = durationSum + 1,
+                            Period = durationSum,
                             TypeId = types.LabType.Id,
                             Duration = GeneticAlgorithmConf.MAX_CONSECUTIVE_LAB - 1
                         };

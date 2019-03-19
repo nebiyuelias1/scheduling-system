@@ -18,5 +18,14 @@ namespace SchedulingSystem.Persistence.Repositories
                     .ScheduleConfigurations
                     .SingleOrDefaultAsync(s => s.AdmissionLevelId == admissionLevelId && s.ProgramTypeId == programTypeId);
         }
+
+        public async Task<ScheduleConfiguration> GetScheduleConfigurationForSection(int sectionId)
+        {
+            var section = await SchedulingDbContext
+                                .Sections
+                                .SingleOrDefaultAsync(s => s.Id == sectionId);
+
+            return await GetScheduleConfiguration(section.AdmissionLevelId, section.ProgramTypeId);
+        }
     }
 }

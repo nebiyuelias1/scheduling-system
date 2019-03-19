@@ -3,6 +3,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SchedulingSystem.Controllers.Resources;
+using SchedulingSystem.Core;
 using SchedulingSystem.Core.Models;
 using SchedulingSystem.Persistence;
 
@@ -12,11 +13,12 @@ namespace SchedulingSystem.Controllers
     public class ScheduleConfigurationsController : Controller
     {
         private readonly IMapper mapper;
-        private readonly SchedulingDbContext context;
-        public ScheduleConfigurationsController(IMapper mapper, SchedulingDbContext context)
+        private readonly IUnitOfWork unitOfWork;
+
+        public ScheduleConfigurationsController(IMapper mapper, IUnitOfWork unitOfWork)
         {
-            this.context = context;
             this.mapper = mapper;
+            this.unitOfWork = unitOfWork;
         }
 
 
@@ -28,13 +30,12 @@ namespace SchedulingSystem.Controllers
 
             var scheduleConfiguration = mapper.Map<SaveScheduleConfigurationResource, ScheduleConfiguration>(resource);
 
-            context.ScheduleConfigurations.Add(scheduleConfiguration);
-            await context.SaveChangesAsync();
+            unitOfWork.ScheduleConfigurations.Add(scheduleConfiguration);
+            await unitOfWork.CompleteAsync();
 
-            scheduleConfiguration =  await context.ScheduleConfigurations
-                                        .Include(s => s.AdmissionLevel)
-                                        .Include(s => s.ProgramType)
-                                        .SingleOrDefaultAsync(s => s.AdmissionLevelId == resource.AdmissionLevelId && s.ProgramTypeId == resource.ProgramTypeId);
+            scheduleConfiguration =  await unitOfWork
+                                        .ScheduleConfigurations
+                                        .GetScheduleConfiguration(resource.AdmissionLevelId, resource.ProgramTypeId);
 
             var result = mapper.Map<ScheduleConfiguration, ScheduleConfigurationResource>(scheduleConfiguration);
 
