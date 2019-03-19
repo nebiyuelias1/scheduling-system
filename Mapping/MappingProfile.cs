@@ -65,6 +65,7 @@ namespace SchedulingSystem.Mapping
             CreateMap<ProgramType, KeyValuePairResource>();
             CreateMap<Course, CourseResource>();
             CreateMap<Schedule, ScheduleResource>();
+            CreateMap<WeekDay, WeekDayResource>();
         }
     }
 }

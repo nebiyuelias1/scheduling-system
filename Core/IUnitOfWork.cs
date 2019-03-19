@@ -12,6 +12,8 @@ namespace SchedulingSystem.Core
         ICourseRepository Courses { get; }
         ISectionRepository Sections { get; }
         IAcademicSemesterRepository AcademicSemesters { get; }
+        IWeekDayRepository WeekDays { get; }
+
         Task<int> CompleteAsync();
     }
 }
