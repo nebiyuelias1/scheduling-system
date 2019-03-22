@@ -9,10 +9,18 @@ import { CommonService } from '../services/common.service';
 export class TimetableComponent implements OnInit {
   @Input('timetable')
   timetable;
+  weekDays;
+  periods;
 
   constructor(private commonService: CommonService) { }
 
   ngOnInit() {
+    this.commonService.getWeekDays()
+      .subscribe((w: any[]) => {
+        this.weekDays = w.slice(0, this.timetable.scheduleConfiguration.numberOfDaysPerWeek);
+      },
+        err => console.error(err));
+    this.periods = Array(this.timetable.scheduleConfiguration.numberOfPeriodsPerDay).fill(0).map((x, i) => i);
   }
 
 }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -25,8 +26,9 @@ namespace SchedulingSystem.Controllers
             var weekDays = await unitOfWork.WeekDays
                             .GetAll();
 
-            var weekDaysResource =mapper.Map<IEnumerable<WeekDay>, IEnumerable<WeekDayResource>>(weekDays);
-
+            var weekDaysResource = mapper.Map<IEnumerable<WeekDay>, IEnumerable<WeekDayResource>>(weekDays)
+                                        .OrderBy(w => w.Number);
+            
             return Ok(weekDaysResource);
         }
     }

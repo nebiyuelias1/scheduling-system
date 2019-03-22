@@ -45,7 +45,7 @@ namespace SchedulingSystem.Persistence
 
             modelbuilder.Entity<ScheduleConfiguration>()
                 .HasKey(s => new { s.AdmissionLevelId, s.ProgramTypeId });
-                
+
             modelbuilder.Entity<CourseOffering>()
                 .HasOne(co => co.Section)
                 .WithMany(s => s.CourseOfferings)

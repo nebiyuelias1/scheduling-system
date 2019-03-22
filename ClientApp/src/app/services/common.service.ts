@@ -65,4 +65,8 @@ export class CommonService {
   getTimetable(sectionId) {
     return this.http.get('/api/schedules/' + sectionId);
   }
+
+  getWeekDays() {
+    return this.http.get('/api/weekdays');
+  }
 }
