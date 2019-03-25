@@ -29,7 +29,7 @@ namespace SchedulingSystem.Controllers
                 return BadRequest(ModelState);
 
             var scheduleConfiguration = mapper.Map<SaveScheduleConfigurationResource, ScheduleConfiguration>(resource);
-
+            scheduleConfiguration.CreateDurations(resource);
             unitOfWork.ScheduleConfigurations.Add(scheduleConfiguration);
             await unitOfWork.CompleteAsync();
 

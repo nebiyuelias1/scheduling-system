@@ -10,11 +10,17 @@ import { FormGroup, FormControl } from '@angular/forms';
 export class ScheduleConfigurationFormComponent implements OnInit {
   admissionLevels: any[];
   programTypes: any[];
+  isThereLunchBreak;
   form = new FormGroup({
     admissionLevelId: new FormControl(),
     programTypeId: new FormControl(),
     numberOfDaysPerWeek: new FormControl(),
-    numberOfPeriodsPerDay: new FormControl()
+    numberOfPeriodsPerDay: new FormControl(),
+    startTime: new FormControl(),
+    periodDuration: new FormControl(),
+    periodBreakDuration: new FormControl(),
+    isThereALunchBreak: new FormControl(),
+    lunchBreakDuration: new FormControl()
   });
 
   constructor(private commonService: CommonService) { }
@@ -33,6 +39,10 @@ export class ScheduleConfigurationFormComponent implements OnInit {
     this.commonService.saveScheduleConfiguration(this.form.value)
       .subscribe((result) => console.log(result),
       error => console.error(error));
+  }
+
+  toggleLunchBreak() {
+    this.isThereLunchBreak = !this.isThereLunchBreak;
   }
 
 }
