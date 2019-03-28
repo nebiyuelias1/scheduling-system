@@ -26,19 +26,19 @@ namespace SchedulingSystem.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetSchedule(int id)
         {
-            var schedule = await algorithm.GenerateScheduleForSection(id);
-
             var scheduleConfiguration = await unitOfWork
                                         .ScheduleConfigurations
                                         .GetScheduleConfigurationForSection(id);
 
+            var schedule = await algorithm.GenerateScheduleForSection(id, scheduleConfiguration);
+
             var scheduleResource = mapper.Map<Schedule, ScheduleResource>(schedule);
-            var scheduleCOnfigurationResource = mapper.Map<ScheduleConfiguration, ScheduleConfigurationResource>(scheduleConfiguration);
+            var scheduleConfigurationResource = mapper.Map<ScheduleConfiguration, ScheduleConfigurationResource>(scheduleConfiguration);
 
             var timetableResource = new TimetableResource
             {
                 Schedule = scheduleResource,
-                ScheduleConfiguration = scheduleCOnfigurationResource
+                ScheduleConfiguration = scheduleConfigurationResource
             };
 
             return Ok(timetableResource);

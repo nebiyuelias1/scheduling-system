@@ -17,6 +17,7 @@ namespace SchedulingSystem.GeneticAlgorithm
         public ICollection<Schedule> Population { get; set; }
         private readonly IFitnessCalculator fitnessCalculator;
         private Types types;
+        public ScheduleConfiguration ScheduleConfiguration { get; set; }
 
         public GeneticAlgorithm(IGeneticAlgorithmHelper helper, IUnitOfWork unitOfWork, IFitnessCalculator fitnessCalculator)
         {
@@ -26,8 +27,9 @@ namespace SchedulingSystem.GeneticAlgorithm
             Population = new Collection<Schedule>();
         }
 
-        public async Task<Schedule> GenerateScheduleForSection(int sectionId)
+        public async Task<Schedule> GenerateScheduleForSection(int sectionId, ScheduleConfiguration scheduleConfiguration)
         {
+            this.ScheduleConfiguration = scheduleConfiguration;
             this.types = await unitOfWork.Types.GetTypes();
 
             var currentSemester = await unitOfWork.AcademicSemesters
@@ -37,7 +39,7 @@ namespace SchedulingSystem.GeneticAlgorithm
                                 .Sections
                                 .GetSectionWithCourseOfferings(sectionId, currentSemester.Id);
 
-            Population = await InitializePopulation(section);
+            Population = InitializePopulation(section, scheduleConfiguration);
 
             return FindBestSchedule();
         }
@@ -75,7 +77,7 @@ namespace SchedulingSystem.GeneticAlgorithm
 
                 if (rand.NextDouble() <= GeneticAlgorithmConf.CROSSOVER_RATE)
                 {
-                    child = parentA.Crossover(parentB);
+                    child = parentA.Crossover(parentB, ScheduleConfiguration);
                 }
                 else if (parentA.Fitness > parentB.Fitness)
                 {
@@ -100,7 +102,7 @@ namespace SchedulingSystem.GeneticAlgorithm
         private ICollection<Schedule> NaturalSelection()
         {
             List<Schedule> matingPool = new List<Schedule>();
-            
+
             foreach (var item in Population)
             {
                 item.Fitness = fitnessCalculator.CalculateFitness(item, item.Section.CourseOfferings, types);
@@ -120,13 +122,9 @@ namespace SchedulingSystem.GeneticAlgorithm
             return matingPool;
         }
 
-        private async Task<ICollection<Schedule>> InitializePopulation(Section section)
+        private ICollection<Schedule> InitializePopulation(Section section, ScheduleConfiguration scheduleConfiguration)
         {
             ICollection<Schedule> population = new Collection<Schedule>();
-
-            var scheduleConfiguration = await unitOfWork
-                                                .ScheduleConfigurations
-                                                .GetScheduleConfiguration(section.AdmissionLevelId, section.ProgramTypeId);
 
             for (int i = 0; i < GeneticAlgorithmConf.POPULATION_SIZE; i++)
             {

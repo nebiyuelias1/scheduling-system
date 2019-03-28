@@ -33,27 +33,27 @@ namespace SchedulingSystem.GeneticAlgorithm
         {
             int conflicts = 0;
 
-            foreach (var c in courseOfferings)
-            {
-                if (c.Course.Lab >= GeneticAlgorithmConf.MAX_CONSECUTIVE_LAB)
-                {
-                    var consecutiveFound = false;
-                    foreach (var key in schedule.TimeTable.Keys)
-                    {
-                        var courses = schedule.TimeTable[key]
-                                        .Where(s => s.Course != null)
-                                        .ToList();
+            // foreach (var c in courseOfferings)
+            // {
+            //     if (c.Course.Lab >= GeneticAlgorithmConf.MAX_CONSECUTIVE_LAB)
+            //     {
+            //         var consecutiveFound = false;
+            //         foreach (var key in schedule.TimeTable.Keys)
+            //         {
+            //             var courses = schedule.TimeTable[key]
+            //                             .Where(s => s.Course != null)
+            //                             .ToList();
                         
-                        if (courses.Count() > 0)
-                        {
-                            consecutiveFound = courses
-                                                .Any(s => s.CourseId == c.Course.Id && s.TypeId == types.LabType.Id && s.Duration >= GeneticAlgorithmConf.MAX_CONSECUTIVE_LAB);
-                        }
-                    }
-                    if (!consecutiveFound)
-                        conflicts++;
-                }
-            }
+            //             if (courses.Count() > 0)
+            //             {
+            //                 consecutiveFound = courses
+            //                                     .Any(s => s.CourseId == c.Course.Id && s.TypeId == types.LabType.Id && s.Duration >= GeneticAlgorithmConf.MAX_CONSECUTIVE_LAB);
+            //             }
+            //         }
+            //         if (!consecutiveFound)
+            //             conflicts++;
+            //     }
+            // }
             
             return conflicts;
         }
@@ -61,28 +61,28 @@ namespace SchedulingSystem.GeneticAlgorithm
         private int CountConflictsBasedOnLectureConsecutiveness(ICollection<CourseOffering> courseOfferings, Schedule schedule)
         {
             int conflicts = 0;
-            foreach (var c in courseOfferings)
-            {
-                if (c.Course.Lecture >= GeneticAlgorithmConf.MAX_CONSECUTIVE_LECTURE)
-                {
-                    var consecutiveFound = false;
-                    foreach (var key in schedule.TimeTable.Keys)
-                    {
-                        var courses = schedule.TimeTable[key]
-                                        .Where(s => s.Course != null)
-                                        .ToList();
+            // foreach (var c in courseOfferings)
+            // {
+            //     if (c.Course.Lecture >= GeneticAlgorithmConf.MAX_CONSECUTIVE_LECTURE)
+            //     {
+            //         var consecutiveFound = false;
+            //         foreach (var key in schedule.TimeTable.Keys)
+            //         {
+            //             var courses = schedule.TimeTable[key]
+            //                             .Where(s => s.Course != null)
+            //                             .ToList();
 
-                        if (courses.Count() > 0)
-                        {
-                            consecutiveFound = courses
-                                        .Any(s => s.CourseId == c.Course.Id && s.TypeId == types.LectureType.Id && s.Duration >= GeneticAlgorithmConf.MAX_CONSECUTIVE_LECTURE);
-                        }
-                    }
+            //             if (courses.Count() > 0)
+            //             {
+            //                 consecutiveFound = courses
+            //                             .Any(s => s.CourseId == c.Course.Id && s.TypeId == types.LectureType.Id && s.Duration >= GeneticAlgorithmConf.MAX_CONSECUTIVE_LECTURE);
+            //             }
+            //         }
                     
-                    if (!consecutiveFound)
-                        conflicts++;
-                }
-            }
+            //         if (!consecutiveFound)
+            //             conflicts++;
+            //     }
+            // }
             
             return conflicts;
         }

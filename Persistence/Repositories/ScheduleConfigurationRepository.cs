@@ -16,6 +16,7 @@ namespace SchedulingSystem.Persistence.Repositories
         {
             return await SchedulingDbContext
                     .ScheduleConfigurations
+                    .Include(s => s.Durations)
                     .SingleOrDefaultAsync(s => s.AdmissionLevelId == admissionLevelId && s.ProgramTypeId == programTypeId);
         }
 

@@ -7,22 +7,32 @@ namespace SchedulingSystem.GeneticAlgorithm
 {
     public static class ScheduleExtensions
     {
-        public static Schedule Crossover(this Schedule scheduleA, Schedule scheduleB)
+        public static Schedule Crossover(this Schedule scheduleA, Schedule scheduleB, ScheduleConfiguration scheduleConfiguration)
         {
-            var schedule = Schedule.GetNewScheduleForSection(scheduleA.Section, scheduleA.TimeTable.Count);
-            
+            var schedule = Schedule.GetNewScheduleForSection(scheduleA.Section, scheduleConfiguration);
+
             var numberOfDays = scheduleA.TimeTable.Count;
             for (int i = 0; i < numberOfDays; i++)
             {
                 if (i % 2 == 0)
                 {
                     schedule.TimeTable[i] = scheduleA.TimeTable[i];
-                    RemoveScheduleEntries(scheduleA.TimeTable[i], scheduleB);
+                    var daySchedule = scheduleA.TimeTable[i].First();
+                    if (scheduleA.TimeTable[i].Count > 1)
+                    {
+                        daySchedule.AddRange(scheduleA.TimeTable[i].Last());
+                    }
+                    RemoveScheduleEntries(daySchedule, scheduleB);
                 }
                 else
                 {
                     schedule.TimeTable[i] = scheduleB.TimeTable[i];
-                    RemoveScheduleEntries(scheduleB.TimeTable[i], scheduleA);
+                    var daySchedule = scheduleB.TimeTable[i].First();
+                    if (scheduleB.TimeTable[i].Count > 1)
+                    {
+                        daySchedule.AddRange(scheduleB.TimeTable[i].Last());
+                    }
+                    RemoveScheduleEntries(daySchedule, scheduleA);
                 }
             }
 
@@ -52,16 +62,33 @@ namespace SchedulingSystem.GeneticAlgorithm
         {
             foreach (var scheduleEntry in daySchedule)
             {
-                if (scheduleEntry.Course != null)
+                if (scheduleEntry.Course == null)
                 {
-                    foreach (var key in scheduleB.TimeTable.Keys)
+                    continue;
+                }
+
+                foreach (var key in scheduleB.TimeTable.Keys)
+                {
+                    var earlyScheduleEntries = scheduleB.TimeTable[key].First();
+                    var foundSchedule = earlyScheduleEntries
+                                        .Where(s => s?.Course.CourseCode == scheduleEntry.Course.CourseCode &&
+                                                s?.TypeId == scheduleEntry.TypeId &&
+                                                s?.Duration == scheduleEntry.Duration)
+                                        .FirstOrDefault();
+
+                    if (foundSchedule != null)
                     {
-                        var foundSchedule = scheduleB.TimeTable[key]
-                                        .Where(s => s.Course != null)
-                                        .ToList()
-                                        .Where(s => s.Course.CourseCode == scheduleEntry.Course.CourseCode && 
-                                                s.TypeId == scheduleEntry.TypeId &&
-                                                s.Duration == scheduleEntry.Duration)
+                        foundSchedule = null;
+                        break;
+                    }
+
+                    if (scheduleB.TimeTable[key].Count > 1)
+                    {
+                        var afternoonScheduleEntries = scheduleB.TimeTable[key].Last();
+                        foundSchedule = afternoonScheduleEntries
+                                        .Where(s => s?.Course.CourseCode == scheduleEntry.Course.CourseCode &&
+                                                s?.TypeId == scheduleEntry.TypeId &&
+                                                s?.Duration == scheduleEntry.Duration)
                                         .FirstOrDefault();
 
                         if (foundSchedule != null)
@@ -70,7 +97,6 @@ namespace SchedulingSystem.GeneticAlgorithm
                             break;
                         }
                     }
-
                 }
             }
         }

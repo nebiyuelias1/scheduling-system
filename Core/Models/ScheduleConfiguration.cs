@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using SchedulingSystem.Controllers.Resources;
 
 namespace SchedulingSystem.Core.Models
@@ -14,6 +15,13 @@ namespace SchedulingSystem.Core.Models
         public int ProgramTypeId { get; set; }
         public int NumberOfDaysPerWeek { get; set; }
         public int NumberOfPeriodsPerDay { get; set; }
+        public int HalfNumberOfPeriodsPerDay 
+        { 
+            get 
+            {
+                return NumberOfPeriodsPerDay / 2;
+            } 
+        }
         public ICollection<Duration> Durations { get; set; }
 
         public ScheduleConfiguration()
@@ -21,7 +29,7 @@ namespace SchedulingSystem.Core.Models
             Durations = new Collection<Duration>();
         }
 
-        internal void CreateDurations(ISaveScheduleConfigurationResource resource)
+        public void CreateDurations(ISaveScheduleConfigurationResource resource)
         {
             var startTime = resource.StartTime;
             for (int i = 0; i < NumberOfPeriodsPerDay / 2; i++)
@@ -84,6 +92,11 @@ namespace SchedulingSystem.Core.Models
                 startTime = startTime.AddMinutes(resource.PeriodBreakDuration);
                 Durations.Add(periodBreakDuration);                
             }
+        }
+
+        public bool HasLunchBreak()
+        {
+            return Durations.Any(d => d.Type == DurationType.LunchBreak);
         }
     }
 }
