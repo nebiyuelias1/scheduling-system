@@ -26,7 +26,7 @@ namespace SchedulingSystem.GeneticAlgorithm
             conflicts += CountConflictsBasedOnLectureConsecutiveness(courseOfferings, schedule);
             conflicts += CountConflictsBasedOnLabConsecutiveness(courseOfferings, schedule);
 
-            return 1.0/conflicts;
+            return 1.0/(conflicts + 1);
         }
 
         private int CountConflictsBasedOnLabConsecutiveness(ICollection<CourseOffering> courseOfferings, Schedule schedule)

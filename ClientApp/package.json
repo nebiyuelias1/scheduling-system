@@ -28,8 +28,13 @@
     "aspnet-prerendering": "^3.0.1",
     "bootstrap": "^4.3.1",
     "core-js": "^2.4.1",
+    "dragula": "^3.7.2",
     "font-awesome": "^4.7.0",
+    "fullcalendar": "^4.0.0-alpha",
+    "fullcalendar-scheduler": "^4.0.0-alpha.2",
     "jquery": "^3.3.1",
+    "moment": "^2.24.0",
+    "ngx-fullcalendar": "^5.0.0-alpha.1",
     "rxjs": "^5.5.6",
     "tslib": "^1.9.0",
     "zone.js": "^0.8.19"

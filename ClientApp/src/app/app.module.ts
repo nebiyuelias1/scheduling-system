@@ -40,6 +40,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { CurriculumListComponent } from './curriculum-list/curriculum-list.component';
 import { HomeHeaderComponent } from './home-header/home-header.component';
 import { TimetableComponent } from './timetable/timetable.component';
+import { NgxFullCalendarModule } from 'ngx-fullcalendar';
 
 @NgModule({
   declarations: [
@@ -76,7 +77,8 @@ import { TimetableComponent } from './timetable/timetable.component';
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxFullCalendarModule
   ],
   providers: [
     CollegeService,

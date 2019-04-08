@@ -9,34 +9,35 @@ namespace SchedulingSystem.GeneticAlgorithm
     {
         public static Schedule Crossover(this Schedule scheduleA, Schedule scheduleB, ScheduleConfiguration scheduleConfiguration)
         {
-            var schedule = Schedule.GetNewScheduleForSection(scheduleA.Section, scheduleConfiguration);
+            // var schedule = Schedule.GetNewScheduleForSection(scheduleA.Section, scheduleConfiguration);
 
-            var numberOfDays = scheduleA.TimeTable.Count;
-            for (int i = 0; i < numberOfDays; i++)
-            {
-                if (i % 2 == 0)
-                {
-                    schedule.TimeTable[i] = scheduleA.TimeTable[i];
-                    var daySchedule = scheduleA.TimeTable[i].First();
-                    if (scheduleA.TimeTable[i].Count > 1)
-                    {
-                        daySchedule.AddRange(scheduleA.TimeTable[i].Last());
-                    }
-                    RemoveScheduleEntries(daySchedule, scheduleB);
-                }
-                else
-                {
-                    schedule.TimeTable[i] = scheduleB.TimeTable[i];
-                    var daySchedule = scheduleB.TimeTable[i].First();
-                    if (scheduleB.TimeTable[i].Count > 1)
-                    {
-                        daySchedule.AddRange(scheduleB.TimeTable[i].Last());
-                    }
-                    RemoveScheduleEntries(daySchedule, scheduleA);
-                }
-            }
+            // var numberOfDays = scheduleA.TimeTable.Count;
+            // for (int i = 0; i < numberOfDays; i++)
+            // {
+            //     if (i % 2 == 0)
+            //     {
+            //         schedule.TimeTable[i] = scheduleA.TimeTable[i];
+            //         var daySchedule = scheduleA.TimeTable[i].First();
+            //         if (scheduleA.TimeTable[i].Count > 1)
+            //         {
+            //             daySchedule.AddRange(scheduleA.TimeTable[i].Last());
+            //         }
+            //         RemoveScheduleEntries(daySchedule, scheduleB);
+            //     }
+            //     else
+            //     {
+            //         schedule.TimeTable[i] = scheduleB.TimeTable[i];
+            //         var daySchedule = scheduleB.TimeTable[i].First();
+            //         if (scheduleB.TimeTable[i].Count > 1)
+            //         {
+            //             daySchedule.AddRange(scheduleB.TimeTable[i].Last());
+            //         }
+            //         RemoveScheduleEntries(daySchedule, scheduleA);
+            //     }
+            // }
 
-            return schedule;
+            // return schedule;
+            return scheduleA;
         }
 
         public static void Mutate(this Schedule schedule)

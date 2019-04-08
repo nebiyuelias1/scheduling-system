@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using AutoMapper;
@@ -33,11 +35,11 @@ namespace SchedulingSystem.Mapping
             CreateMap<Course, SaveCourseResource>();
             CreateMap<Building, BuildingResource>();
             CreateMap<Room, SaveRoomResource>();
-            CreateMap<Section, SaveSectionResource> ();
-            CreateMap<Section, SectionResource> ()
-                .ForMember(x => x.Program, opt => 
+            CreateMap<Section, SaveSectionResource>();
+            CreateMap<Section, SectionResource>()
+                .ForMember(x => x.Program, opt =>
                     opt.MapFrom(s => new KeyValuePairResource { Id = s.Program.Id, Name = s.Program.Name }))
-                .ForMember(x => x.AdmissionLevel, opt => 
+                .ForMember(x => x.AdmissionLevel, opt =>
                     opt.MapFrom(s => new KeyValuePairResource { Id = s.AdmissionLevel.Id, Name = s.AdmissionLevel.Name }));
             CreateMap<Instructor, InstructorResource>();
             CreateMap<Type, KeyValuePairResource>();
@@ -49,9 +51,9 @@ namespace SchedulingSystem.Mapping
             CreateMap<SectionRoomAssignment, RoomSectionAssignmentResource>();
             CreateMap<AcademicYear, AcademicYearResource>();
             CreateMap<AcademicSemester, AcademicSemesterResource>()
-                .ForMember(asr => asr.AcademicYear, opt => opt.MapFrom(s => 
-                new SaveAcademicYearResource 
-                { 
+                .ForMember(asr => asr.AcademicYear, opt => opt.MapFrom(s =>
+                new SaveAcademicYearResource
+                {
                     Id = s.AcademicYear.Id,
                     GcYear = s.AcademicYear.GcYear,
                     EtYear = s.AcademicYear.EtYear,
@@ -64,7 +66,8 @@ namespace SchedulingSystem.Mapping
             CreateMap<AdmissionLevel, KeyValuePairResource>();
             CreateMap<ProgramType, KeyValuePairResource>();
             CreateMap<Course, CourseResource>();
-            CreateMap<Schedule, ScheduleResource>();
+            CreateMap<Schedule, ScheduleResource>()
+                .ForMember(sr => sr.TimeTable, opt => opt.Ignore());
             CreateMap<WeekDay, WeekDayResource>();
         }
     }

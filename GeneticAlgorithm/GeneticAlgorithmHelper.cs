@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using SchedulingSystem.Core;
 using SchedulingSystem.Core.Models;
 using SchedulingSystem.Persistence;
+using SchedulingSystem.Utilities;
 using Type = SchedulingSystem.Core.Models.Type;
 
 namespace SchedulingSystem.GeneticAlgorithm
@@ -26,7 +27,7 @@ namespace SchedulingSystem.GeneticAlgorithm
 
                 while (lecture > 0)
                 {
-                    var randDay = GetRandomInteger(scheduleConfiguration.NumberOfDaysPerWeek);
+                    var randDay = Helper.GetRandomInteger(scheduleConfiguration.NumberOfDaysPerWeek);
 
                     var lectureInstructor = courseOffering.Instructors
                                                     .Where(i => i.TypeId == types.LectureType.Id)
@@ -62,7 +63,7 @@ namespace SchedulingSystem.GeneticAlgorithm
 
                 while (tutor > 0)
                 {
-                    var randDay = GetRandomInteger(scheduleConfiguration.NumberOfDaysPerWeek);
+                    var randDay = Helper.GetRandomInteger(scheduleConfiguration.NumberOfDaysPerWeek);
 
                     var tutorInstructor = courseOffering.Instructors
                                                     .Where(i => i.TypeId == types.TutorType.Id)
@@ -90,7 +91,7 @@ namespace SchedulingSystem.GeneticAlgorithm
 
                 while (lab > 0)
                 {
-                    var randDay = GetRandomInteger(scheduleConfiguration.NumberOfDaysPerWeek);
+                    var randDay = Helper.GetRandomInteger(scheduleConfiguration.NumberOfDaysPerWeek);
 
                     var labInstructor = courseOffering.Instructors
                                                     .Where(i => i.TypeId == types.LabType.Id)
@@ -125,11 +126,6 @@ namespace SchedulingSystem.GeneticAlgorithm
                 }
             }
             return schedule;
-        }
-
-        private int GetRandomInteger(int upperLimit)
-        {
-            return new Random().Next(upperLimit);
         }
     }
 }

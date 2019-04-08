@@ -11,5 +11,10 @@ namespace SchedulingSystem.Controllers.Resources
         
         public double Fitness { get; set; }
 
+        public ScheduleResource()
+        {
+            TimeTable = new Dictionary<int, IList<ScheduleEntry>>();
+        }
+
     }
 }

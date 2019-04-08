@@ -18,6 +18,7 @@ export class ScheduleComponent implements OnInit {
     this.commonService.getTimetable(7)
       .subscribe(s => {
         this.schedule = s;
+        console.log(this.schedule);
       },
         err => console.log(err));
   }

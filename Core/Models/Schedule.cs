@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using SchedulingSystem.Utilities;
 
 namespace SchedulingSystem.Core.Models
 {
@@ -33,6 +34,7 @@ namespace SchedulingSystem.Core.Models
             TimeTable = new Dictionary<int, IList<List<ScheduleEntry>>>();
         }
 
+
         public static Schedule GetNewScheduleForSection(Section section, ScheduleConfiguration scheduleConfiguration)
         {
             var schedule = new Schedule();
@@ -57,20 +59,25 @@ namespace SchedulingSystem.Core.Models
 
         public int AddScheduleEntry(ScheduleEntry scheduleEntry, int day)
         {
-            var earlyScheduleEntries = TimeTable[day].First();
-            var sum = earlyScheduleEntries.Sum(s => s?.Duration);
-            if (sum + scheduleEntry.Duration <= earlyScheduleEntries.Capacity)
-            {
-                scheduleEntry.Period = Convert.ToInt32(sum);
-                earlyScheduleEntries.Add(scheduleEntry);
-                return scheduleEntry.Duration;
-            }
+            var earlyOrAfternoon = Helper.GetRandomInteger(2);
 
-            var afternoonScheduleEntries = TimeTable[day].Last();
-            sum = afternoonScheduleEntries.Sum(s => s?.Duration);
-            if (sum + scheduleEntry.Duration <= afternoonScheduleEntries.Capacity)
+            if (earlyOrAfternoon == 0 && TimeTable[day].Count > 1)
             {
-                scheduleEntry.Period = Convert.ToInt32(sum) + afternoonScheduleEntries.Capacity;
+                var earlyScheduleEntries = TimeTable[day].First();
+                var earlySum = earlyScheduleEntries.Sum(s => s?.Duration);
+                if (earlySum + scheduleEntry.Duration <= earlyScheduleEntries.Capacity)
+                {
+                    scheduleEntry.Period = Convert.ToInt32(earlySum);
+                    earlyScheduleEntries.Add(scheduleEntry);
+                    return scheduleEntry.Duration;
+                }
+            }
+            
+            var afternoonScheduleEntries = TimeTable[day].Last();
+            var afternoonSum = afternoonScheduleEntries.Sum(s => s?.Duration);
+            if (afternoonSum + scheduleEntry.Duration <= afternoonScheduleEntries.Capacity)
+            {
+                scheduleEntry.Period = Convert.ToInt32(afternoonSum) + afternoonScheduleEntries.Capacity;
                 afternoonScheduleEntries.Add(scheduleEntry);
                 return scheduleEntry.Duration;
             }

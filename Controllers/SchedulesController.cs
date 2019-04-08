@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -33,6 +34,15 @@ namespace SchedulingSystem.Controllers
             var schedule = await algorithm.GenerateScheduleForSection(id, scheduleConfiguration);
 
             var scheduleResource = mapper.Map<Schedule, ScheduleResource>(schedule);
+            foreach (var key in schedule.TimeTable.Keys)
+            {
+                var scheduleResourceTimetable = schedule.TimeTable[key].First();
+                if (schedule.TimeTable[key].Count > 1)
+                {
+                    scheduleResourceTimetable.AddRange(schedule.TimeTable[key].Last());
+                }
+                scheduleResource.TimeTable[key] = scheduleResourceTimetable;
+            }
             var scheduleConfigurationResource = mapper.Map<ScheduleConfiguration, ScheduleConfigurationResource>(scheduleConfiguration);
 
             var timetableResource = new TimetableResource
