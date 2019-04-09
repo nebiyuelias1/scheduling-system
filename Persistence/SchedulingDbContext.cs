@@ -1,9 +1,11 @@
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using SchedulingSystem.Core.Models;
 
 namespace SchedulingSystem.Persistence
 {
-    public class SchedulingDbContext : DbContext
+    public class SchedulingDbContext : IdentityDbContext<IdentityUser>
     {
 
         public DbSet<College> Colleges { get; set; }
