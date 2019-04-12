@@ -41,6 +41,10 @@ import { CurriculumListComponent } from './curriculum-list/curriculum-list.compo
 import { HomeHeaderComponent } from './home-header/home-header.component';
 import { TimetableComponent } from './timetable/timetable.component';
 import { NgxFullCalendarModule } from 'ngx-fullcalendar';
+import { UserRoutingModule } from './accounts/user-routing.module';
+import { AccountsModule } from './accounts/accounts.module';
+import { LoginFormComponent } from './accounts/login-form/login-form.component';
+import { MainComponent } from './main/main.component';
 
 @NgModule({
   declarations: [
@@ -71,9 +75,11 @@ import { NgxFullCalendarModule } from 'ngx-fullcalendar';
     CurriculumListComponent,
     HomeHeaderComponent,
     TimetableComponent,
+    MainComponent,
   ],
   imports: [
     AppRoutingModule,
+    AccountsModule,
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     FormsModule,
