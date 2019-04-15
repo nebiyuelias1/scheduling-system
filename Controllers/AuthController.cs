@@ -51,6 +51,11 @@ namespace SchedulingSystem.Controllers
         [Route("/register")]
         public async Task<IActionResult> Register([FromBody] RegisterResource resource)
         {
+            if (!ModelState.IsValid) 
+            {
+                return BadRequest(ModelState);
+            }
+
             var user = new IdentityUser
             {
                 Email = resource.Email,
@@ -58,6 +63,10 @@ namespace SchedulingSystem.Controllers
                 SecurityStamp = Guid.NewGuid().ToString()
             };
             var result = await userManager.CreateAsync(user, resource.Password);
+            
+            if (!result.Succeeded) 
+                return new BadRequestObjectResult(Errors.AddErrorsToModelState(result, ModelState));
+            
             if (result.Succeeded)
             {
                 // Add to role

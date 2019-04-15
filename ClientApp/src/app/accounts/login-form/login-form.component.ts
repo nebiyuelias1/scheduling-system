@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../user.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Credentials } from '../models/credentials.interface';
 
 @Component({
@@ -9,14 +9,22 @@ import { Credentials } from '../models/credentials.interface';
   styleUrls: ['./login-form.component.css']
 })
 export class LoginFormComponent implements OnInit {
-  submitted: boolean = false;
+  submitted = false;
   errors: string;
   isRequesting: boolean;
-  credentials: Credentials = { email: '', password: ''};
+  credentials: Credentials = { email: '', password: '' };
+  invalidLogin: boolean;
+  brandNew: any;
 
-  constructor(private userService: UserService, private router: Router) { }
-  
+  constructor(private userService: UserService, private router: Router, private activatedRoute: ActivatedRoute) { }
+
   ngOnInit() {
+    // subscribe to router event
+    this.activatedRoute.queryParams.subscribe(
+      (param: any) => {
+        this.brandNew = param['brandNew'];
+        this.credentials.email = param['email'];
+      });
   }
 
   login({ value, valid }: { value: Credentials, valid: boolean }) {
@@ -24,12 +32,14 @@ export class LoginFormComponent implements OnInit {
     this.isRequesting = true;
     this.errors = '';
     if (valid) {
-      this.userService.login({username: value.email, password: value.password})
+      this.userService.login({ username: value.email, password: value.password })
         .finally(() => this.isRequesting = false)
         .subscribe(
           result => {
             if (result) {
               this.router.navigate(['']);
+            } else {
+              this.invalidLogin = true;
             }
           },
           error => this.errors = error);

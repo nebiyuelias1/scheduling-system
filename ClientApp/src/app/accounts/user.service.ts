@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { registerLocaleData } from '@angular/common';
 import { BehaviorSubject, Observable } from 'rxjs/Rx';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 // Add the RxJS Observable operators we need in this app.
 import { BaseService } from './base.service';
@@ -22,29 +22,50 @@ export class UserService extends BaseService {
   }
 
   login(credentials) {
-    console.log(credentials);
     return this.http
-      .post('/login',credentials
-      )
+      .post('/login', credentials)
       .map((res: any) => {
-        console.log(res);
-        localStorage.setItem('auth_token', res.auth_token);
-        this.loggedIn = true;
-        this._authNavStatusSource.next(true);
-        return true;
+        if (res && res.auth_token) {
+          localStorage.setItem('auth_token', res.auth_token);
+          this.loggedIn = true;
+          this._authNavStatusSource.next(true);
+          return true;
+        }
+        return false;
       })
       .catch(this.handleError);
   }
 
-  register(email: string, password: string, firstName: string, lastName: string, location: string): Observable<UserRegistration> {
-    let body = JSON.stringify({ email, password, firstName, lastName, location });
-    let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+  register(email: string, password: string, passwordAgain: string): Observable<UserRegistration> {
+    const body = JSON.stringify({ email, password, passwordAgain });
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     //  let options = new RequestOptions({ headers: headers });
 
-    return this.http.post("/register", body, {
-      headers: headers
-    })
+    return this.http.post('/register', body, {
+        headers: headers
+      })
       .map(res => true)
       .catch(this.handleError);
   }
+
+  logout() {
+    localStorage.removeItem('auth_token');
+  }
+
+  isLoggedIn() {
+    const jwtHelper = new JwtHelperService();
+    const token = localStorage.getItem('auth_token');
+
+    if (!token) {
+      return false;
+    }
+
+    const decodedToken = jwtHelper.decodeToken(token);
+    console.log(decodedToken);
+    const expirationDate = jwtHelper.getTokenExpirationDate(token);
+    const isExpired = jwtHelper.isTokenExpired(token);
+
+    return !isExpired;
+  }
+
 }

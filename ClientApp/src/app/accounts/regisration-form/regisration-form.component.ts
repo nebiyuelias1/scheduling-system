@@ -23,7 +23,7 @@ export class RegisrationFormComponent implements OnInit {
     this.isRequesting = true;
     this.errors = '';
     if (valid) {
-      this.userService.register(value.email, value.password, value.firstName, value.lastName, value.location)
+      this.userService.register(value.email, value.password, value.passwordAgain)
         .finally(() => this.isRequesting = false)
         .subscribe(result => {
           if (result) {
