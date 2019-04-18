@@ -60,12 +60,21 @@ export class UserService extends BaseService {
       return false;
     }
 
-    const decodedToken = jwtHelper.decodeToken(token);
-    console.log(decodedToken);
     const expirationDate = jwtHelper.getTokenExpirationDate(token);
     const isExpired = jwtHelper.isTokenExpired(token);
 
     return !isExpired;
+  }
+
+  get decodedToken() {
+    const jwtHelper = new JwtHelperService();
+    const token = localStorage.getItem('auth_token');
+
+    if (!token) {
+      return false;
+    }
+
+    return jwtHelper.decodeToken(token);
   }
 
 }

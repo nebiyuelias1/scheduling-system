@@ -20,12 +20,13 @@ import { ScheduleComponent } from './schedule/schedule.component';
 import { ScheduleConfigurationFormComponent } from './schedule-configuration-form/schedule-configuration-form.component';
 import { CurriculumListComponent } from './curriculum-list/curriculum-list.component';
 import { MainComponent } from './main/main.component';
+import { AuthGuard } from './accounts/auth-guard.service';
 
 const routes: Routes = [
     {
         path: '',
         component: MainComponent,
-        //pathMatch: 'full',
+        // pathMatch: 'full',
         children: [
             {
                 path: '',
@@ -36,6 +37,7 @@ const routes: Routes = [
                 data: {
                     breadcrumb: 'Colleges'
                 },
+                canActivate: [AuthGuard],
                 children: [
                     {
                         path: '',
@@ -66,6 +68,7 @@ const routes: Routes = [
                 data: {
                     breadcrumb: 'Curriculums'
                 },
+                canActivate: [AuthGuard],
                 children: [
                     {
                         path: '',

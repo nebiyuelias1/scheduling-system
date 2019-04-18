@@ -45,6 +45,7 @@ import { UserRoutingModule } from './accounts/user-routing.module';
 import { AccountsModule } from './accounts/accounts.module';
 import { LoginFormComponent } from './accounts/login-form/login-form.component';
 import { MainComponent } from './main/main.component';
+import { AuthGuard } from './accounts/auth-guard.service';
 
 @NgModule({
   declarations: [
@@ -95,7 +96,8 @@ import { MainComponent } from './main/main.component';
     RoomService,
     CommonService,
     SectionService,
-    InstructorService
+    InstructorService,
+    AuthGuard
   ],
   bootstrap: [AppComponent]
 })

@@ -37,7 +37,8 @@ export class LoginFormComponent implements OnInit {
         .subscribe(
           result => {
             if (result) {
-              this.router.navigate(['']);
+              const returnUrl = this.activatedRoute.snapshot.queryParamMap.get('returnUrl');
+              this.router.navigate([ returnUrl || '' ]);
             } else {
               this.invalidLogin = true;
             }

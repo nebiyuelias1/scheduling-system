@@ -3,7 +3,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.I.dentity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
@@ -20,7 +20,9 @@ namespace SchedulingSystem.Controllers
         private readonly IConfiguration configuration;
         private readonly IJwtFactory jwtFactory;
         private readonly JwtIssuerOptions jwtOptions;
-        public AuthController(UserManager<IdentityUser> userManager, IConfiguration configuration, IJwtFactory jwtFactory, IOptions<JwtIssuerOptions> jwtOptions)
+        public AuthController(UserManager<IdentityUser> userManager, 
+                            IConfiguration configuration, 
+                            IJwtFactory jwtFactory, IOptions<JwtIssuerOptions> jwtOptions)
         {
             this.jwtOptions = jwtOptions.Value;
             this.jwtFactory = jwtFactory;
@@ -82,7 +84,7 @@ namespace SchedulingSystem.Controllers
 
             // get the user to verifty
             var userToVerify = await userManager.FindByNameAsync(userName);
-
+            
             if (userToVerify == null) return await Task.FromResult<ClaimsIdentity>(null);
 
             // check the credentials

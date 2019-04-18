@@ -8,11 +8,12 @@ import { HttpClientModule } from '@angular/common/http';
 import { UserRoutingModule } from './user-routing.module';
 import { UserService } from './user.service';
 import { BaseService } from './base.service';
+import { AuthGuard } from './auth-guard.service';
 
 @NgModule({
-  declarations: 
+  declarations:
   [
-    RegisrationFormComponent, 
+    RegisrationFormComponent,
     LoginFormComponent
   ],
   imports: [
@@ -24,7 +25,8 @@ import { BaseService } from './base.service';
     HttpClientModule
   ],
   providers: [
-    UserService
+    UserService,
+    AuthGuard
   ]
 })
 export class AccountsModule { }
