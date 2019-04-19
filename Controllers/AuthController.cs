@@ -1,9 +1,10 @@
 using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.I.dentity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
@@ -17,17 +18,22 @@ namespace SchedulingSystem.Controllers
     public class AuthController : Controller
     {
         private readonly UserManager<IdentityUser> userManager;
+        private readonly RoleManager<IdentityRole> roleManager;
         private readonly IConfiguration configuration;
         private readonly IJwtFactory jwtFactory;
         private readonly JwtIssuerOptions jwtOptions;
-        public AuthController(UserManager<IdentityUser> userManager, 
+        public AuthController(
+                            UserManager<IdentityUser> userManager,
+                            RoleManager<IdentityRole> roleManager,
                             IConfiguration configuration, 
-                            IJwtFactory jwtFactory, IOptions<JwtIssuerOptions> jwtOptions)
+                            IJwtFactory jwtFactory, 
+                            IOptions<JwtIssuerOptions> jwtOptions)
         {
             this.jwtOptions = jwtOptions.Value;
             this.jwtFactory = jwtFactory;
             this.configuration = configuration;
             this.userManager = userManager;
+            this.roleManager = roleManager;
         }
 
         [HttpPost]
@@ -71,6 +77,10 @@ namespace SchedulingSystem.Controllers
             
             if (result.Succeeded)
             {
+                // var roleResult = new IdentityRole("Administrator");
+                // await roleManager.CreateAsync(roleResult);
+                // await roleManager.AddClaimAsync(roleResult, new Claim("ManagePermission", "true"));
+                // await userManager.AddToRoleAsync(user, roleResult.Name);
                 // Add to role
                 // await userManager.AddToRoleAsync(user, "Customer");
             }
@@ -90,7 +100,16 @@ namespace SchedulingSystem.Controllers
             // check the credentials
             if (await userManager.CheckPasswordAsync(userToVerify, password))
             {
-                return await Task.FromResult(jwtFactory.GenerateClaimsIdentity(userName, userToVerify.Id));
+                var roles = await userManager.GetRolesAsync(userToVerify);
+                var claims = new List<Claim>();
+                
+                foreach (var role in roles)
+                {
+                    var r = await roleManager.FindByNameAsync(role);
+                    var c = await roleManager.GetClaimsAsync(r);
+                    claims.AddRange(c);
+                }
+                return await Task.FromResult(jwtFactory.GenerateClaimsIdentity(userName, userToVerify.Id, claims));
             }
 
             // Credentials are invalid, or account doesn't exist

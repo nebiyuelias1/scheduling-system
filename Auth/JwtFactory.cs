@@ -1,5 +1,8 @@
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Security.Principal;
 using System.Threading.Tasks;
@@ -22,25 +25,30 @@ namespace SchedulingSystem.Auth
             ThrowIfInvalidOptions(_jwtOptions);
         }
 
-        public ClaimsIdentity GenerateClaimsIdentity(string userName, string id)
+        public ClaimsIdentity GenerateClaimsIdentity(string userName, string id, IList<Claim> claims)
         {
-            return new ClaimsIdentity(new GenericIdentity(userName, "Token"), new[]
+            var claimsIdentity = new ClaimsIdentity(new GenericIdentity(userName, "Token"), new[]
             {
                 new Claim(Constants.Strings.JwtClaimIdentifiers.Id, id),
-                new Claim(Constants.Strings.JwtClaimIdentifiers.Rol, Constants.Strings.JwtClaims.ApiAccess)
+                new Claim(Constants.Strings.JwtClaimIdentifiers.Rol, Constants.Strings.JwtClaims.ApiAccess),
             });
+            claimsIdentity.AddClaims(claims);
+
+            return claimsIdentity;
         }
 
         public async Task<string> GenerateEncodedToken(string userName, ClaimsIdentity identity)
         {
-            var claims = new[]
+            var claims = new List<Claim>
             {
                 new Claim(JwtRegisteredClaimNames.Sub, userName),
                 new Claim(JwtRegisteredClaimNames.Jti, await _jwtOptions.JtiGenerator()),
                 new Claim(JwtRegisteredClaimNames.Iat, ToUnixEpochDate(_jwtOptions.IssuedAt).ToString(), ClaimValueTypes.Integer64),
-                            identity.FindFirst(Constants.Strings.JwtClaimIdentifiers.Rol),
-                            identity.FindFirst(Constants.Strings.JwtClaimIdentifiers.Id),
+                            // identity.FindFirst(Constants.Strings.JwtClaimIdentifiers.Rol),
+                            // identity.FindFirst(Constants.Strings.JwtClaimIdentifiers.Id),
             };
+            claims.AddRange(identity.Claims);
+            
 
             // Create the JWT security token and encode it.
             var jwt = new JwtSecurityToken(
@@ -50,7 +58,7 @@ namespace SchedulingSystem.Auth
                 notBefore: _jwtOptions.NotBefore,
                 expires: _jwtOptions.Expiration,
                 signingCredentials: _jwtOptions.SigningCredentials);
-
+            
             var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
 
             return encodedJwt;

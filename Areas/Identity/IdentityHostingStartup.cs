@@ -19,8 +19,11 @@ namespace SchedulingSystem.Areas.Identity
                     options.UseSqlServer(
                         context.Configuration.GetConnectionString("Default")));
 
-                services.AddDefaultIdentity<IdentityUser>()
+                services.AddIdentity<IdentityUser, IdentityRole>()
                     .AddEntityFrameworkStores<SchedulingDbContext>();
+
+                // services.AddDefaultIdentity<IdentityUser>()
+                //     .AddEntityFrameworkStores<SchedulingDbContext>();
             });
         }
     }

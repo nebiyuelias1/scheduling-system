@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-
+using Microsoft.AspNetCore.Identity;
 
 namespace SchedulingSystem.Core.Models
 {
@@ -22,5 +22,8 @@ namespace SchedulingSystem.Core.Models
 
         public Department Department { get; set; }
         public int DepartmentId { get; set; }
+        
+        public IdentityUser User { get; set; }
+        public string UserId { get; set; }
     }
 }
