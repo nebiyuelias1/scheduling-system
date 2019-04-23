@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonService } from '../services/common.service';
+import { UserService } from '../accounts/user.service';
 
 @Component({
   selector: 'app-home-header',
@@ -9,7 +10,7 @@ import { CommonService } from '../services/common.service';
 export class HomeHeaderComponent implements OnInit {
   currentAcacemicSemester;
 
-  constructor(private commonService: CommonService) {  }
+  constructor(private commonService: CommonService, private userService: UserService) {  }
 
   ngOnInit() {
     this.commonService.getCurrentAcademicSemester()

@@ -18,6 +18,7 @@ namespace SchedulingSystem.Persistence
         public IAcademicSemesterRepository AcademicSemesters { get; private set; }
 
         public IWeekDayRepository WeekDays { get; private set; }
+        public IInstructorRepository Instructors { get; private set; }
 
         public UnitOfWork(SchedulingDbContext context)
         {
@@ -29,6 +30,7 @@ namespace SchedulingSystem.Persistence
             Sections = new SectionRepository(context);
             AcademicSemesters = new AcademicSemesterRepository(context);
             WeekDays = new WeekDayRepository(context);
+            Instructors =  new InstructorRepository(context);
         }
 
 

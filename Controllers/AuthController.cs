@@ -12,6 +12,7 @@ using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using SchedulingSystem.Auth;
 using SchedulingSystem.Controllers.Resources;
+using SchedulingSystem.Core;
 
 namespace SchedulingSystem.Controllers
 {
@@ -21,16 +22,19 @@ namespace SchedulingSystem.Controllers
         private readonly RoleManager<IdentityRole> roleManager;
         private readonly IConfiguration configuration;
         private readonly IJwtFactory jwtFactory;
+        private readonly IUnitOfWork unitOfWork;
         private readonly JwtIssuerOptions jwtOptions;
         public AuthController(
                             UserManager<IdentityUser> userManager,
                             RoleManager<IdentityRole> roleManager,
-                            IConfiguration configuration, 
-                            IJwtFactory jwtFactory, 
-                            IOptions<JwtIssuerOptions> jwtOptions)
+                            IConfiguration configuration,
+                            IJwtFactory jwtFactory,
+                            IOptions<JwtIssuerOptions> jwtOptions,
+                            IUnitOfWork unitOfWork)
         {
             this.jwtOptions = jwtOptions.Value;
             this.jwtFactory = jwtFactory;
+            this.unitOfWork = unitOfWork;
             this.configuration = configuration;
             this.userManager = userManager;
             this.roleManager = roleManager;
@@ -59,7 +63,7 @@ namespace SchedulingSystem.Controllers
         [Route("/register")]
         public async Task<IActionResult> Register([FromBody] RegisterResource resource)
         {
-            if (!ModelState.IsValid) 
+            if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
@@ -71,16 +75,17 @@ namespace SchedulingSystem.Controllers
                 SecurityStamp = Guid.NewGuid().ToString()
             };
             var result = await userManager.CreateAsync(user, resource.Password);
-            
-            if (!result.Succeeded) 
+
+            if (!result.Succeeded)
                 return new BadRequestObjectResult(Errors.AddErrorsToModelState(result, ModelState));
-            
+
             if (result.Succeeded)
             {
-                // var roleResult = new IdentityRole("Administrator");
-                // await roleManager.CreateAsync(roleResult);
-                // await roleManager.AddClaimAsync(roleResult, new Claim("ManagePermission", "true"));
-                // await userManager.AddToRoleAsync(user, roleResult.Name);
+
+                //await userManager.AddToRoleAsync(user, adminRole.Name);
+                // var student = new IdentityRole("Student");
+                // await roleManager.CreateAsync(student);
+                // await roleManager.AddClaimAsync(student, new Claim("student", "true"));
                 // Add to role
                 // await userManager.AddToRoleAsync(user, "Customer");
             }
@@ -94,7 +99,7 @@ namespace SchedulingSystem.Controllers
 
             // get the user to verifty
             var userToVerify = await userManager.FindByNameAsync(userName);
-            
+
             if (userToVerify == null) return await Task.FromResult<ClaimsIdentity>(null);
 
             // check the credentials
@@ -102,7 +107,10 @@ namespace SchedulingSystem.Controllers
             {
                 var roles = await userManager.GetRolesAsync(userToVerify);
                 var claims = new List<Claim>();
-                
+
+                var instructor = await unitOfWork.Instructors.GetInstructorWithDept(userToVerify.Id);
+                claims.Add(new Claim("dept", instructor.Department.Name));
+
                 foreach (var role in roles)
                 {
                     var r = await roleManager.FindByNameAsync(role);
