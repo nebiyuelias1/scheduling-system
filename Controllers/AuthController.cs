@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -38,6 +40,19 @@ namespace SchedulingSystem.Controllers
             this.configuration = configuration;
             this.userManager = userManager;
             this.roleManager = roleManager;
+        }
+
+        [HttpGet("/roles")]
+        public async Task<IActionResult> GetRoles()
+        {
+            return Ok(await roleManager.Roles
+                .Select(r => new 
+                {
+                    r.Id,
+                    r.Name,
+                    r.NormalizedName
+                })
+                .ToListAsync());
         }
 
         [HttpPost]
@@ -81,7 +96,7 @@ namespace SchedulingSystem.Controllers
 
             if (result.Succeeded)
             {
-
+                await userManager.AddToRoleAsync(user, resource.Role);
                 //await userManager.AddToRoleAsync(user, adminRole.Name);
                 // var student = new IdentityRole("Student");
                 // await roleManager.CreateAsync(student);
@@ -108,8 +123,8 @@ namespace SchedulingSystem.Controllers
                 var roles = await userManager.GetRolesAsync(userToVerify);
                 var claims = new List<Claim>();
 
-                var instructor = await unitOfWork.Instructors.GetInstructorWithDept(userToVerify.Id);
-                claims.Add(new Claim("dept", instructor.Department.Name));
+                // var instructor = await unitOfWork.Instructors.GetInstructorWithDept(userToVerify.Id);
+                // claims.Add(new Claim("dept", instructor.Department.Name));
 
                 foreach (var role in roles)
                 {

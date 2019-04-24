@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col-sm-4">
+  <div *ngIf="userService.decodedToken.admin === 'true'" class="col-sm-4">
     <div class="card">
       <div class="card-body">
         <h5 class="card-title">Colleges</h5>
@@ -8,9 +8,8 @@
       </div>
     </div>
   </div>
-  <div class="col-sm-4">
+  <div *ngIf="userService.decodedToken.dean === 'true'" class="col-sm-4">
     <div class="card">
-      <i class="fas fa-book card-img-top"></i>
       <div class="card-body">
         <h5 class="card-title">Departments</h5>
         <p class="card-text">Add new Department.</p>
@@ -18,19 +17,16 @@
       </div>
     </div>
   </div>
-  <div class="col-sm-4">
+  <div *ngIf="userService.decodedToken.head === 'true'" class="col-sm-4">
     <div class="card">
       <div class="card-body">
         <h5 class="card-title">Buildings</h5>
-        <p class="card-text">Add new building.</p>
+        <p class="card-text">Buildings</p>
         <a routerLink="buildings/new" class="btn btn-primary">Add Building</a>
       </div>
     </div>
   </div>
-</div>
-
-<div class="row mt-3">
-  <div class="col-sm-4">
+  <div *ngIf="userService.decodedToken.head === 'true'" class="col-sm-4">
     <div class="card">
       <div class="card-body">
         <h5 class="card-title">Rooms</h5>
@@ -57,4 +53,8 @@
       </div>
     </div>
   </div>
+</div>
+
+<div class="row mt-3">
+  
 </div>

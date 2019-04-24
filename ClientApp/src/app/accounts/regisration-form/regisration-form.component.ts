@@ -12,10 +12,13 @@ export class RegisrationFormComponent implements OnInit {
   submitted: boolean;
   isRequesting: boolean;
   errors: any;
+  roles: any[];
 
   constructor(private userService: UserService, private router: Router) { }
 
   ngOnInit() {
+    this.userService.getRoles()
+      .subscribe((r: any[]) => this.roles = r);
   }
 
   registerUser({ value, valid }: { value: UserRegistration, valid: boolean }) {
@@ -23,7 +26,7 @@ export class RegisrationFormComponent implements OnInit {
     this.isRequesting = true;
     this.errors = '';
     if (valid) {
-      this.userService.register(value.email, value.password, value.passwordAgain)
+      this.userService.register(value.email, value.password, value.passwordAgain, value.role)
         .finally(() => this.isRequesting = false)
         .subscribe(result => {
           if (result) {

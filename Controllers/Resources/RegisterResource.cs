@@ -14,5 +14,8 @@ namespace SchedulingSystem.Controllers.Resources
         [Required]
         [Compare("Password")]
         public string PasswordAgain { get; set; }
+        
+        [Required]
+        public string Role { get; set; }
     }
 }

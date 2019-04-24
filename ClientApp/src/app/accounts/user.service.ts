@@ -21,6 +21,10 @@ export class UserService extends BaseService {
     super();
   }
 
+  getRoles() {
+    return this.http.get('/roles');
+  }
+
   login(credentials) {
     return this.http
       .post('/login', credentials)
@@ -36,8 +40,8 @@ export class UserService extends BaseService {
       .catch(this.handleError);
   }
 
-  register(email: string, password: string, passwordAgain: string): Observable<UserRegistration> {
-    const body = JSON.stringify({ email, password, passwordAgain });
+  register(email: string, password: string, passwordAgain: string, role: string): Observable<UserRegistration> {
+    const body = JSON.stringify({ email, password, passwordAgain, role });
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     //  let options = new RequestOptions({ headers: headers });
 
