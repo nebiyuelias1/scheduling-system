@@ -46,6 +46,8 @@ import { AccountsModule } from './accounts/accounts.module';
 import { LoginFormComponent } from './accounts/login-form/login-form.component';
 import { MainComponent } from './main/main.component';
 import { AuthGuard } from './accounts/auth-guard.service';
+import { DataTableComponent } from './data-table/data-table.component';
+import { MatTableModule, MatPaginatorModule, MatSortModule } from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -77,6 +79,7 @@ import { AuthGuard } from './accounts/auth-guard.service';
     HomeHeaderComponent,
     TimetableComponent,
     MainComponent,
+    DataTableComponent,
   ],
   imports: [
     AppRoutingModule,
@@ -85,7 +88,10 @@ import { AuthGuard } from './accounts/auth-guard.service';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    NgxFullCalendarModule
+    NgxFullCalendarModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule
   ],
   providers: [
     CollegeService,
