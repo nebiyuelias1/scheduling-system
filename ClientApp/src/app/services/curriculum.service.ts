@@ -16,6 +16,6 @@ export class CurriculumService {
   }
 
   getCurriculum(id) {
-    return this.http.get('/api/curriculums' + id);
+    return this.http.get('/api/curriculums/' + id);
   }
 }

@@ -11,6 +11,7 @@ import { ActivatedRoute, ParamMap } from '@angular/router';
 })
 export class CurriculumFormComponent implements OnInit {
   departments: any[];
+  curriculum;
   form = new FormGroup({
     nomenclature: new FormControl(''),
     stayYear: new FormControl(''),
@@ -25,14 +26,19 @@ export class CurriculumFormComponent implements OnInit {
 
   ngOnInit() {
     let id = this.route.snapshot.paramMap.get('id');
-    if (id !== null) {
-      this.curriculumService.getCurriculum(id);
-    }
-
+    
     this.departmentService.getDepartments()
       .subscribe((result: any[]) => {
         this.departments = result;
       });
+
+    if (id !== null) {
+      this.curriculumService.getCurriculum(id)
+        .subscribe((result: any) => {
+          this.curriculum = result;
+        });
+    }
+
   }
 
   save() {
