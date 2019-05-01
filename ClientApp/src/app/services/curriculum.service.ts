@@ -14,4 +14,8 @@ export class CurriculumService {
   save(curriculum) {
     return this.http.post('/api/curriculums', curriculum);
   }
+
+  getCurriculum(id) {
+    return this.http.get('/api/curriculums' + id);
+  }
 }

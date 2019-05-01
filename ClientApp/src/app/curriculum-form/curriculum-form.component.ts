@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DepartmentService } from '../services/department.service';
 import { CurriculumService } from '../services/curriculum.service';
 import { FormGroup, FormControl } from '@angular/forms';
+import { ActivatedRoute, ParamMap } from '@angular/router';
 
 @Component({
   selector: 'app-curriculum-form',
@@ -19,9 +20,15 @@ export class CurriculumFormComponent implements OnInit {
 
   constructor(
     private departmentService: DepartmentService,
-    private curriculumService: CurriculumService) { }
+    private curriculumService: CurriculumService,
+    private route: ActivatedRoute) { }
 
   ngOnInit() {
+    let id = this.route.snapshot.paramMap.get('id');
+    if (id !== null) {
+      this.curriculumService.getCurriculum(id);
+    }
+
     this.departmentService.getDepartments()
       .subscribe((result: any[]) => {
         this.departments = result;

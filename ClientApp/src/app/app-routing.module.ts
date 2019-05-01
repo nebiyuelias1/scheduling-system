@@ -83,6 +83,13 @@ const routes: Routes = [
                             breadcrumb: 'New'
                         },
                         component: CurriculumFormComponent
+                    },
+                    {
+                        path: 'edit/:id',
+                        data: {
+                            breadcrumb: 'Edit'
+                        },
+                        component: CurriculumFormComponent
                     }
                 ]
             },

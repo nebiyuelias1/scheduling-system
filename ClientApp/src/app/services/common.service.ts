@@ -3,7 +3,8 @@ import { HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class CommonService {
-
+  
+  
   constructor(private http: HttpClient) { }
 
   getProgramTypes() {
@@ -69,4 +70,9 @@ export class CommonService {
   getWeekDays() {
     return this.http.get('/api/weekdays');
   }
+
+  getCurriculums() {
+    return this.http.get('/api/curriculums');
+  }
+
 }

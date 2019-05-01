@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, MatSort } from '@angular/material';
 import { DataTableDataSource } from './data-table-datasource';
 
@@ -7,7 +7,7 @@ import { DataTableDataSource } from './data-table-datasource';
   templateUrl: './data-table.component.html',
   styleUrls: ['./data-table.component.css']
 })
-export class DataTableComponent implements AfterViewInit {
+export class DataTableComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   dataSource: DataTableDataSource;
@@ -15,7 +15,7 @@ export class DataTableComponent implements AfterViewInit {
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
   displayedColumns = ['id', 'name'];
 
-  ngAfterViewInit() {
+  ngOnInit() {
     this.dataSource = new DataTableDataSource(this.paginator, this.sort);
   }
 }

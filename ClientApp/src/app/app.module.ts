@@ -48,6 +48,7 @@ import { MainComponent } from './main/main.component';
 import { AuthGuard } from './accounts/auth-guard.service';
 import { DataTableComponent } from './data-table/data-table.component';
 import { MatTableModule, MatPaginatorModule, MatSortModule } from '@angular/material';
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
 @NgModule({
   declarations: [
@@ -87,11 +88,12 @@ import { MatTableModule, MatPaginatorModule, MatSortModule } from '@angular/mate
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     FormsModule,
+    BrowserAnimationsModule,
     ReactiveFormsModule,
     NgxFullCalendarModule,
     MatTableModule,
     MatPaginatorModule,
-    MatSortModule
+    MatSortModule,
   ],
   providers: [
     CollegeService,

@@ -4,48 +4,20 @@ import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs/Rx';
 import { of as observableOf } from 'rxjs/observable/of';
 import { merge } from 'rxjs/observable/merge';
+import { Curriculum } from '../models/curriculum-interface';
 
-// TODO: Replace this with your own data model type
-export interface DataTableItem {
-  name: string;
-  id: number;
-  amount: number;
-}
-
-// TODO: replace this with real data from your application
-const EXAMPLE_DATA: DataTableItem[] = [
-  {id: 1, name: 'Hydrogen', amount: 5},
-  {id: 2, name: 'Helium', amount: 5},
-  {id: 3, name: 'Lithium', amount: 5},
-  {id: 4, name: 'Beryllium', amount: 5},
-  {id: 5, name: 'Boron', amount: 5},
-  {id: 6, name: 'Carbon', amount: 5},
-  {id: 7, name: 'Nitrogen', amount: 5},
-  {id: 8, name: 'Oxygen', amount: 5},
-  {id: 9, name: 'Fluorine', amount: 5},
-  {id: 10, name: 'Neon', amount: 5},
-  {id: 11, name: 'Sodium', amount: 5},
-  {id: 12, name: 'Magnesium', amount: 5},
-  {id: 13, name: 'Aluminum', amount: 5},
-  {id: 14, name: 'Silicon', amount: 5},
-  {id: 15, name: 'Phosphorus', amount: 5},
-  {id: 16, name: 'Sulfur', amount: 5},
-  {id: 17, name: 'Chlorine', amount: 5},
-  {id: 18, name: 'Argon', amount: 5},
-  {id: 19, name: 'Potassium', amount: 5},
-  {id: 20, name: 'Calcium', amount: 5},
-];
 
 /**
  * Data source for the DataTable view. This class should
  * encapsulate all logic for fetching and manipulating the displayed data
  * (including sorting, pagination, and filtering).
  */
-export class DataTableDataSource extends DataSource<DataTableItem> {
-  data: DataTableItem[] = EXAMPLE_DATA;
+export class CurriculumDataSource extends DataSource<Curriculum> {
+    data: Curriculum[];
 
-  constructor(private paginator: MatPaginator, private sort: MatSort) {
+  constructor(private paginator: MatPaginator, private sort: MatSort, curriculums: Curriculum[]) {
     super();
+    this.data = curriculums;
   }
 
   /**
@@ -53,7 +25,7 @@ export class DataTableDataSource extends DataSource<DataTableItem> {
    * the returned stream emits new items.
    * @returns A stream of the items to be rendered.
    */
-  connect(): Observable<DataTableItem[]> {
+  connect(): Observable<Curriculum[]> {
     // Combine everything that affects the rendered data into one update
     // stream for the data-table to consume.
     const dataMutations = [
@@ -80,7 +52,7 @@ export class DataTableDataSource extends DataSource<DataTableItem> {
    * Paginate the data (client-side). If you're using server-side pagination,
    * this would be replaced by requesting the appropriate data from the server.
    */
-  private getPagedData(data: DataTableItem[]) {
+  private getPagedData(data: Curriculum[]) {
     const startIndex = this.paginator.pageIndex * this.paginator.pageSize;
     return data.splice(startIndex, this.paginator.pageSize);
   }
@@ -89,7 +61,7 @@ export class DataTableDataSource extends DataSource<DataTableItem> {
    * Sort the data (client-side). If you're using server-side sorting,
    * this would be replaced by requesting the appropriate data from the server.
    */
-  private getSortedData(data: DataTableItem[]) {
+  private getSortedData(data: Curriculum[]) {
     if (!this.sort.active || this.sort.direction === '') {
       return data;
     }
@@ -97,7 +69,7 @@ export class DataTableDataSource extends DataSource<DataTableItem> {
     return data.sort((a, b) => {
       const isAsc = this.sort.direction === 'asc';
       switch (this.sort.active) {
-        case 'name': return compare(a.name, b.name, isAsc);
+        case 'nomenclature': return compare(a.nomenclature, b.nomenclature, isAsc);
         case 'id': return compare(+a.id, +b.id, isAsc);
         default: return 0;
       }

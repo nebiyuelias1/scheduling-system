@@ -1,3 +1,40 @@
-<p>
-  curriculum-list works!
-</p>
+<h3>Curriculums in your Department</h3>
+<div class="mat-elevation-z8 data-table">
+    <mat-table #table [dataSource]="dataSource" matSort aria-label="Elements">
+
+        <!-- Nomenclature Column -->
+        <ng-container matColumnDef="nomenclature">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Nomenclature</mat-header-cell>
+            <mat-cell *matCellDef="let row"> {{row.nomenclature}} </mat-cell>
+        </ng-container>
+
+        <!-- Stay Year Column -->
+        <ng-container matColumnDef="stayYear">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Stay Year</mat-header-cell>
+            <mat-cell *matCellDef="let row">{{row.stayYear}}</mat-cell>
+        </ng-container>
+
+        <!-- Stay Semester Column -->
+        <ng-container matColumnDef="staySemester">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Stay Semester</mat-header-cell>
+            <mat-cell *matCellDef="let row">{{row.staySemester}}</mat-cell>
+        </ng-container>
+
+
+        <ng-container matColumnDef="action">
+            <mat-header-cell *matHeaderCellDef mat-sort-header></mat-header-cell>
+            <mat-cell *matCellDef="let row">
+                <button class="btn btn-primary" [routerLink]="['/curriculums/edit', row.id]"> <i class="fa fa-edit" aria-hidden="true"></i></button>
+                <button class="btn btn-danger"> <i class="fa fa-trash" aria-hidden="true"></i></button>
+            </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <a href="#">
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </a>
+    </mat-table>
+
+    <mat-paginator #paginator [pageIndex]="0" [pageSize]="25" [pageSizeOptions]="[5, 25, 50, 100, 250]">
+    </mat-paginator>
+</div>
