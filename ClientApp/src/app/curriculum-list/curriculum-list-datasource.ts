@@ -4,7 +4,7 @@ import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs/Rx';
 import { of as observableOf } from 'rxjs/observable/of';
 import { merge } from 'rxjs/observable/merge';
-import { Curriculum } from '../models/curriculum-interface';
+import { SaveCurriculum } from '../models/save-curriculum-interface';
 
 
 /**
@@ -12,10 +12,10 @@ import { Curriculum } from '../models/curriculum-interface';
  * encapsulate all logic for fetching and manipulating the displayed data
  * (including sorting, pagination, and filtering).
  */
-export class CurriculumDataSource extends DataSource<Curriculum> {
-    data: Curriculum[];
+export class CurriculumDataSource extends DataSource<SaveCurriculum> {
+    data: SaveCurriculum[];
 
-  constructor(private paginator: MatPaginator, private sort: MatSort, curriculums: Curriculum[]) {
+  constructor(private paginator: MatPaginator, private sort: MatSort, curriculums: SaveCurriculum[]) {
     super();
     this.data = curriculums;
   }
@@ -25,7 +25,7 @@ export class CurriculumDataSource extends DataSource<Curriculum> {
    * the returned stream emits new items.
    * @returns A stream of the items to be rendered.
    */
-  connect(): Observable<Curriculum[]> {
+  connect(): Observable<SaveCurriculum[]> {
     // Combine everything that affects the rendered data into one update
     // stream for the data-table to consume.
     const dataMutations = [
@@ -52,7 +52,7 @@ export class CurriculumDataSource extends DataSource<Curriculum> {
    * Paginate the data (client-side). If you're using server-side pagination,
    * this would be replaced by requesting the appropriate data from the server.
    */
-  private getPagedData(data: Curriculum[]) {
+  private getPagedData(data: SaveCurriculum[]) {
     const startIndex = this.paginator.pageIndex * this.paginator.pageSize;
     return data.splice(startIndex, this.paginator.pageSize);
   }
@@ -61,7 +61,7 @@ export class CurriculumDataSource extends DataSource<Curriculum> {
    * Sort the data (client-side). If you're using server-side sorting,
    * this would be replaced by requesting the appropriate data from the server.
    */
-  private getSortedData(data: Curriculum[]) {
+  private getSortedData(data: SaveCurriculum[]) {
     if (!this.sort.active || this.sort.direction === '') {
       return data;
     }

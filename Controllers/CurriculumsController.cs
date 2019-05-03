@@ -64,5 +64,25 @@ namespace SchedulingSystem.Controllers
 
             return Ok(curriculumResource);
         }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(int id, [FromBody] CurriculumResource curriculumResource) 
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var curriculum = await unitOfWork.Curriculums.Get(id);
+            if (curriculum == null)
+                return NotFound();
+
+            curriculumResource.Id = curriculum.Id;
+            mapper.Map<CurriculumResource, Curriculum>(curriculumResource, curriculum);
+            await unitOfWork.CompleteAsync();
+
+            curriculum = await unitOfWork.Curriculums.Get(curriculumResource.Id);
+            mapper.Map<Curriculum, CurriculumResource>(curriculum, curriculumResource);
+
+            return Ok(curriculumResource);
+        }
     }
 }

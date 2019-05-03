@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class CurriculumService {
+  
 
   constructor(private http: HttpClient) { }
 
@@ -17,5 +18,9 @@ export class CurriculumService {
 
   getCurriculum(id) {
     return this.http.get('/api/curriculums/' + id);
+  }
+
+  update(id, value) {
+    return this.http.put('/api/curriculums/' + id, value);
   }
 }

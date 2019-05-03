@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonService } from '../services/common.service';
-import { Curriculum } from '../models/curriculum-interface';
 import { MatPaginator, MatSort } from '@angular/material';
 import { CurriculumDataSource } from './curriculum-list-datasource';
+import { SaveCurriculum } from '../models/save-curriculum-interface';
 
 @Component({
   selector: 'app-curriculum-list',
@@ -12,7 +12,7 @@ import { CurriculumDataSource } from './curriculum-list-datasource';
 export class CurriculumListComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  curriculums: Curriculum[];
+  curriculums: SaveCurriculum[];
   dataSource: CurriculumDataSource;
   displayedColumns = ['nomenclature', 'stayYear', 'staySemester', 'action'];
     
@@ -20,7 +20,7 @@ export class CurriculumListComponent implements OnInit {
 
   ngOnInit() {
     this.commonService.getCurriculums()
-      .subscribe((result: Curriculum[]) => {
+      .subscribe((result: SaveCurriculum[]) => {
         this.curriculums = result;
         this.dataSource = new CurriculumDataSource(this.paginator, this.sort, this.curriculums);
       });
