@@ -47,8 +47,9 @@ import { LoginFormComponent } from './accounts/login-form/login-form.component';
 import { MainComponent } from './main/main.component';
 import { AuthGuard } from './accounts/auth-guard.service';
 import { DataTableComponent } from './data-table/data-table.component';
-import { MatTableModule, MatPaginatorModule, MatSortModule } from '@angular/material';
+import { MatTableModule, MatPaginatorModule, MatSortModule, MatDialogModule } from '@angular/material';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { CurriculumDeleteDialogComponent } from './curriculum-delete-dialog/curriculum-delete-dialog.component';
 
 @NgModule({
   declarations: [
@@ -81,6 +82,7 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
     TimetableComponent,
     MainComponent,
     DataTableComponent,
+    CurriculumDeleteDialogComponent,
   ],
   imports: [
     AppRoutingModule,
@@ -94,6 +96,7 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
+    MatDialogModule
   ],
   providers: [
     CollegeService,
@@ -107,6 +110,7 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
     InstructorService,
     AuthGuard
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [CurriculumDeleteDialogComponent]
 })
 export class AppModule { }

@@ -84,5 +84,19 @@ namespace SchedulingSystem.Controllers
 
             return Ok(curriculumResource);
         }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var curriculum = await unitOfWork.Curriculums.Get(id);
+            
+            if (curriculum == null)
+                return NotFound();
+
+            unitOfWork.Curriculums.Remove(curriculum);
+            await unitOfWork.CompleteAsync();
+
+            return Ok(id);
+        }
     }
 }

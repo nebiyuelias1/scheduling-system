@@ -25,7 +25,7 @@
             <mat-header-cell *matHeaderCellDef mat-sort-header></mat-header-cell>
             <mat-cell *matCellDef="let row">
                 <button class="btn btn-primary" [routerLink]="['/curriculums/edit', row.id]"> <i class="fa fa-edit" aria-hidden="true"></i></button>
-                <button class="btn btn-danger"> <i class="fa fa-trash" aria-hidden="true"></i></button>
+                <button class="btn btn-danger" (click)="openDeleteDialog(row.id)"> <i class="fa fa-trash" aria-hidden="true"></i></button>
             </mat-cell>
         </ng-container>
 

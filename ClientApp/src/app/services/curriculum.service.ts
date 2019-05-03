@@ -23,4 +23,9 @@ export class CurriculumService {
   update(id, value) {
     return this.http.put('/api/curriculums/' + id, value);
   }
+
+  delete(id) {
+    return this.http.delete('/api/curriculums/' + id);
+  }
+  
 }
