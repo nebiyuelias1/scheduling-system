@@ -36,6 +36,7 @@
     "fullcalendar": "^4.0.0-alpha",
     "fullcalendar-scheduler": "^4.0.0-alpha.2",
     "jquery": "^3.3.1",
+    "material-design-icons": "^3.0.1",
     "moment": "^2.24.0",
     "ngx-fullcalendar": "^5.0.0-alpha.1",
     "rxjs": "^5.5.6",

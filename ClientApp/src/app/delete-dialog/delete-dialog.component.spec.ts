@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { DeleteDialogComponent } from '../delete-dialog/delete-dialog.component';
 
+import { DeleteDialogComponent } from './delete-dialog.component';
 
 describe('CurriculumDeleteDialogComponent', () => {
   let component: DeleteDialogComponent;

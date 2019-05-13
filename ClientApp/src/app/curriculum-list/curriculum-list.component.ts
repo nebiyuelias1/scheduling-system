@@ -1,9 +1,9 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { CommonService } from '../services/common.service';
-import { MatPaginator, MatSort, MatDialog, MatDialogConfig, MatTable } from '@angular/material';
+import { MatPaginator, MatSort, MatDialog, MatDialogConfig, MatTable, MatTableDataSource } from '@angular/material';
 import { CurriculumDataSource } from './curriculum-list-datasource';
 import { SaveCurriculum } from '../models/save-curriculum-interface';
-import { CurriculumDeleteDialogComponent } from '../curriculum-delete-dialog/curriculum-delete-dialog.component';
+import { DeleteDialogComponent } from '../delete-dialog/delete-dialog.component';
 import { CurriculumService } from '../services/curriculum.service';
 import { Router } from '@angular/router';
 
@@ -15,22 +15,33 @@ import { Router } from '@angular/router';
 export class CurriculumListComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  @ViewChild(MatTable) table: MatTable<SaveCurriculum[]>
+  @ViewChild(MatTable) table: MatTable<SaveCurriculum[]>;
 
   curriculums: SaveCurriculum[];
-  dataSource: CurriculumDataSource;
+  dataSource: MatTableDataSource<any>;
   displayedColumns = ['nomenclature', 'stayYear', 'staySemester', 'action'];
-    
+  searchKey: string;
+
   constructor(
     private curriculumService: CurriculumService,
     private dialog: MatDialog,
-    private router: Router) { }
+    private changeDetectorRefs: ChangeDetectorRef) { }
 
   ngOnInit() {
     this.curriculumService.getCurriculums()
       .subscribe((result: SaveCurriculum[]) => {
         this.curriculums = result;
-        this.dataSource = new CurriculumDataSource(this.paginator, this.sort, this.curriculums);
+        this.dataSource = new MatTableDataSource<any>(this.curriculums);
+        this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator;
+        this.paginator.length = this.dataSource.data.length;
+        this.paginator._changePageSize(this.paginator.pageSize);
+
+        this.dataSource.filterPredicate = (data, filter) => {
+          return this.displayedColumns.some(d => {
+            return d !== 'action' && data[d].toString().toLowerCase().indexOf(filter) !== -1;
+          });
+        };
       });
   }
 
@@ -39,29 +50,37 @@ export class CurriculumListComponent implements OnInit {
 
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
+    dialogConfig.width = '400px';
 
     dialogConfig.data = {
       id: id,
-      title: 'Delete Curriculum'
+      title: 'Delete Curriculum',
+      message: 'Are you you want to delete this curriculum?'
     };
 
-    const dialogRef = this.dialog.open(CurriculumDeleteDialogComponent, dialogConfig);
+    const dialogRef = this.dialog.open(DeleteDialogComponent, dialogConfig);
     dialogRef.afterClosed()
       .subscribe(result => {
-        if (result == true) {
+        if (result) {
           this.curriculumService.delete(id)
             .subscribe(x => {
-              console.log('before removing', this.table);
-
-              let curriculum = this.curriculums.find(c => c.id == x);
-              let index = this.curriculums.indexOf(curriculum);
-              this.curriculums.splice(index, 1);
-              this.dataSource.data = this.curriculums;
-              this.table.renderRows();
-              console.log('after removing', this.table, this.curriculums);
-            }, 
+              const itemIndex = this.dataSource.data.findIndex(obj => obj.id === id);
+              console.log('index', itemIndex);
+              this.dataSource.data.splice(itemIndex, 1);
+              this.dataSource.paginator = this.paginator;
+              this.changeDetectorRefs.detectChanges();
+            },
             err => console.error(err));
         }
       });
-  }  
+  }
+
+  clearSearchKey() {
+    this.searchKey = '';
+    this.applyFilter();
+  }
+
+  applyFilter() {
+    this.dataSource.filter = this.searchKey.trim().toLowerCase();
+  }
 }

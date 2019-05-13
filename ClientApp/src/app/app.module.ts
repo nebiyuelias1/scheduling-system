@@ -41,15 +41,14 @@ import { CurriculumListComponent } from './curriculum-list/curriculum-list.compo
 import { HomeHeaderComponent } from './home-header/home-header.component';
 import { TimetableComponent } from './timetable/timetable.component';
 import { NgxFullCalendarModule } from 'ngx-fullcalendar';
-import { UserRoutingModule } from './accounts/user-routing.module';
 import { AccountsModule } from './accounts/accounts.module';
-import { LoginFormComponent } from './accounts/login-form/login-form.component';
 import { MainComponent } from './main/main.component';
 import { AuthGuard } from './accounts/auth-guard.service';
 import { DataTableComponent } from './data-table/data-table.component';
-import { MatTableModule, MatPaginatorModule, MatSortModule, MatDialogModule } from '@angular/material';
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { CurriculumDeleteDialogComponent } from './curriculum-delete-dialog/curriculum-delete-dialog.component';
+import { MatTableModule, MatPaginatorModule, MatSortModule, MatDialogModule,
+  MatIconModule, MatButtonModule, MatFormFieldModule, MatInputModule } from '@angular/material';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { DeleteDialogComponent } from './delete-dialog/delete-dialog.component';
 
 @NgModule({
   declarations: [
@@ -82,7 +81,7 @@ import { CurriculumDeleteDialogComponent } from './curriculum-delete-dialog/curr
     TimetableComponent,
     MainComponent,
     DataTableComponent,
-    CurriculumDeleteDialogComponent,
+    DeleteDialogComponent,
   ],
   imports: [
     AppRoutingModule,
@@ -96,7 +95,11 @@ import { CurriculumDeleteDialogComponent } from './curriculum-delete-dialog/curr
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
-    MatDialogModule
+    MatDialogModule,
+    MatIconModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule
   ],
   providers: [
     CollegeService,
@@ -111,6 +114,6 @@ import { CurriculumDeleteDialogComponent } from './curriculum-delete-dialog/curr
     AuthGuard
   ],
   bootstrap: [AppComponent],
-  entryComponents: [CurriculumDeleteDialogComponent]
+  entryComponents: [DeleteDialogComponent]
 })
 export class AppModule { }

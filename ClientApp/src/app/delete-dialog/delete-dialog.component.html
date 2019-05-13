@@ -1,0 +1,10 @@
+<div>
+  <h2 mat-dialog-title>{{ data.title }}</h2>
+  <mat-dialog-content>
+    <p>{{ data.message }}</p>
+    <mat-dialog-actions>
+      <button mat-raised-button (click)="close()">Close</button>
+      <button mat-raised-button color="warn" (click)="delete()">Delete</button>
+    </mat-dialog-actions>
+  </mat-dialog-content>
+</div>

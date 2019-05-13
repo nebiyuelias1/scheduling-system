@@ -34,8 +34,8 @@ export class CurriculumFormComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit() {
-    let id = this.route.snapshot.paramMap.get('id');
-    
+    const id = this.route.snapshot.paramMap.get('id');
+
     this.departmentService.getDepartments()
       .subscribe((result: any[]) => {
         this.departments = result;
@@ -57,20 +57,20 @@ export class CurriculumFormComponent implements OnInit {
   save() {
     if (this.curriculum.id === 0) {
       this.curriculumService.save(this.form.value)
-      .subscribe((result)=> {
-        this.router.onSameUrlNavigation = 'reload';
+      .subscribe(() => {
+        // this.router.onSameUrlNavigation = 'reload';
         this.router.navigate(['/curriculums']);
       }, error => {
         console.error(error);
       });
     } else {
       this.curriculumService.update(this.curriculum.id, this.form.value)
-        .subscribe((result)=> {
-          this.router.onSameUrlNavigation = 'reload';
+        .subscribe(() => {
+          // this.router.onSameUrlNavigation = 'reload';
           this.router.navigate(['/curriculums']);
         }, error => {
           console.log(error);
         });
-    } 
+    }
   }
 }
