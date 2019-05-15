@@ -31,13 +31,13 @@
         <!-- Program Column -->
         <ng-container matColumnDef="program">
             <mat-header-cell *matHeaderCellDef mat-sort-header>Program</mat-header-cell>
-            <mat-cell *matCellDef="let row">{{ row.program.name }}</mat-cell>
+            <mat-cell *matCellDef="let row">{{ row.program }}</mat-cell>
         </ng-container>
 
         <!-- Admission level Column -->
         <ng-container matColumnDef="admissionLevel">
             <mat-header-cell *matHeaderCellDef mat-sort-header>Admission Level</mat-header-cell>
-            <mat-cell *matCellDef="let row">{{ row.admissionLevel.name }}</mat-cell>
+            <mat-cell *matCellDef="let row">{{ row.admissionLevel }}</mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="action">

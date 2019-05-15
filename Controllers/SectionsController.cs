@@ -5,6 +5,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SchedulingSystem.Controllers.Resources;
+using SchedulingSystem.Core;
 using SchedulingSystem.Core.Models;
 using SchedulingSystem.Persistence;
 
@@ -14,26 +15,18 @@ namespace SchedulingSystem.Controllers
     public class SectionsController : Controller
     {
         private readonly IMapper mapper;
-        private readonly SchedulingDbContext context;
+        private readonly IUnitOfWork unitOfWork;
 
-        public SectionsController(IMapper mapper, SchedulingDbContext context)
+        public SectionsController(IMapper mapper, IUnitOfWork unitOfWork)
         {
             this.mapper = mapper;
-            this.context = context;
+            this.unitOfWork = unitOfWork;
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetSection(int id)
         {
-            var section = await context.Sections
-                            .Include(s => s.Department)
-                            .Include(s => s.Program)
-                            .Include(s => s.AdmissionLevel)
-                            .Include(s => s.RoomAssignments)
-                                .ThenInclude(r => r.Room)
-                            .Include(s => s.RoomAssignments)
-                                .ThenInclude(r => r.Type)
-                            .SingleOrDefaultAsync(s => s.Id == id);
+            var section = await unitOfWork.Sections.GetSectionWithAssignedRooms(id);
 
             if (section == null)
                 return NotFound();
@@ -46,20 +39,12 @@ namespace SchedulingSystem.Controllers
         [HttpGet]
         public async Task<IActionResult> GetSections()
         {
-            var sections = await context.Sections
-                            .Include(s => s.Department)
-                            .Include(s => s.Program)
-                            .Include(s => s.AdmissionLevel)
-                            .Include(s => s.RoomAssignments)
-                                .ThenInclude(r => r.Room)
-                            .Include(s => s.RoomAssignments)
-                                .ThenInclude(r => r.Type)
-                            .ToListAsync();
+            var sections = await unitOfWork.Sections.GetSectionsWithAssignedRooms();
 
             if (sections == null)
                 return NotFound();
 
-            var sectionsResource = mapper.Map<IList<Section>, IList<SectionResource>>(sections);
+            var sectionsResource = mapper.Map<IEnumerable<Section>, IEnumerable<SectionResource>>(sections);
 
             return Ok(sectionsResource);
         }
@@ -73,8 +58,8 @@ namespace SchedulingSystem.Controllers
 
             var section = mapper.Map<SaveSectionResource, Section>(sectionResource);
 
-            context.Sections.Add(section);
-            await context.SaveChangesAsync();
+            unitOfWork.Sections.Add(section);
+            await unitOfWork.CompleteAsync();
             
             var result = mapper.Map<Section, SaveSectionResource>(section);
 
@@ -86,26 +71,17 @@ namespace SchedulingSystem.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest();
-                
-            var section = await context.Sections
-                        .SingleOrDefaultAsync(s => s.Id == sectionId);
 
+            var section = await unitOfWork.Sections.Get(sectionId);
+                
             if (section == null)
                 return NotFound();
 
             var result = mapper.Map<SaveRoomSectionAssignmentResource, SectionRoomAssignment>(resource);
             section.RoomAssignments.Add(result);
-            await context.SaveChangesAsync();
-            section =  await context.Sections.Include(s => s.Department)
-                        .Include(s => s.Program)
-                        .Include(s => s.AdmissionLevel)
-                        .Include(s => s.RoomAssignments)
-                            .ThenInclude(r => r.Room)
-                                .ThenInclude(r => r.Building)
-                        .Include(s => s.RoomAssignments)
-                            .ThenInclude(r => r.Type)
-                        .SingleOrDefaultAsync(s => s.Id == sectionId);
-            
+            await unitOfWork.CompleteAsync();
+
+            section = await unitOfWork.Sections.GetSectionWithBuilding(section.Id);
 
             var sectionResource = mapper.Map<Section, SectionResource>(section);
             return Ok(sectionResource);

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,45 @@ namespace SchedulingSystem.Persistence.Repositories
     {
         public SectionRepository(DbContext context) : base(context)
         {
+        }
+
+        public async Task<IEnumerable<Section>> GetSectionsWithAssignedRooms()
+        {
+            return await SchedulingDbContext.Sections
+                            .Include(s => s.Department)
+                            .Include(s => s.Program)
+                            .Include(s => s.AdmissionLevel)
+                            .Include(s => s.RoomAssignments)
+                                .ThenInclude(r => r.Room)
+                            .Include(s => s.RoomAssignments)
+                                .ThenInclude(r => r.Type)
+                            .ToListAsync();
+        }
+
+        public async Task<Section> GetSectionWithAssignedRooms(int sectionId)
+        {
+            return await SchedulingDbContext.Sections
+                            .Include(s => s.Department)
+                            .Include(s => s.Program)
+                            .Include(s => s.AdmissionLevel)
+                            .Include(s => s.RoomAssignments)
+                                .ThenInclude(r => r.Room)
+                            .Include(s => s.RoomAssignments)
+                                .ThenInclude(r => r.Type)
+                            .SingleOrDefaultAsync(s => s.Id == sectionId);
+        }
+
+        public async Task<Section> GetSectionWithBuilding(int sectionId)
+        {
+            return await SchedulingDbContext.Sections.Include(s => s.Department)
+                        .Include(s => s.Program)
+                        .Include(s => s.AdmissionLevel)
+                        .Include(s => s.RoomAssignments)
+                            .ThenInclude(r => r.Room)
+                                .ThenInclude(r => r.Building)
+                        .Include(s => s.RoomAssignments)
+                            .ThenInclude(r => r.Type)
+                        .SingleOrDefaultAsync(s => s.Id == sectionId);
         }
 
         public async Task<Section> GetSectionWithCourseOfferings(int sectionId, int semesterId)

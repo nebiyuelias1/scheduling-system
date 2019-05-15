@@ -28,11 +28,11 @@ export class SectionListComponent implements OnInit {
         this.paginator.length = this.dataSource.data.length;
         this.paginator._changePageSize(this.paginator.pageSize);
 
-        // this.dataSource.filterPredicate = (data, filter) => {
-        //   return this.displayedColumns.some(d => {
-        //     return d !== 'action' && data[d].toString().toLowerCase().indexOf(filter) !== -1;
-        //   });
-        // };
+        this.dataSource.filterPredicate = (data, filter) => {
+           return this.displayedColumns.some(d => {
+             return d !== 'action' && data[d].toString().toLowerCase().indexOf(filter) !== -1;
+           });
+        };
       },
         (error) => console.error(error));
   }

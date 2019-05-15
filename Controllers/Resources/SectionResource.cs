@@ -19,9 +19,9 @@ namespace SchedulingSystem.Controllers.Resources
 
         public DepartmentResource Department { get; set; }
         
-        public KeyValuePairResource Program { get; set; }
+        public string Program { get; set; }
 
-        public KeyValuePairResource AdmissionLevel { get; set; }
+        public string AdmissionLevel { get; set; }
 
         public ICollection<RoomSectionAssignmentResource> RoomAssignments { get; set; }
 

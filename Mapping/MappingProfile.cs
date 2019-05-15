@@ -38,9 +38,9 @@ namespace SchedulingSystem.Mapping
             CreateMap<Section, SaveSectionResource>();
             CreateMap<Section, SectionResource>()
                 .ForMember(x => x.Program, opt =>
-                    opt.MapFrom(s => new KeyValuePairResource { Id = s.Program.Id, Name = s.Program.Name }))
+                    opt.MapFrom(s =>  s.Program.Name ))
                 .ForMember(x => x.AdmissionLevel, opt =>
-                    opt.MapFrom(s => new KeyValuePairResource { Id = s.AdmissionLevel.Id, Name = s.AdmissionLevel.Name }));
+                    opt.MapFrom(s => s.AdmissionLevel.Name ));
             CreateMap<Instructor, InstructorResource>();
             CreateMap<Type, KeyValuePairResource>();
             CreateMap<Room, RoomResource>();
