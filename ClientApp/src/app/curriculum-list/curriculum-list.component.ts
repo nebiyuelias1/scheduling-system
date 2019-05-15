@@ -15,7 +15,6 @@ import { Router } from '@angular/router';
 export class CurriculumListComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  @ViewChild(MatTable) table: MatTable<SaveCurriculum[]>;
 
   curriculums: SaveCurriculum[];
   dataSource: MatTableDataSource<any>;
