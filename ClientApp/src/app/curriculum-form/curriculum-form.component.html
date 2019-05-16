@@ -1,5 +1,5 @@
 <h2 *ngIf="curriculum.id === 0; else editHeader">New Curriculum</h2>
-<ng-template #editHeader><h2 >Edit Curriculum</h2></ng-template>
+<ng-template #editHeader><h2>Edit Curriculum</h2></ng-template>
 
 <form [formGroup]="form" (ngSubmit)="save()">
   <div class="form-group">

@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { SaveSection } from '../models/save-section-interface';
 
 @Injectable()
 export class SectionService {
+  
 
   constructor(private http: HttpClient) { }
 
@@ -16,5 +18,9 @@ export class SectionService {
 
   save(section) {
     return this.http.post('/api/sections', section);
+  }
+
+  update(value: SaveSection) {
+    return this.http.put('/api/sections/' + value.id, value);
   }
 }

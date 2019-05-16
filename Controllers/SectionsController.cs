@@ -31,7 +31,7 @@ namespace SchedulingSystem.Controllers
             if (section == null)
                 return NotFound();
 
-            var sectionResource = mapper.Map<Section, SectionResource>(section);
+            var sectionResource = mapper.Map<Section, SaveSectionResource>(section);
 
             return Ok(sectionResource);
         }
@@ -85,6 +85,11 @@ namespace SchedulingSystem.Controllers
 
             var sectionResource = mapper.Map<Section, SectionResource>(section);
             return Ok(sectionResource);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(int id, [FromBody] SaveSectionResource resource)
+        {
         }
     }
 }

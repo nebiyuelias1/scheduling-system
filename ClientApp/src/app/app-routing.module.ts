@@ -174,6 +174,13 @@ const routes: Routes = [
                         }
                     },
                     {
+                        path: 'edit/:id',
+                        component: SectionFormComponent,
+                        data: {
+                            breadcrumb: 'Edit'
+                        }
+                    },
+                    {
                         path: ':id',
                         component: SectionDetailComponent,
                         data: {

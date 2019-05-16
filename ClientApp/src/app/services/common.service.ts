@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 export class CommonService {
   
   
+  
   constructor(private http: HttpClient) { }
 
   getProgramTypes() {
@@ -75,4 +76,7 @@ export class CommonService {
     return this.http.get('/api/curriculums');
   }
 
+  getSection(id: number) {
+    return this.http.get('/api/sections/' + id);
+  }
 }

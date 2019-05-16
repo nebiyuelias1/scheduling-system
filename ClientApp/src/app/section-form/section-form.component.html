@@ -1,5 +1,7 @@
-<h2>New Section</h2>
-<form [formGroup]="form" (ngSubmit)="save()">
+<h2 *ngIf="section.id === 0; else editHeader">New Section</h2>
+<ng-template #editHeader><h2>Edit Section</h2></ng-template>
+
+<form [formGroup]="form" (ngSubmit)="submit()">
   <div class="form-group">
     <label for="name">Name</label>
     <input id="name" type="text" class="form-control" formControlName="name">
