@@ -9,4 +9,8 @@ export class InstructorService {
   save(instructor) {
     return this.http.post('/api/instructors', instructor);
   }
+
+  getInstructors() {
+    return this.http.get('/api/instructors');
+  }
 }

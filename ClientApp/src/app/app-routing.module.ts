@@ -21,6 +21,7 @@ import { ScheduleConfigurationFormComponent } from './schedule-configuration-for
 import { CurriculumListComponent } from './curriculum-list/curriculum-list.component';
 import { MainComponent } from './main/main.component';
 import { AuthGuard } from './accounts/auth-guard.service';
+import { InstructorsListComponent } from './instructors-list/instructors-list.component';
 
 const routes: Routes = [
     {
@@ -114,6 +115,13 @@ const routes: Routes = [
                     breadcrumb: 'Instructors'
                 },
                 children:  [
+                    {
+                        path: '',
+                        data: {
+                            breadcrumb: 'List'
+                        },
+                        component: InstructorsListComponent
+                    },
                     {
                         path: 'new',
                         data: {
