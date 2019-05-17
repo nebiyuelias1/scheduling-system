@@ -53,7 +53,7 @@ export class CurriculumListComponent implements OnInit {
 
     dialogConfig.data = {
       id: id,
-      title: 'Delete Curriculum',
+      title: 'Delete Curriculum?',
       message: 'Are you you want to delete this curriculum?'
     };
 
@@ -64,7 +64,6 @@ export class CurriculumListComponent implements OnInit {
           this.curriculumService.delete(id)
             .subscribe(x => {
               const itemIndex = this.dataSource.data.findIndex(obj => obj.id === id);
-              console.log('index', itemIndex);
               this.dataSource.data.splice(itemIndex, 1);
               this.dataSource.paginator = this.paginator;
               this.changeDetectorRefs.detectChanges();

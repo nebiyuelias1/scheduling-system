@@ -53,14 +53,14 @@ namespace SchedulingSystem.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] SaveSectionResource sectionResource)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
             var section = mapper.Map<SaveSectionResource, Section>(sectionResource);
 
             unitOfWork.Sections.Add(section);
             await unitOfWork.CompleteAsync();
-            
+
             var result = mapper.Map<Section, SaveSectionResource>(section);
 
             return Ok(result);
@@ -73,7 +73,7 @@ namespace SchedulingSystem.Controllers
                 return BadRequest();
 
             var section = await unitOfWork.Sections.Get(sectionId);
-                
+
             if (section == null)
                 return NotFound();
 
@@ -90,6 +90,33 @@ namespace SchedulingSystem.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, [FromBody] SaveSectionResource resource)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var section = await unitOfWork.Sections.Get(id);
+            if (section == null)
+                return NotFound();
+
+            resource.Id = section.Id;
+            mapper.Map<SaveSectionResource, Section>(resource, section);
+            await unitOfWork.CompleteAsync();
+
+            var result = mapper.Map<Section, SectionResource>(section);
+
+            return Ok(result);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var section = await unitOfWork.Sections.Get(id);
+            if (section == null)
+                return NotFound();
+
+            unitOfWork.Sections.Remove(section);
+            await unitOfWork.CompleteAsync();
+
+            return Ok(id);
         }
     }
 }

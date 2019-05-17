@@ -20,7 +20,7 @@ export class SectionFormComponent implements OnInit {
     programTypeId: 0,
     studentCount: 0,
     name: ''
-  }
+  };
 
   programTypes: any[];
   admissionLevels: any[];
@@ -39,20 +39,21 @@ export class SectionFormComponent implements OnInit {
     private commonService: CommonService,
     private sectionService: SectionService) {
       this.route.params
-      .subscribe(x => this.section.id = +x['id'] || 0)
+      .subscribe(x => this.section.id = +x['id'] || 0);
     }
 
   ngOnInit() {
-    var sources = [
+    const sources = [
       this.commonService.getProgramTypes(),
       this.commonService.getAdmissionLevels()
     ];
 
-    if (this.section.id)
+    if (this.section.id) {
       sources.push(this.commonService.getSection(this.section.id));
+    }
 
     Observable.forkJoin(sources)
-      .subscribe((data:any) => {
+      .subscribe((data: any) => {
         this.programTypes = data[0];
         this.admissionLevels = data[1];
 
@@ -63,7 +64,7 @@ export class SectionFormComponent implements OnInit {
         }
       });
   }
-  
+
   populateForm() {
     this.form.get('name').setValue(this.section.name);
     this.form.get('entranceYear').setValue(this.section.entranceYear);
@@ -74,10 +75,10 @@ export class SectionFormComponent implements OnInit {
   }
 
   submit() {
-    let result$ = (this.section.id) ? 
-      this.sectionService.update(this.form.value) : 
+    const result$ = (this.section.id) ?
+      this.sectionService.update(this.section.id, this.form.value) :
       this.sectionService.save(this.form.value);
-      
+
     result$.subscribe(x => {
       this.router.navigate(['/sections']);
     }, err => console.error(err));

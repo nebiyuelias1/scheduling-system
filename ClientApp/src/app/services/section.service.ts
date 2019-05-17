@@ -4,7 +4,6 @@ import { SaveSection } from '../models/save-section-interface';
 
 @Injectable()
 export class SectionService {
-  
 
   constructor(private http: HttpClient) { }
 
@@ -20,7 +19,11 @@ export class SectionService {
     return this.http.post('/api/sections', section);
   }
 
-  update(value: SaveSection) {
-    return this.http.put('/api/sections/' + value.id, value);
+  update(id, value: SaveSection) {
+    return this.http.put('/api/sections/' + id, value);
+  }
+
+  delete(id: any) {
+    return this.http.delete('/api/sections/' + id);
   }
 }

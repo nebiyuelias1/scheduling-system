@@ -1,6 +1,7 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { SectionService } from '../services/section.service';
-import { MatPaginator, MatSort, MatTableDataSource, MatTable } from '@angular/material';
+import { MatPaginator, MatSort, MatTableDataSource, MatTable, MatDialogConfig, MatDialog } from '@angular/material';
+import { DeleteDialogComponent } from '../delete-dialog/delete-dialog.component';
 
 @Component({
   selector: 'app-section-list',
@@ -16,7 +17,10 @@ export class SectionListComponent implements OnInit {
   displayedColumns = ['name', 'entranceYear', 'studentCount', 'program', 'admissionLevel', 'action'];
   searchKey: string;
 
-  constructor(private sectionService: SectionService) { }
+  constructor(
+    private sectionService: SectionService,
+    private dialog: MatDialog,
+    private changeDetectorRefs: ChangeDetectorRef) { }
 
   ngOnInit() {
     this.sectionService.getSections()
@@ -44,5 +48,34 @@ export class SectionListComponent implements OnInit {
 
   applyFilter() {
     this.dataSource.filter = this.searchKey.trim().toLowerCase();
+  }
+
+  openDeleteDialog(id) {
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = '400px';
+
+    dialogConfig.data = {
+      id: id,
+      title: 'Delete Section?',
+      message: 'Are you you want to delete this section?'
+    };
+
+    const dialogRef = this.dialog.open(DeleteDialogComponent, dialogConfig);
+    dialogRef.afterClosed()
+      .subscribe(result => {
+        if (result) {
+          this.sectionService.delete(id)
+            .subscribe(x => {
+              const itemIndex = this.dataSource.data.findIndex(obj => obj.id === id);
+              this.dataSource.data.splice(itemIndex, 1);
+              this.dataSource.paginator = this.paginator;
+              this.changeDetectorRefs.detectChanges();
+            },
+            err => console.error(err));
+        }
+      });
   }
 }

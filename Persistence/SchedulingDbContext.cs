@@ -52,7 +52,7 @@ namespace SchedulingSystem.Persistence
                 .HasOne(co => co.Section)
                 .WithMany(s => s.CourseOfferings)
                 .HasForeignKey(co => co.SectionId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade);
                         
             modelbuilder.Entity<CourseOffering>()
                 .HasOne(co => co.Course)
