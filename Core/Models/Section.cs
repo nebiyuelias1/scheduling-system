@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
@@ -27,6 +28,8 @@ namespace SchedulingSystem.Core.Models
         
         public ICollection<CourseOffering> CourseOfferings { get; set; }
 
+        public bool IsActive { get; private set; }
+
         public int DepartmentId { get; set; }
 
         public int ProgramTypeId { get; set; }
@@ -37,6 +40,13 @@ namespace SchedulingSystem.Core.Models
         {
             RoomAssignments = new Collection<SectionRoomAssignment>();
             CourseOfferings = new Collection<CourseOffering>();
+            IsActive = true;
+        }
+
+        public void MakeInactive()
+        {
+            if (IsActive)
+                IsActive = false;
         }
     }
 }

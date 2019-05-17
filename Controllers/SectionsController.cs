@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -28,7 +29,7 @@ namespace SchedulingSystem.Controllers
         {
             var section = await unitOfWork.Sections.GetSectionWithAssignedRooms(id);
 
-            if (section == null)
+            if (section == null && !section.IsActive)
                 return NotFound();
 
             var sectionResource = mapper.Map<Section, SaveSectionResource>(section);
@@ -40,6 +41,7 @@ namespace SchedulingSystem.Controllers
         public async Task<IActionResult> GetSections()
         {
             var sections = await unitOfWork.Sections.GetSectionsWithAssignedRooms();
+            sections = sections.Where(s => s.IsActive);
 
             if (sections == null)
                 return NotFound();
@@ -57,7 +59,7 @@ namespace SchedulingSystem.Controllers
                 return BadRequest(ModelState);
 
             var section = mapper.Map<SaveSectionResource, Section>(sectionResource);
-
+            
             unitOfWork.Sections.Add(section);
             await unitOfWork.CompleteAsync();
 
@@ -110,10 +112,10 @@ namespace SchedulingSystem.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             var section = await unitOfWork.Sections.Get(id);
-            if (section == null)
+            if (section == null && !section.IsActive)
                 return NotFound();
 
-            unitOfWork.Sections.Remove(section);
+            section.MakeInactive();
             await unitOfWork.CompleteAsync();
 
             return Ok(id);
