@@ -22,8 +22,14 @@ namespace SchedulingSystem.Core.Models
 
         public Department Department { get; set; }
         public int DepartmentId { get; set; }
+        public bool IsActive { get; private set; }
         
         public IdentityUser User { get; set; }
         public string UserId { get; set; }
+
+        public Instructor()
+        {
+            IsActive = true;
+        }
     }
 }
