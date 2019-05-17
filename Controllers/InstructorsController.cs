@@ -5,6 +5,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SchedulingSystem.Controllers.Resources;
+using SchedulingSystem.Core;
 using SchedulingSystem.Core.Models;
 using SchedulingSystem.Persistence;
 
@@ -13,12 +14,12 @@ namespace SchedulingSystem.Controllers
     [Route("/api/[controller]")]
     public class InstructorsController : Controller
     {
-        private readonly SchedulingDbContext context;
         private readonly IMapper mapper;
-        public InstructorsController(SchedulingDbContext context, IMapper mapper)
+        private readonly IUnitOfWork unitOfWork;
+        public InstructorsController(IUnitOfWork unitOfWork, IMapper mapper)
         {
+            this.unitOfWork = unitOfWork;
             this.mapper = mapper;
-            this.context = context;
         }
 
         [HttpPost]
@@ -28,19 +29,18 @@ namespace SchedulingSystem.Controllers
                 return BadRequest(ModelState);
 
             var instructor = mapper.Map<InstructorResource, Instructor>(instructorResource);
-            
-            await context.Instructors.AddAsync(instructor);
-            await context.SaveChangesAsync();
+
+            unitOfWork.Instructors.Add(instructor);
+            await unitOfWork.CompleteAsync();
 
             var result = mapper.Map<Instructor, InstructorResource>(instructor);
-            
+
             return Ok(result);
         }
 
         public async Task<IActionResult> GetInstructors()
         {
-            var instructors = await context.Instructors
-                                .ToListAsync();
+            var instructors = await unitOfWork.Instructors.GetAll();
 
             if (instructors == null)
                 return NotFound();
