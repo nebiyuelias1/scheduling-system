@@ -112,7 +112,7 @@ namespace SchedulingSystem.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             var section = await unitOfWork.Sections.Get(id);
-            if (section == null && !section.IsActive)
+            if (section == null || !section.IsActive)
                 return NotFound();
 
             section.MakeInactive();

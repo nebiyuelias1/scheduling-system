@@ -13,4 +13,8 @@ export class InstructorService {
   getInstructors() {
     return this.http.get('/api/instructors');
   }
+
+  delete(id: any) {
+    return this.http.delete('/api/instructors/' + id);
+  }
 }

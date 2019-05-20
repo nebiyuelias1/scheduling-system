@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -41,6 +42,7 @@ namespace SchedulingSystem.Controllers
         public async Task<IActionResult> GetInstructors()
         {
             var instructors = await unitOfWork.Instructors.GetAll();
+            instructors = instructors.Where(i => i.IsActive);
 
             if (instructors == null)
                 return NotFound();
@@ -48,6 +50,20 @@ namespace SchedulingSystem.Controllers
             var result = mapper.Map<IEnumerable<Instructor>, IEnumerable<InstructorResource>>(instructors);
 
             return Ok(instructors);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var instructor = await unitOfWork.Instructors.Get(id);
+
+            if (instructor == null || !instructor.IsActive)
+                return NotFound();
+
+            instructor.MakeInactive();
+            await unitOfWork.CompleteAsync();
+
+            return Ok(id);
         }
     }
 }

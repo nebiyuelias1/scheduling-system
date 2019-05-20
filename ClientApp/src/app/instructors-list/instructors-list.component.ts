@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
-import { MatPaginator, MatSort, MatTableDataSource, MatDialog } from '@angular/material';
+import { MatPaginator, MatSort, MatTableDataSource, MatDialog, MatDialogConfig } from '@angular/material';
 import { InstructorService } from '../services/instructor.service';
+import { DeleteDialogComponent } from '../delete-dialog/delete-dialog.component';
 
 @Component({
   selector: 'app-instructors-list',
@@ -50,4 +51,32 @@ export class InstructorsListComponent implements OnInit {
     this.dataSource.filter = this.searchKey.trim().toLowerCase();
   }
 
+  openDeleteDialog(id) {
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = '400px';
+
+    dialogConfig.data = {
+      id: id,
+      title: 'Delete Instructor?',
+      message: 'Are you you want to delete this instructor?'
+    };
+
+    const dialogRef = this.dialog.open(DeleteDialogComponent, dialogConfig);
+    dialogRef.afterClosed()
+      .subscribe(result => {
+        if (result) {
+          this.instructorService.delete(id)
+            .subscribe(x => {
+              const itemIndex = this.dataSource.data.findIndex(obj => obj.id === id);
+              this.dataSource.data.splice(itemIndex, 1);
+              this.dataSource.paginator = this.paginator;
+              this.changeDetectorRefs.detectChanges();
+            },
+            err => console.error(err));
+        }
+      });
+  }
 }

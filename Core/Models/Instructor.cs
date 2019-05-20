@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Identity;
@@ -30,6 +31,12 @@ namespace SchedulingSystem.Core.Models
         public Instructor()
         {
             IsActive = true;
+        }
+
+        public void MakeInactive()
+        {
+            if (this.IsActive)
+                this.IsActive = false;
         }
     }
 }
