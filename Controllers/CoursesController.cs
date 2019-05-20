@@ -89,5 +89,6 @@ namespace SchedulingSystem.Controllers
             var result = mapper.Map<Course, CourseResource>(course);
             return Ok(result);
         }
+
     }
 }

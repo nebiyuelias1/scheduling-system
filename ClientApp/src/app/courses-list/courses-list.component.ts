@@ -59,8 +59,8 @@ export class CoursesListComponent implements OnInit {
 
     dialogConfig.data = {
       id: id,
-      title: 'Delete Instructor?',
-      message: 'Are you you want to delete this instructor?'
+      title: 'Delete Course?',
+      message: 'Are you you want to delete this course?'
     };
 
     const dialogRef = this.dialog.open(DeleteDialogComponent, dialogConfig);
