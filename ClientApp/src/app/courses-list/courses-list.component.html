@@ -61,7 +61,7 @@
     <ng-container matColumnDef="action">
       <mat-header-cell *matHeaderCellDef></mat-header-cell>
       <mat-cell *matCellDef="let row">
-        <button mat-icon-button [routerLink]="['/sections/edit', row.id]">
+        <button mat-icon-button [routerLink]="['/courses/edit', row.id]">
           <mat-icon>launch</mat-icon>
         </button>
         <button mat-icon-button (click)="openDeleteDialog(row.id)" color="warn">

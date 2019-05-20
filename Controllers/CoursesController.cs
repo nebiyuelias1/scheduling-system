@@ -36,6 +36,17 @@ namespace SchedulingSystem.Controllers
             return Ok(result);
         }
 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetCourse(int id)
+        {
+            var course = await unitOfWork.Courses.Get(id);
+            if (course == null)
+                return NotFound();
+
+            var result = mapper.Map<Course, CourseResource>(course);
+            return Ok(result);
+        }
+
         [HttpGet]
         public async Task<IActionResult> GetCourses()
         {
@@ -61,6 +72,22 @@ namespace SchedulingSystem.Controllers
             await unitOfWork.CompleteAsync();
 
             return Ok(id);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(int id, [FromBody] SaveCourseResource resouce)
+        {
+            var course = await unitOfWork.Courses.Get(id);
+            
+            if (course == null)
+                return NotFound();
+
+            resouce.Id = course.Id;
+            mapper.Map<SaveCourseResource, Course>(resouce, course);
+            await unitOfWork.CompleteAsync();
+
+            var result = mapper.Map<Course, CourseResource>(course);
+            return Ok(result);
         }
     }
 }

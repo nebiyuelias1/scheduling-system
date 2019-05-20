@@ -17,4 +17,12 @@ export class CourseService {
   delete(id: any) {
     return this.http.delete('/api/courses/' + id);
   }
+
+  getCourse(id) {
+    return this.http.get('/api/courses/' + id);
+  }
+
+  update(id, value) {
+    return this.http.put('/api/courses/' + id, value);
+  }
 }

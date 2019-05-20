@@ -1,5 +1,7 @@
-<h2>New Course</h2>
-<form [formGroup]="form" (ngSubmit)="save()">
+<h2 *ngIf="course.id === 0; else editHeader">New Course</h2>
+<ng-template #editHeader><h2>Edit Course</h2></ng-template>
+
+<form [formGroup]="form" (ngSubmit)="submit()">
   <div class="form-group">
     <label for="curriculum">Curriculum</label>
     <select id="curriculum" class="form-control" formControlName="curriculumId">

@@ -115,6 +115,13 @@ const routes: Routes = [
                         },
                         component: CourseFormComponent
                     },
+                    {
+                        path: 'edit/:id',
+                        data: {
+                            breadcrumb: 'Edit'
+                        },
+                        component: CourseFormComponent
+                    },
                 ]
             },
             {

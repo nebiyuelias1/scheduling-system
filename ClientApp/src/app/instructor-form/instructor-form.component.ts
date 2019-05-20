@@ -24,7 +24,7 @@ export class InstructorFormComponent implements OnInit {
     this.departmentService.getDepartments()
       .subscribe((result: any[]) => {
         this.departments = result;
-      })
+      });
   }
 
   save() {
