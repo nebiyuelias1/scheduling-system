@@ -9,4 +9,12 @@ export class CourseService {
   saveCourse(course) {
     return this.http.post('/api/courses', course);
   }
+
+  getCourses() {
+    return this.http.get('/api/courses');
+  }
+
+  delete(id: any) {
+    return this.http.delete('/api/courses/' + id);
+  }
 }

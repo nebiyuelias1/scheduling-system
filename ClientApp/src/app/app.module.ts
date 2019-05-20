@@ -50,6 +50,7 @@ import { MatTableModule, MatPaginatorModule, MatSortModule, MatDialogModule,
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DeleteDialogComponent } from './delete-dialog/delete-dialog.component';
 import { InstructorsListComponent } from './instructors-list/instructors-list.component';
+import { CoursesListComponent } from './courses-list/courses-list.component';
 
 @NgModule({
   declarations: [
@@ -84,6 +85,7 @@ import { InstructorsListComponent } from './instructors-list/instructors-list.co
     DataTableComponent,
     DeleteDialogComponent,
     InstructorsListComponent,
+    CoursesListComponent,
   ],
   imports: [
     AppRoutingModule,

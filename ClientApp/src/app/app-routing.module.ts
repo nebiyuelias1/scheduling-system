@@ -22,6 +22,7 @@ import { CurriculumListComponent } from './curriculum-list/curriculum-list.compo
 import { MainComponent } from './main/main.component';
 import { AuthGuard } from './accounts/auth-guard.service';
 import { InstructorsListComponent } from './instructors-list/instructors-list.component';
+import { CoursesListComponent } from './courses-list/courses-list.component';
 
 const routes: Routes = [
     {
@@ -100,6 +101,13 @@ const routes: Routes = [
                     breadcrumb: 'Courses'
                 },
                 children: [
+                    {
+                        path: '',
+                        data: {
+                            breadcrumb: 'List'
+                        },
+                        component: CoursesListComponent
+                    },
                     {
                         path: 'new',
                         data: {
