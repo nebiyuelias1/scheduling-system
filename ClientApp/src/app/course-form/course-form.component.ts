@@ -56,7 +56,7 @@ export class CourseFormComponent implements OnInit {
         this.curriculums = x[0] as any[];
 
         if (id !== null) {
-          this.course = x[1];
+          this.course = x[1] as SaveCourse;
           this.populateForm(this.course);
         }
       });

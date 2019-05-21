@@ -16,52 +16,40 @@ namespace SchedulingSystem.Controllers
     [Route("api/[controller]")]
     public class CourseOfferingsController : Controller
     {
-        private readonly SchedulingDbContext context;
         private readonly IHelper helper;
         private readonly IMapper mapper;
+        private readonly IUnitOfWork unitOfWork;
 
-        public CourseOfferingsController(SchedulingDbContext context, IHelper helper, IMapper mapper)
+        public CourseOfferingsController(IUnitOfWork unitOfWork, IHelper helper, IMapper mapper)
         {
-            this.context = context;
+            this.unitOfWork = unitOfWork;
             this.helper = helper;
             this.mapper = mapper;
         }
 
         public async Task<IActionResult> Get()
         {
-            var currentActiveSemester = await context.AcademicSemesters
-                                        .Include(s => s.AcademicYear)
-                                        .SingleOrDefaultAsync(a => a.IsCurrentSemester);
+            var currentActiveSemester = await unitOfWork.AcademicSemesters.GetCurrentAcademicSemester();
 
             if (currentActiveSemester == null)
                 return BadRequest();
 
-            var courseOfferings = await context.CourseOfferings
-                                    .Include(co => co.Instructors)
-                                        .ThenInclude(i => i.Instructor)
-                                    .Include(co => co.Instructors)
-                                        .ThenInclude(i => i.Type)
-                                    .Include(co => co.Course)
-                                    .Include(co => co.Section)
-                                    .Where(co => co.AcademicSemesterId == currentActiveSemester.Id)
-                                    .ToListAsync();
+            var courseOfferings = await unitOfWork.CourseOfferings.GetCourseOfferingsWithRelatedData(currentActiveSemester.Id);
 
             var result = mapper.Map<IEnumerable<CourseOffering>, IEnumerable<CourseOfferingResource>>(courseOfferings);
-            
+
             return Ok(result);
         }
 
         [HttpGet("create")]
         public async Task<IActionResult> Create()
         {
-            var currentActiveSemester = await context.AcademicSemesters
-                                        .Include(s => s.AcademicYear)
-                                        .SingleOrDefaultAsync(a => a.IsCurrentSemester);
-            
+            var currentActiveSemester = await unitOfWork.AcademicSemesters.GetCurrentAcademicSemester();
+
             if (currentActiveSemester == null)
                 return BadRequest();
-            
-            var sections = await context.Sections.ToListAsync();
+
+            var sections = await unitOfWork.Sections.GetAll();
 
             if (sections == null)
                 return BadRequest();
@@ -70,20 +58,14 @@ namespace SchedulingSystem.Controllers
             {
                 var sectionYear = helper.CalculateCurrentYearOfSection(Convert.ToInt32(currentActiveSemester.AcademicYear.EtYear), section.EntranceYear);
 
-                var courses = await context.Courses
-                                .Where(c => c.DeliveryYear == sectionYear && c.DeliverySemester == currentActiveSemester.Semester)
-                                .ToListAsync();
+                var courses = await unitOfWork.Courses.GetCoursesForCurrentSemester(sectionYear, currentActiveSemester.Semester);
 
                 foreach (var course in courses)
                 {
-                    var doesCourseOfferingExist = context.CourseOfferings.Any(co => 
-                                                co.AcademicSemesterId == currentActiveSemester.Id &&
-                                                co.CourseId == course.Id &&
-                                                co.SectionId == section.Id);
-                    
-                    if (!doesCourseOfferingExist)
+
+                    if (!unitOfWork.CourseOfferings.DoesCourseOfferingExist(currentActiveSemester.Id, course.Id, section.Id))
                     {
-                        context.CourseOfferings.Add(new CourseOffering 
+                        unitOfWork.CourseOfferings.Add(new CourseOffering
                         {
                             SectionId = section.Id,
                             CourseId = course.Id,
@@ -93,17 +75,12 @@ namespace SchedulingSystem.Controllers
                 }
             }
 
-            context.SaveChanges();
+           await unitOfWork.CompleteAsync();
 
-            var courseOfferings = await context.CourseOfferings
-                                    .Include(co => co.Instructors)
-                                    .Include(co => co.Course)
-                                    .Include(co => co.Section)
-                                    .Where(co => co.AcademicSemesterId == currentActiveSemester.Id)
-                                    .ToListAsync();
+            var courseOfferings = await unitOfWork.CourseOfferings.GetCourseOfferingsWithRelatedData(currentActiveSemester.Id);
 
             var result = mapper.Map<IEnumerable<CourseOffering>, IEnumerable<CourseOfferingResource>>(courseOfferings);
-            
+
             return Ok(result);
         }
 
@@ -115,19 +92,13 @@ namespace SchedulingSystem.Controllers
 
             var courseOffering = mapper.Map<SaveInstructorAssignmentResource, InstructorAssignment>(resource);
 
-            context.CourseOfferingInstructorAssignments.Add(courseOffering);
-            await context.SaveChangesAsync();
-            
-            courseOffering = await context.CourseOfferingInstructorAssignments
-                            .Include(co => co.CourseOffering)
-                            .Include(co => co.Instructor)
-                            .Include(co => co.Type)
-                            .SingleAsync(co => co.CourseOfferingId == resource.CourseOfferingId &&
-                            co.InstructorId == resource.InstructorId &&
-                            co.TypeId == resource.TypeId);
+            unitOfWork.CourseOfferingInstructorAssignments.Add(courseOffering);
+            await unitOfWork.CompleteAsync();
+
+            courseOffering = await unitOfWork.CourseOfferingInstructorAssignments.GetInstructorAssignment(resource.CourseOfferingId, resource.InstructorId, resource.TypeId);
 
             var result = mapper.Map<InstructorAssignment, InstructorAssignmentResource>(courseOffering);
-            
+
 
             return Ok(result);
         }

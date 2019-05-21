@@ -15,6 +15,8 @@ namespace SchedulingSystem.Core
         IWeekDayRepository WeekDays { get; }
         IInstructorRepository Instructors { get; }
         ICurriculumRepository Curriculums { get; }
+        ICourseOfferingRepository CourseOfferings { get; }
+        IInstructorAssignmentRepository CourseOfferingInstructorAssignments { get; }
 
         Task<int> CompleteAsync();
     }

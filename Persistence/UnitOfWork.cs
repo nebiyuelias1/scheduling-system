@@ -22,6 +22,10 @@ namespace SchedulingSystem.Persistence
 
         public ICurriculumRepository Curriculums { get; private set; }
 
+        public ICourseOfferingRepository CourseOfferings { get; private set; }
+        
+        public IInstructorAssignmentRepository  CourseOfferingInstructorAssignments { get; private set; }
+
         public UnitOfWork(SchedulingDbContext context)
         {
             this.context = context;
@@ -34,6 +38,8 @@ namespace SchedulingSystem.Persistence
             WeekDays = new WeekDayRepository(context);
             Instructors =  new InstructorRepository(context);
             Curriculums = new CurriculumRepository(context);
+            CourseOfferings = new CourseOfferingRepository(context);
+            CourseOfferingInstructorAssignments = new InstructorAssignmentRepository(context);
         }
 
 
