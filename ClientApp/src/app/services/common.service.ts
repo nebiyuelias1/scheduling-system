@@ -3,9 +3,7 @@ import { HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class CommonService {
-  
-  
-  
+
   constructor(private http: HttpClient) { }
 
   getProgramTypes() {
@@ -78,5 +76,9 @@ export class CommonService {
 
   getSection(id: number) {
     return this.http.get('/api/sections/' + id);
+  }
+
+  deleteCourseOffering(id: any) {
+    return this.http.delete('/api/courseofferings/' + id);
   }
 }

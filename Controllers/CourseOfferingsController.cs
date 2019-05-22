@@ -102,5 +102,18 @@ namespace SchedulingSystem.Controllers
 
             return Ok(result);
         }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var courseOffering = await unitOfWork.CourseOfferings.Get(id);
+            if (courseOffering == null)
+                return NotFound();
+
+            unitOfWork.CourseOfferings.Remove(courseOffering);
+            await unitOfWork.CompleteAsync();
+
+            return Ok(id);
+        }
     }
 }

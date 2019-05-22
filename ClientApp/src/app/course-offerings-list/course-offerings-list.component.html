@@ -1,26 +1,58 @@
 <h2>Course Offerings</h2>
 <button class="btn btn-primary" (click)="createCourseOfferings()">Create Course Offerings</button>
 
-<table class="table">
-  <thead>
-    <tr>
-      <th>Section</th>
-      <th>Course Code</th>
-      <th>Course Title</th>
-      <th>Instructors</th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let co of courseOfferings">
-      <td>{{ co.section.name }}</td>
-      <td>{{ co.course.courseCode }}</td>
-      <td>{{ co.course.name }}</td>
-      <td>
-        <a *ngIf="co.instructors.length > 0; else noInstructor" href="">{{ co.instructors | json }}</a>
-        <ng-template #noInstructor><span>No instructor</span></ng-template>
-      </td>
-      <td><a [routerLink]="['/courseofferings', 'assign', co.id]">Assign</a></td>
-    </tr>
-  </tbody>
-</table>
+<div class="search-div">
+  <mat-form-field class="search-form-field">
+      <input matInput type="text" placeholder="Search" [(ngModel)]="searchKey" (keyup)="applyFilter()" />
+      <button mat-button *ngIf="searchKey" matSuffix mat-icon-button aria-label="Clear" (click)="clearSearchKey()">
+          <mat-icon>close</mat-icon>
+      </button>
+  </mat-form-field>
+</div>
+<div class="mat-elevation-z8 data-table">
+  <mat-table #table [dataSource]="dataSource" matSort aria-label="Elements">
+
+      <!-- Course Name Column -->
+      <ng-container matColumnDef="courseName">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Course Title</mat-header-cell>
+          <mat-cell *matCellDef="let row"> {{row.course.name}} </mat-cell>
+      </ng-container>
+
+      <!-- Course Code Column -->
+      <ng-container matColumnDef="courseCode">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Course Code</mat-header-cell>
+          <mat-cell *matCellDef="let row">{{row.course.courseCode}}</mat-cell>
+      </ng-container>
+
+      <!-- Section Name Column -->
+      <ng-container matColumnDef="sectionName">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Section</mat-header-cell>
+          <mat-cell *matCellDef="let row">{{row.section.name}}</mat-cell>
+      </ng-container>
+
+      <!-- Entrance Year Column -->
+      <ng-container matColumnDef="entranceYear">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Entrance Year</mat-header-cell>
+          <mat-cell *matCellDef="let row">{{ row.section.entranceYear }}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="action">
+          <mat-header-cell *matHeaderCellDef></mat-header-cell>
+          <mat-cell *matCellDef="let row">
+              <button mat-icon-button [routerLink]="['/courseofferings/assign', row.id]">
+                  <mat-icon>launch</mat-icon>
+              </button>
+              <button mat-icon-button (click)="openDeleteDialog(row.id)" color="warn">
+                  <mat-icon>delete_outline</mat-icon>
+              </button>
+          </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+
+  <mat-paginator #paginator [pageIndex]="0" [pageSize]="25" [pageSizeOptions]="[5, 25, 50, 100, 250]"
+      showFirstLastButtons>
+  </mat-paginator>
+</div>
