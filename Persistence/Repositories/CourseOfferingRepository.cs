@@ -21,6 +21,18 @@ namespace SchedulingSystem.Persistence.Repositories
                                                 co.SectionId == sectionId);
         }
 
+        public Task<CourseOffering> GetCourseOffering(int id)
+        {
+            return SchedulingDbContext.CourseOfferings
+                .Include(c => c.Course)
+                .Include(c => c.Section)
+                .Include(c => c.Instructors)
+                    .ThenInclude(i => i.Instructor)
+                .Include(c => c.Instructors)
+                    .ThenInclude(i => i.Type)
+                .SingleOrDefaultAsync(c => c.Id == id);
+        }
+
         public async Task<IEnumerable<CourseOffering>> GetCourseOfferingsWithRelatedData(int currentSemesterId)
         {
             return await SchedulingDbContext.CourseOfferings

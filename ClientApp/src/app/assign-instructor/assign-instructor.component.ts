@@ -15,32 +15,49 @@ export class AssignInstructorComponent implements OnInit {
   instructors: any[];
   courseOfferingId;
 
-  form = new FormGroup({
-    courseOfferingId: new FormControl(),
-    instructorId: new FormControl(),
-    typeId: new FormControl()
-  });
+  courseOffering;
 
   constructor(private commonService: CommonService,
     private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
+    console.log('ngOnInit called.');
+
     this.courseOfferingId = this.activatedRoute.snapshot.paramMap.get('id');
-    this.form.controls['courseOfferingId']
-    .setValue(this.courseOfferingId);
 
-    this.commonService.getTypes()
-      .subscribe((result: any[]) => this.types = result,
-      (error) => console.error(error));
+    this.commonService.getCourseOffering(this.courseOfferingId)
+      .subscribe(result => {
+        this.courseOffering = result;
+        console.log(this.courseOffering);
+      });
 
-    this.commonService.getInstructors()
-      .subscribe((result: any[]) => this.instructors = result,
-      (error) => console.error(error));
+    // this.commonService.getTypes()
+    //   .subscribe((result: any[]) => this.types = result,
+    //   (error) => console.error(error));
+
+    // this.commonService.getInstructors()
+    //   .subscribe((result: any[]) => this.instructors = result,
+    //   (error) => console.error(error));
   }
 
   assignInstructor() {
-    this.commonService.assignInstructor(this.form.value)
-      .subscribe((result) => console.log(result),
-      (error) => console.error(error));
+    // this.commonService.assignInstructor(this.form.value)
+    //   .subscribe((result) => console.log(result),
+    //   (error) => console.error(error));
+  }
+
+  getLectureInstructor() {
+    const instructor = this.courseOffering.instructors
+    .filter(i => i.type.id === 1);
+  }
+
+  hasLecture() {
+    console.log('hasLecture called');
+  }
+
+  hasLab() {
+  }
+
+  hasTutor() {
   }
 }

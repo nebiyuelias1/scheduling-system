@@ -115,5 +115,18 @@ namespace SchedulingSystem.Controllers
 
             return Ok(id);
         }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetCourseOffering(int id)
+        {
+            var courseOffering = await unitOfWork.CourseOfferings.GetCourseOffering(id);
+
+            if (courseOffering == null)
+                return NotFound();
+
+            var result = Mapper.Map<CourseOffering, CourseOfferingResource>(courseOffering);
+
+            return Ok(result);
+        }
     }
 }

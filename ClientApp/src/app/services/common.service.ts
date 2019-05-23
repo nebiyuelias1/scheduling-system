@@ -81,4 +81,8 @@ export class CommonService {
   deleteCourseOffering(id: any) {
     return this.http.delete('/api/courseofferings/' + id);
   }
+
+  getCourseOffering(courseOfferingId: any) {
+    return this.http.get('/api/courseofferings/' + courseOfferingId);
+  }
 }
