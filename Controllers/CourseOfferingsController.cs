@@ -50,6 +50,7 @@ namespace SchedulingSystem.Controllers
                 return BadRequest();
 
             var sections = await unitOfWork.Sections.GetAll();
+            sections = sections.Where(s => s.IsActive);
 
             if (sections == null)
                 return BadRequest();
@@ -65,12 +66,34 @@ namespace SchedulingSystem.Controllers
 
                     if (!unitOfWork.CourseOfferings.DoesCourseOfferingExist(currentActiveSemester.Id, course.Id, section.Id))
                     {
-                        unitOfWork.CourseOfferings.Add(new CourseOffering
+                        var courseOffering = new CourseOffering
                         {
                             SectionId = section.Id,
                             CourseId = course.Id,
                             AcademicSemesterId = currentActiveSemester.Id
-                        });
+                        };
+                        
+                        if (course.Lecture > 0) {
+                            courseOffering.Instructors.Add(new InstructorAssignment 
+                            {
+                                TypeId = 1
+                            });
+                        }
+
+                        if (course.Lab > 0) {
+                            courseOffering.Instructors.Add(new InstructorAssignment
+                            {
+                                TypeId = 2
+                            });
+                        }
+
+                        if (course.Tutor > 0) {
+                            courseOffering.Instructors.Add(new InstructorAssignment
+                            {
+                                TypeId = 3
+                            });
+                        }
+                        unitOfWork.CourseOfferings.Add(courseOffering);
                     }
                 }
             }

@@ -42,8 +42,6 @@ namespace SchedulingSystem.Persistence
             modelbuilder.Entity<RoomTypeAssignment>()
                 .HasKey(rt => new { rt.RoomId, rt.TypeId });
 
-            modelbuilder.Entity<InstructorAssignment>()
-                .HasKey(co => new { co.CourseOfferingId, co.InstructorId, co.TypeId });
 
             modelbuilder.Entity<ScheduleConfiguration>()
                 .HasKey(s => new { s.AdmissionLevelId, s.ProgramTypeId });

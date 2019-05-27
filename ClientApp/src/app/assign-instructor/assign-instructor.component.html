@@ -1,15 +1,16 @@
 <h3>Course Offering Detail</h3>
 <h4>Course</h4>
-<p *ngIf="courseOffering.course.lecture > 0"></p>
-<!-- <p>Code: {{ courseOffering['course']['courseCode'] }}</p>
-<p>Title: {{ courseOffering.course.name }}</p>
+<!-- <p *ngIf="hasLoaded && courseOffering.course.lecture > 0">Lecture</p> -->
+<p *ngIf="hasLoaded">Code: {{ courseOffering['course']['courseCode'] }}</p>
+<p *ngIf="hasLoaded">Title: {{ courseOffering.course.name }}</p>
 <h4>Section</h4>
-<p>Name: {{ courseOffering.section.name }}</p>
-<p>Entrance Year: {{ courseOffering.section.entranceYear }}</p>
+<p *ngIf="hasLoaded">Name: {{ courseOffering.section.name }}</p>
+<p *ngIf="hasLoaded">Entrance Year: {{ courseOffering.section.entranceYear }}</p>
 <h4>Instructors</h4>
 
 
-<form [formGroup]="form" (ngSubmit)="assignInstructor()">
+
+<!-- <form [formGroup]="form" (ngSubmit)="assignInstructor()">
   <div class="form-group">
     <label for="assignFor">Assign For</label>
     <select id="assignFor" class="form-control" formControlName="typeId">
