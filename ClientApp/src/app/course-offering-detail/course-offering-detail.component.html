@@ -1,0 +1,19 @@
+<div *ngIf="outlet.isActivated == false">
+  <h3>Course Offering Detail</h3>
+  <div *ngIf="courseOffering">
+    <h4>Course</h4>
+    <p>Code: {{ courseOffering['course']['courseCode'] }}</p>
+    <p>Title: {{ courseOffering.course.name }}</p>
+    <h4>Section</h4>
+    <p>Name: {{ courseOffering.section.name }}</p>
+    <p>Entrance Year: {{ courseOffering.section.entranceYear }}</p>
+    <h4>Instructors</h4>
+    <div *ngFor="let i of courseOffering.instructors">
+      <p>{{ i.type.name }}:
+        <span *ngIf="i.instructor; else noInstructor"></span>
+        <ng-template #noInstructor><span><a [routerLink]="['assign',i.type.id]">Assign</a></span></ng-template>
+      </p>
+    </div>
+  </div>
+</div>
+<router-outlet #outlet="outlet"></router-outlet>

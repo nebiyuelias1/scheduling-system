@@ -31,7 +31,7 @@ import { SectionDetailComponent } from './section-detail/section-detail.componen
 import { AcademicYearFormComponent } from './academic-year-form/academic-year-form.component';
 import { AcademicSemesterFormComponent } from './academic-semester-form/academic-semester-form.component';
 import { CourseOfferingsListComponent } from './course-offerings-list/course-offerings-list.component';
-import { AssignInstructorComponent } from './assign-instructor/assign-instructor.component';
+import { CourseOfferingDetailComponent } from './course-offering-detail/course-offering-detail.component';
 import { ScheduleConfigurationFormComponent } from './schedule-configuration-form/schedule-configuration-form.component';
 import { ScheduleComponent } from './schedule/schedule.component';
 import { ListGroupComponent } from './list-group/list-group.component';
@@ -51,6 +51,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DeleteDialogComponent } from './delete-dialog/delete-dialog.component';
 import { InstructorsListComponent } from './instructors-list/instructors-list.component';
 import { CoursesListComponent } from './courses-list/courses-list.component';
+import { AssignInstructorComponent } from './assign-instructor/assign-instructor.component';
 
 @NgModule({
   declarations: [
@@ -73,7 +74,7 @@ import { CoursesListComponent } from './courses-list/courses-list.component';
     AcademicYearFormComponent,
     AcademicSemesterFormComponent,
     CourseOfferingsListComponent,
-    AssignInstructorComponent,
+    CourseOfferingDetailComponent,
     ScheduleConfigurationFormComponent,
     ScheduleComponent,
     ListGroupComponent,
@@ -86,6 +87,7 @@ import { CoursesListComponent } from './courses-list/courses-list.component';
     DeleteDialogComponent,
     InstructorsListComponent,
     CoursesListComponent,
+    AssignInstructorComponent,
   ],
   imports: [
     AppRoutingModule,

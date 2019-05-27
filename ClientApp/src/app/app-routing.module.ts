@@ -14,7 +14,7 @@ import { SectionDetailComponent } from './section-detail/section-detail.componen
 import { SectionRoomAssignmentFormComponent } from './section-room-assignment-form/section-room-assignment-form.component';
 import { AcademicYearFormComponent } from './academic-year-form/academic-year-form.component';
 import { AcademicSemesterFormComponent } from './academic-semester-form/academic-semester-form.component';
-import { AssignInstructorComponent } from './assign-instructor/assign-instructor.component';
+import { CourseOfferingDetailComponent } from './course-offering-detail/course-offering-detail.component';
 import { CourseOfferingsListComponent } from './course-offerings-list/course-offerings-list.component';
 import { ScheduleComponent } from './schedule/schedule.component';
 import { ScheduleConfigurationFormComponent } from './schedule-configuration-form/schedule-configuration-form.component';
@@ -23,6 +23,7 @@ import { MainComponent } from './main/main.component';
 import { AuthGuard } from './accounts/auth-guard.service';
 import { InstructorsListComponent } from './instructors-list/instructors-list.component';
 import { CoursesListComponent } from './courses-list/courses-list.component';
+import { AssignInstructorComponent } from './assign-instructor/assign-instructor.component';
 
 const routes: Routes = [
     {
@@ -235,11 +236,20 @@ const routes: Routes = [
                         component: CourseOfferingsListComponent
                     },
                     {
-                        path: 'assign/:id',
+                        path: ':id',
                         data: {
-                            breadcrumb: 'Assign'
+                            breadcrumb: 'Detail'
                         },
-                        component: AssignInstructorComponent
+                        component: CourseOfferingDetailComponent,
+                        children: [
+                            {
+                                path: 'assign/:typeId',
+                                data: {
+                                    breadcrumb: 'Assign'
+                                },
+                                component: AssignInstructorComponent
+                            }
+                        ]
                     }
                 ]
             },
