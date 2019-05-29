@@ -249,7 +249,8 @@ const routes: Routes = [
                                 },
                                 component: AssignInstructorComponent
                             }
-                        ]
+                        ],
+                        runGuardsAndResolvers: 'always'
                     }
                 ]
             },
@@ -321,7 +322,7 @@ const routes: Routes = [
 
 @NgModule({
     declarations: [],
-    imports: [RouterModule.forRoot(routes)],
+    imports: [RouterModule.forRoot(routes, { onSameUrlNavigation: 'reload'})],
     exports: [RouterModule],
     providers: [],
 })

@@ -10,7 +10,7 @@
     <h4>Instructors</h4>
     <div *ngFor="let i of courseOffering.instructors">
       <p>{{ i.type.name }}:
-        <span *ngIf="i.instructor; else noInstructor"></span>
+        <span *ngIf="i.instructor; else noInstructor">{{ i.instructor.firstName }} {{ i.instructor.fatherName }} {{ i.instructor.grandFatherName }}</span>
         <ng-template #noInstructor><span><a [routerLink]="['assign',i.type.id]">Assign</a></span></ng-template>
       </p>
     </div>

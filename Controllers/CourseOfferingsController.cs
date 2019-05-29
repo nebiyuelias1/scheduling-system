@@ -113,14 +113,22 @@ namespace SchedulingSystem.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var courseOffering = mapper.Map<SaveInstructorAssignmentResource, InstructorAssignment>(resource);
+            var courseOffering = await unitOfWork.CourseOfferings.GetCourseOffering(resource.CourseOfferingId);
+            
+            if (courseOffering == null)
+                return NotFound();
 
-            unitOfWork.CourseOfferingInstructorAssignments.Add(courseOffering);
+           var assignment = courseOffering.Instructors.SingleOrDefault(i => i.TypeId == resource.TypeId);
+
+           if (assignment == null)
+                return NotFound();
+
+            assignment.InstructorId = resource.InstructorId;
             await unitOfWork.CompleteAsync();
 
-            courseOffering = await unitOfWork.CourseOfferingInstructorAssignments.GetInstructorAssignment(resource.CourseOfferingId, resource.InstructorId, resource.TypeId);
+            assignment = await unitOfWork.CourseOfferingInstructorAssignments.GetInstructorAssignment(resource.CourseOfferingId, resource.InstructorId, resource.TypeId);
 
-            var result = mapper.Map<InstructorAssignment, InstructorAssignmentResource>(courseOffering);
+            var result = mapper.Map<InstructorAssignment, InstructorAssignmentResource>(assignment);
 
 
             return Ok(result);
