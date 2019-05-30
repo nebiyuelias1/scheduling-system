@@ -43,4 +43,16 @@ export class CourseOfferingDetailComponent implements OnInit, OnDestroy {
         this.courseOffering = result;
       });
   }
+
+  removeAssignment(typeId) {
+    this.commonService.removeInstructorAssignment(this.courseOffering.id, typeId)
+      .subscribe(x => {
+        console.log(x);
+        const assignment = this.courseOffering.instructors.filter(i => i.type.id === typeId)[0];
+        const index = this.courseOffering.instructors.indexOf(assignment);
+        if (index !== -1) {
+          this.courseOffering.instructors[index].instructor = null;
+        }
+      }, err => console.error(err));
+  }
 }

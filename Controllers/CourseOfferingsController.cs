@@ -107,7 +107,7 @@ namespace SchedulingSystem.Controllers
             return Ok(result);
         }
 
-        [HttpPost()]
+        [HttpPost]
         public async Task<IActionResult> AssignInstructor([FromBody] SaveInstructorAssignmentResource resource)
         {
             if (!ModelState.IsValid)
@@ -158,6 +158,25 @@ namespace SchedulingSystem.Controllers
             var result = Mapper.Map<CourseOffering, CourseOfferingResource>(courseOffering);
 
             return Ok(result);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> RemoveAssignment(int id, [FromBody] int typeId)
+        {
+            var courseOffering = await unitOfWork.CourseOfferings.GetCourseOffering(id);
+
+            if (courseOffering == null) 
+                return NotFound();
+
+            var assignment = courseOffering.Instructors.SingleOrDefault(i => i.TypeId == typeId);
+
+            if (assignment == null)
+                return NotFound();
+
+            assignment.InstructorId = null;
+            await unitOfWork.CompleteAsync();
+
+            return Ok(assignment.Id);
         }
     }
 }
