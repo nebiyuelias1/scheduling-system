@@ -5,7 +5,7 @@ using SchedulingSystem.Core.Models;
 
 namespace SchedulingSystem.Persistence
 {
-    public class SchedulingDbContext : IdentityDbContext<IdentityUser>
+    public class SchedulingDbContext : IdentityDbContext<AppUser>
     {
 
         public DbSet<College> Colleges { get; set; }
