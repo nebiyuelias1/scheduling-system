@@ -29,5 +29,8 @@ namespace SchedulingSystem.Controllers.Resources
         
         [Required]
         public string Role { get; set; }
+
+        [Required]
+        public int DepartmentId { get; set; }
     }
 }

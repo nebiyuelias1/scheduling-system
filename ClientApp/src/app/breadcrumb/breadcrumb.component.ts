@@ -62,7 +62,6 @@ export class BreadcrumbComponent implements OnInit {
         params: child.snapshot.params,
         url: url
       };
-      console.log('breadcrumb', breadcrumb);
       breadcrumbs.push(breadcrumb);
 
       // recursive

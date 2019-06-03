@@ -91,6 +91,7 @@ namespace SchedulingSystem.Controllers
                 GrandFatherName = resource.GrandFatherName,
                 Email = resource.Email,
                 UserName = resource.Email,
+                DepartmentId = resource.DepartmentId,
                 SecurityStamp = Guid.NewGuid().ToString()
             };
             var result = await userManager.CreateAsync(user, resource.Password);
@@ -136,6 +137,7 @@ namespace SchedulingSystem.Controllers
                     var c = await roleManager.GetClaimsAsync(r);
                     claims.AddRange(c);
                 }
+                
                 return await Task.FromResult(jwtFactory.GenerateClaimsIdentity(userName, userToVerify.Id, claims));
             }
 

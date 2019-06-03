@@ -85,7 +85,7 @@ namespace SchedulingSystem.Persistence
                 .HasOne(i => i.User)
                 .WithOne()
                 .OnDelete(DeleteBehavior.Cascade);
-                
+
             base.OnModelCreating(modelbuilder);
         }
     }

@@ -41,12 +41,12 @@ export class InstructorFormComponent implements OnInit {
       user.password = 'P@ssw0rd';
       user.passwordAgain = 'P@ssw0rd';
       user.role = 'Instructor';
+      user.departmentId = this.form.get('departmentId').value,
 
       this.userService.register(user)
       .subscribe((u: UserRegistration) => {
         if (u.id) {
           this.instructorService.save({
-            departmentId: this.form.get('departmentId').value,
             userId: u.id
           })
           .subscribe((result) => {

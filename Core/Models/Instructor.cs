@@ -9,8 +9,6 @@ namespace SchedulingSystem.Core.Models
     {
         public int Id { get; set; }
 
-        
-
         public bool IsActive { get; private set; }
         
         public AppUser User { get; set; }
