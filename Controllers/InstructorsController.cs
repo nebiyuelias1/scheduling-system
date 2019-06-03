@@ -24,12 +24,13 @@ namespace SchedulingSystem.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] InstructorResource instructorResource)
+        public async Task<IActionResult> Create([FromBody] SaveInstructorResource instructorResource)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
+            
 
-            var instructor = mapper.Map<InstructorResource, Instructor>(instructorResource);
+            var instructor = mapper.Map<SaveInstructorResource, Instructor>(instructorResource);
 
             unitOfWork.Instructors.Add(instructor);
             await unitOfWork.CompleteAsync();

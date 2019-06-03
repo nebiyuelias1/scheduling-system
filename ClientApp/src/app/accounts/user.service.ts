@@ -40,15 +40,10 @@ export class UserService extends BaseService {
       .catch(this.handleError);
   }
 
-  register(email: string, password: string, passwordAgain: string, role: string): Observable<UserRegistration> {
-    const body = JSON.stringify({ email, password, passwordAgain, role });
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    //  let options = new RequestOptions({ headers: headers });
+  register(user): Observable<UserRegistration> {
 
-    return this.http.post('/register', body, {
-        headers: headers
-      })
-      .map(res => true)
+    return this.http.post('/register', user)
+      .map(res => res)
       .catch(this.handleError);
   }
 

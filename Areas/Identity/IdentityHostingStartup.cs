@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using SchedulingSystem.Core.Models;
 using SchedulingSystem.Persistence;
 
 [assembly: HostingStartup(typeof(SchedulingSystem.Areas.Identity.IdentityHostingStartup))]
@@ -19,7 +20,7 @@ namespace SchedulingSystem.Areas.Identity
                     options.UseSqlServer(
                         context.Configuration.GetConnectionString("Default")));
 
-                services.AddIdentity<IdentityUser, IdentityRole>()
+                services.AddIdentity<AppUser, IdentityRole>()
                     .AddEntityFrameworkStores<SchedulingDbContext>();
 
                 // services.AddDefaultIdentity<IdentityUser>()

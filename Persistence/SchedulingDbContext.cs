@@ -81,6 +81,10 @@ namespace SchedulingSystem.Persistence
                 .HasForeignKey(s => s.ScheduleId)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            modelbuilder.Entity<Instructor>()
+                .HasOne(i => i.User)
+                .WithOne()
+                .OnDelete(DeleteBehavior.Cascade);
                 
             base.OnModelCreating(modelbuilder);
         }

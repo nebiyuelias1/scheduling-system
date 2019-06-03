@@ -28,6 +28,7 @@ namespace SchedulingSystem.Mapping
             CreateMap<SaveAcademicSemesterResource, AcademicSemester>();
             CreateMap<SaveInstructorAssignmentResource, InstructorAssignment>();
             CreateMap<SaveScheduleConfigurationResource, ScheduleConfiguration>();
+            CreateMap<SaveInstructorResource, Instructor>();
 
             // Domain to API Resource
             CreateMap<Department, DepartmentResource>();

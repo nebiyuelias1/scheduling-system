@@ -15,19 +15,20 @@ using Newtonsoft.Json;
 using SchedulingSystem.Auth;
 using SchedulingSystem.Controllers.Resources;
 using SchedulingSystem.Core;
+using SchedulingSystem.Core.Models;
 
 namespace SchedulingSystem.Controllers
 {
     public class AuthController : Controller
     {
-        private readonly UserManager<IdentityUser> userManager;
+        private readonly UserManager<AppUser> userManager;
         private readonly RoleManager<IdentityRole> roleManager;
         private readonly IConfiguration configuration;
         private readonly IJwtFactory jwtFactory;
         private readonly IUnitOfWork unitOfWork;
         private readonly JwtIssuerOptions jwtOptions;
         public AuthController(
-                            UserManager<IdentityUser> userManager,
+                            UserManager<AppUser> userManager,
                             RoleManager<IdentityRole> roleManager,
                             IConfiguration configuration,
                             IJwtFactory jwtFactory,
@@ -83,8 +84,11 @@ namespace SchedulingSystem.Controllers
                 return BadRequest(ModelState);
             }
 
-            var user = new IdentityUser
+            var user = new AppUser
             {
+                FirstName = resource.FirstName,
+                FatherName = resource.FatherName,
+                GrandFatherName = resource.GrandFatherName,
                 Email = resource.Email,
                 UserName = resource.Email,
                 SecurityStamp = Guid.NewGuid().ToString()
@@ -104,7 +108,7 @@ namespace SchedulingSystem.Controllers
                 // Add to role
                 // await userManager.AddToRoleAsync(user, "Customer");
             }
-            return Ok(new { Username = user.UserName });
+            return Ok(new { Id = user.Id, Username = user.UserName });
         }
 
         private async Task<ClaimsIdentity> GetClaimsIdentity(string userName, string password)
