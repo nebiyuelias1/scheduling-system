@@ -70,6 +70,7 @@ namespace SchedulingSystem.Mapping
             CreateMap<Schedule, ScheduleResource>()
                 .ForMember(sr => sr.TimeTable, opt => opt.Ignore());
             CreateMap<WeekDay, WeekDayResource>();
+            CreateMap<AppUser, AppUserResource>();
         }
     }
 }

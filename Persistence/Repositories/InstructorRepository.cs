@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using SchedulingSystem.Core.Models;
@@ -11,11 +12,21 @@ namespace SchedulingSystem.Persistence.Repositories
         {
         }
 
+        public async Task<IEnumerable<Instructor>> GetInstructors()
+        {
+            return await SchedulingDbContext
+                .Instructors
+                .Include(i => i.User)
+                    .ThenInclude(u => u.Department)
+                .ToListAsync();
+        }
+
         public async Task<Instructor> GetInstructorWithDept(string userId)
         {
             return await SchedulingDbContext
                 .Instructors
-                .Include(i => i.Department)
+                .Include(i => i.User)
+                    .ThenInclude(u => u.Department)
                 .SingleOrDefaultAsync(i => i.UserId == userId);
         }
     }

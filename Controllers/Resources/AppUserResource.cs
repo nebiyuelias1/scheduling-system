@@ -1,23 +1,19 @@
 using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Identity;
 
-namespace SchedulingSystem.Core.Models
+namespace SchedulingSystem.Controllers.Resources
 {
-    public class AppUser : IdentityUser
+    public class AppUserResource
     {
         [Required]
         [StringLength(255)]
-
         public string FirstName { get; set; }
+
         [Required]
         [StringLength(255)]
-        
         public string FatherName { get; set; }
+
         [Required]
         [StringLength(255)]
         public string GrandFatherName { get; set; }
-        
-        public Department Department { get; set; }
-        public int DepartmentId { get; set; }
     }
 }

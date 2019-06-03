@@ -9,9 +9,7 @@ namespace SchedulingSystem.Core.Models
     {
         public int Id { get; set; }
 
-        public Department Department { get; set; }
-
-        public int DepartmentId { get; set; }
+        
 
         public bool IsActive { get; private set; }
         

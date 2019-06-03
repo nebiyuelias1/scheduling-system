@@ -40,9 +40,10 @@ namespace SchedulingSystem.Controllers
             return Ok(result);
         }
 
+        [HttpGet]
         public async Task<IActionResult> GetInstructors()
         {
-            var instructors = await unitOfWork.Instructors.GetAll();
+            var instructors = await unitOfWork.Instructors.GetInstructors();
             instructors = instructors.Where(i => i.IsActive);
 
             if (instructors == null)
@@ -50,7 +51,7 @@ namespace SchedulingSystem.Controllers
 
             var result = mapper.Map<IEnumerable<Instructor>, IEnumerable<InstructorResource>>(instructors);
 
-            return Ok(instructors);
+            return Ok(result);
         }
 
         [HttpDelete("{id}")]

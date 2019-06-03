@@ -34,10 +34,27 @@ export class InstructorsListComponent implements OnInit {
         this.paginator._changePageSize(this.paginator.pageSize);
 
         this.dataSource.filterPredicate = (data, filter) => {
-          return this.displayedColumns.some(d => {
-            return d !== 'action' && data[d].toString().toLowerCase().indexOf(filter) !== -1;
-          });
-       };
+          const firstName = data['user']['firstName'].toString().toLowerCase().indexOf(filter);
+          const fatherName = data['user']['fatherName'].toString().toLowerCase().indexOf(filter);
+          const grandFatherName = data['user']['grandFatherName'].toString().toLowerCase().indexOf(filter);
+
+          return firstName !== -1
+          || fatherName !== -1
+          || grandFatherName !== -1;
+      };
+
+        this.dataSource.sortingDataAccessor = (data, sortHeaderId) => {
+          switch (sortHeaderId) {
+            case 'firstName':
+              return data['user']['firstName'];
+            case 'fatherName':
+              return data['user']['fatherName'];
+            case 'grandFatherName':
+              return data['user']['grandFatherName'];
+            default:
+              return data[sortHeaderId];
+          }
+        };
       },
         (err) => console.error(err));
   }
@@ -75,7 +92,7 @@ export class InstructorsListComponent implements OnInit {
               this.dataSource.paginator = this.paginator;
               this.changeDetectorRefs.detectChanges();
             },
-            err => console.error(err));
+              err => console.error(err));
         }
       });
   }
