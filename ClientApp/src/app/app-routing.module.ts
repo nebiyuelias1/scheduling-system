@@ -144,6 +144,13 @@ const routes: Routes = [
                             breadcrumb: 'New'
                         },
                         component: InstructorFormComponent
+                    },
+                    {
+                        path: 'edit/:id',
+                        data: {
+                            breadcrumb: 'Edit'
+                        },
+                        component: InstructorFormComponent
                     }
                 ]
             },

@@ -9,7 +9,9 @@ import { UserService } from '../accounts/user.service';
 export class NavMenuComponent {
   isExpanded = false;
 
-  constructor(private userService: UserService) {  }
+  constructor(private userService: UserService) {
+    console.log(this.userService.decodedToken);
+  }
 
   collapse() {
     this.isExpanded = false;

@@ -3,7 +3,7 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { DepartmentService } from '../services/department.service';
 import { InstructorService } from '../services/instructor.service';
 import { UserService } from '../accounts/user.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { UserRegistration } from '../accounts/models/user.registration.interface';
 
 @Component({
@@ -22,13 +22,21 @@ export class InstructorFormComponent implements OnInit {
     }),
     departmentId: new FormControl()
   });
+  id: string;
 
   constructor(private departmentService: DepartmentService,
     private instructorService: InstructorService,
     private userService: UserService,
-    private router: Router) { }
+    private router: Router,
+    private route: ActivatedRoute) { }
 
   ngOnInit() {
+    const sources = [this.departmentService.getDepartments()];
+    
+    this.id = this.route.snapshot.paramMap.get('id');
+    if (this.id) {
+      sources.push(this.instructorService.get)
+    }
     this.departmentService.getDepartments()
       .subscribe((result: any[]) => {
         this.departments = result;

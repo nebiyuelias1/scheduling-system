@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource, MatDialog, MatDialogConfig } from '@angular/material';
 import { InstructorService } from '../services/instructor.service';
 import { DeleteDialogComponent } from '../delete-dialog/delete-dialog.component';
+import { UserService } from '../accounts/user.service';
 
 @Component({
   selector: 'app-instructors-list',
@@ -20,11 +21,12 @@ export class InstructorsListComponent implements OnInit {
   constructor(
     private instructorService: InstructorService,
     private dialog: MatDialog,
-    private changeDetectorRefs: ChangeDetectorRef
+    private changeDetectorRefs: ChangeDetectorRef,
+    private userService: UserService
   ) { }
 
   ngOnInit() {
-    this.instructorService.getInstructors()
+    this.instructorService.getInstructorsWithinADept(this.userService.decodedToken.dept_id)
       .subscribe((result: any[]) => {
         this.instructors = result;
         this.dataSource = new MatTableDataSource<any>(this.instructors);

@@ -1,6 +1,7 @@
 <div class="header-container mt-4 mb-4">
   <div class="department-header">
-    <h1 *ngIf="userService.decodedToken">{{ userService.decodedToken.dept }} Department</h1>
+    <h1 *ngIf="userService.decodedToken">{{ userService.decodedToken.coll }}</h1>
+    <h2 *ngIf="userService.decodedToken">{{ userService.decodedToken.dept }} Department</h2>
   </div>
   <div class="semester-container" *ngIf="currentAcacemicSemester">
     <div>

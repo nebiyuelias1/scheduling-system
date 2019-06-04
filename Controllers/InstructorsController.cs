@@ -40,11 +40,24 @@ namespace SchedulingSystem.Controllers
             return Ok(result);
         }
 
+        [HttpGet("{departmentId}")]
+        public async Task<IActionResult> GetInstructors(int departmentId)
+        {
+            var instructors = await GetActiveInstructors();
+            instructors = instructors.Where(i => i.User.DepartmentId == departmentId);
+
+            if (instructors == null)
+                return NotFound();
+
+            var result = mapper.Map<IEnumerable<Instructor>, IEnumerable<InstructorResource>>(instructors);
+
+            return Ok(result);
+        }
+
         [HttpGet]
         public async Task<IActionResult> GetInstructors()
         {
-            var instructors = await unitOfWork.Instructors.GetInstructors();
-            instructors = instructors.Where(i => i.IsActive);
+            var instructors = await GetActiveInstructors();
 
             if (instructors == null)
                 return NotFound();
@@ -66,6 +79,14 @@ namespace SchedulingSystem.Controllers
             await unitOfWork.CompleteAsync();
 
             return Ok(id);
+        }
+
+        private async Task<IEnumerable<Instructor>> GetActiveInstructors()
+        {
+            var instructors = await unitOfWork.Instructors.GetInstructors();
+            instructors.Where(i => i.IsActive);
+
+            return instructors;
         }
     }
 }

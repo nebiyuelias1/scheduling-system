@@ -15,5 +15,8 @@ namespace SchedulingSystem.Controllers.Resources
         [Required]
         [StringLength(255)]
         public string GrandFatherName { get; set; }
+        
+        public DepartmentResource Department { get; set; }
+        public int DepartmentId { get; set; }
     }
 }
