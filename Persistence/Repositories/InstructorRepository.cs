@@ -1,8 +1,10 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using SchedulingSystem.Core.Models;
 using SchedulingSystem.Core.Repositories;
+using SchedulingSystem.Extensions;
 
 namespace SchedulingSystem.Persistence.Repositories
 {
@@ -12,13 +14,22 @@ namespace SchedulingSystem.Persistence.Repositories
         {
         }
 
-        public async Task<IEnumerable<Instructor>> GetInstructors()
+        public async Task<QueryResult<Instructor>> GetInstructors(InstructorQuery queryObj)
         {
-            return await SchedulingDbContext
+            var result = new QueryResult<Instructor>();
+            
+            var query = SchedulingDbContext
                 .Instructors
                 .Include(i => i.User)
                     .ThenInclude(u => u.Department)
-                .ToListAsync();
+                .AsQueryable();
+
+            query = query.ApplyFiltering(queryObj);
+            
+            result.TotalItems = await query.CountAsync();
+            result.Items = await query.ToListAsync();
+
+            return result;
         }
 
         public async Task<Instructor> GetInstructorWithDept(string userId)

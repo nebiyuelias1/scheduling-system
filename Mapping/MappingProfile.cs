@@ -29,6 +29,7 @@ namespace SchedulingSystem.Mapping
             CreateMap<SaveInstructorAssignmentResource, InstructorAssignment>();
             CreateMap<SaveScheduleConfigurationResource, ScheduleConfiguration>();
             CreateMap<SaveInstructorResource, Instructor>();
+            CreateMap<InstructorQueryResource, InstructorQuery>();
 
             // Domain to API Resource
             CreateMap<Department, DepartmentResource>();
@@ -71,6 +72,7 @@ namespace SchedulingSystem.Mapping
                 .ForMember(sr => sr.TimeTable, opt => opt.Ignore());
             CreateMap<WeekDay, WeekDayResource>();
             CreateMap<AppUser, AppUserResource>();
+            CreateMap<QueryResult<Instructor>, QueryResultResource<InstructorResource>>();
         }
     }
 }

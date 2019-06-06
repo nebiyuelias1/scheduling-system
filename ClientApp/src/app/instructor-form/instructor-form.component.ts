@@ -32,11 +32,10 @@ export class InstructorFormComponent implements OnInit {
 
   ngOnInit() {
     const sources = [this.departmentService.getDepartments()];
-    
     this.id = this.route.snapshot.paramMap.get('id');
     if (this.id) {
-      sources.push(this.instructorService.get)
     }
+
     this.departmentService.getDepartments()
       .subscribe((result: any[]) => {
         this.departments = result;
@@ -53,15 +52,7 @@ export class InstructorFormComponent implements OnInit {
 
       this.userService.register(user)
       .subscribe((u: UserRegistration) => {
-        if (u.id) {
-          this.instructorService.save({
-            userId: u.id
-          })
-          .subscribe((result) => {
-            this.router.navigate(['/instructors']);
-          },
-            (error) => console.error(error));
-        }
+        this.router.navigate(['/instructors']);
       }, err => console.error(err));
     }
   }

@@ -9,20 +9,28 @@ export class InstructorService {
   getInstructor(id) {
     return this.http.get('/api/instructors/' + id);
   }
-  
+
   save(instructor) {
     return this.http.post('/api/instructors', instructor);
   }
 
-  getInstructors() {
-    return this.http.get('/api/instructors');
+  getInstructors(query) {
+    return this.http.get('/api/instructors?' + this.toQueryString(query));
   }
 
   delete(id: any) {
     return this.http.delete('/api/instructors/' + id);
   }
 
-  getInstructorsWithinADept(deptId: any) {
-    return this.http.get('/api/instructors/' + deptId);
+  toQueryString(obj) {
+    const parts = [];
+    for (const key of Object.keys(obj)) {
+      const value = obj[key];
+      if (value !== null && value !== undefined) {
+        parts.push(encodeURIComponent(key) + '=' + encodeURIComponent(value));
+      }
+    }
+
+    return parts.join('&');
   }
 }

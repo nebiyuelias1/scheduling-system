@@ -23,48 +23,30 @@ namespace SchedulingSystem.Controllers
             this.mapper = mapper;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Create([FromBody] SaveInstructorResource instructorResource)
+        [HttpGet("{userId}")]
+        public async Task<IActionResult> Create(string userId)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-            
-
-            var instructor = mapper.Map<SaveInstructorResource, Instructor>(instructorResource);
+            var instructor = new Instructor 
+            {
+                UserId = userId
+            };
 
             unitOfWork.Instructors.Add(instructor);
             await unitOfWork.CompleteAsync();
 
-            var result = mapper.Map<Instructor, InstructorResource>(instructor);
-
+            var result = Mapper.Map<Instructor, InstructorResource>(instructor);
             return Ok(result);
         }
 
-        [HttpGet("{departmentId}")]
-        public async Task<IActionResult> GetInstructors(int departmentId)
-        {
-            var instructors = await GetActiveInstructors();
-            instructors = instructors.Where(i => i.User.DepartmentId == departmentId);
-
-            if (instructors == null)
-                return NotFound();
-
-            var result = mapper.Map<IEnumerable<Instructor>, IEnumerable<InstructorResource>>(instructors);
-
-            return Ok(result);
-        }
-
+        
         [HttpGet]
-        public async Task<IActionResult> GetInstructors()
+        public async Task<QueryResultResource<InstructorResource>> GetInstructors(InstructorQueryResource filterResource)
         {
-            var instructors = await GetActiveInstructors();
+            var filter = Mapper.Map<InstructorQueryResource, InstructorQuery>(filterResource);
 
-            if (instructors == null)
-                return NotFound();
+            var result = await unitOfWork.Instructors.GetInstructors(filter);
 
-            var result = mapper.Map<IEnumerable<Instructor>, IEnumerable<InstructorResource>>(instructors);
-
-            return Ok(result);
+            return mapper.Map<QueryResult<Instructor>, QueryResultResource<InstructorResource>>(result);
         }
 
         [HttpDelete("{id}")]
@@ -79,14 +61,6 @@ namespace SchedulingSystem.Controllers
             await unitOfWork.CompleteAsync();
 
             return Ok(id);
-        }
-
-        private async Task<IEnumerable<Instructor>> GetActiveInstructors()
-        {
-            var instructors = await unitOfWork.Instructors.GetInstructors();
-            instructors.Where(i => i.IsActive);
-
-            return instructors;
         }
     }
 }

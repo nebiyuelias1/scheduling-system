@@ -26,9 +26,14 @@ export class InstructorsListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.instructorService.getInstructorsWithinADept(this.userService.decodedToken.dept_id)
-      .subscribe((result: any[]) => {
-        this.instructors = result;
+    const query = {
+      departmentId: this.userService.decodedToken.dept_id,
+      onlyActive: true
+    };
+
+    this.instructorService.getInstructors(query)
+      .subscribe((result: any) => {
+        this.instructors = result.items;
         this.dataSource = new MatTableDataSource<any>(this.instructors);
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;

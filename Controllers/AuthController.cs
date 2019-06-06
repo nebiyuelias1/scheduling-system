@@ -84,16 +84,7 @@ namespace SchedulingSystem.Controllers
                 return BadRequest(ModelState);
             }
 
-            var user = new AppUser
-            {
-                FirstName = resource.FirstName,
-                FatherName = resource.FatherName,
-                GrandFatherName = resource.GrandFatherName,
-                Email = resource.Email,
-                UserName = resource.Email,
-                DepartmentId = resource.DepartmentId,
-                SecurityStamp = Guid.NewGuid().ToString()
-            };
+            var user = CreateNewUser(resource);
             var result = await userManager.CreateAsync(user, resource.Password);
 
             if (!result.Succeeded)
@@ -102,6 +93,11 @@ namespace SchedulingSystem.Controllers
             if (result.Succeeded)
             {
                 await userManager.AddToRoleAsync(user, resource.Role);
+                switch (resource.Role)
+                {
+                    case "Instructor":
+                        return RedirectToAction("Create", "Instructors", new { userId = user.Id });
+                }
                 //await userManager.AddToRoleAsync(user, adminRole.Name);
                 // var student = new IdentityRole("Student");
                 // await roleManager.CreateAsync(student);
@@ -112,6 +108,7 @@ namespace SchedulingSystem.Controllers
             return Ok(new { Id = user.Id, Username = user.UserName });
         }
 
+        
         private async Task<ClaimsIdentity> GetClaimsIdentity(string userName, string password)
         {
             if (string.IsNullOrEmpty(userName) || string.IsNullOrEmpty(password))
@@ -149,5 +146,20 @@ namespace SchedulingSystem.Controllers
             // Credentials are invalid, or account doesn't exist
             return await Task.FromResult<ClaimsIdentity>(null);
         }
+
+        private AppUser CreateNewUser(RegisterResource resource)
+        {
+            return new AppUser
+            {
+                FirstName = resource.FirstName,
+                FatherName = resource.FatherName,
+                GrandFatherName = resource.GrandFatherName,
+                Email = resource.Email,
+                UserName = resource.Email,
+                DepartmentId = resource.DepartmentId,
+                SecurityStamp = Guid.NewGuid().ToString()
+            };
+        }
+
     }
 }
