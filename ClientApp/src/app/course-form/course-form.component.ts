@@ -45,7 +45,7 @@ export class CourseFormComponent implements OnInit {
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
 
-    const sources = [ this.curriculumService.getCurriculums() ];
+    const sources = [this.curriculumService.getCurriculums()];
 
     if (id !== null) {
       sources.push(this.courseService.getCourse(id));
@@ -67,9 +67,9 @@ export class CourseFormComponent implements OnInit {
       this.courseService.update(this.course.id, this.form.value) :
       this.courseService.saveCourse(this.form.value);
 
-      result$.subscribe(x => {
-        this.router.navigate(['/courses']);
-      });
+    result$.subscribe(x => {
+      this.router.navigate(['/courses']);
+    });
   }
 
   populateForm(courseData: SaveCourse) {

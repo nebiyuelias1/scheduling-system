@@ -5,6 +5,8 @@ import { InstructorService } from '../services/instructor.service';
 import { UserService } from '../accounts/user.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UserRegistration } from '../accounts/models/user.registration.interface';
+import { Observable } from 'rxjs';
+import { SaveInstructor } from '../models/save-instructor-interface';
 
 @Component({
   selector: 'app-instructor-form',
@@ -13,6 +15,14 @@ import { UserRegistration } from '../accounts/models/user.registration.interface
 })
 export class InstructorFormComponent implements OnInit {
   departments: any[];
+  instructor: SaveInstructor = {
+    id: 0,
+    firstName: '',
+    fatherName: '',
+    grandFatherName: '',
+    departmentId: 0
+  };
+
   form = new FormGroup({
     user: new FormGroup({
       firstName: new FormControl(),
@@ -22,7 +32,6 @@ export class InstructorFormComponent implements OnInit {
     }),
     departmentId: new FormControl()
   });
-  id: string;
 
   constructor(private departmentService: DepartmentService,
     private instructorService: InstructorService,
@@ -32,28 +41,45 @@ export class InstructorFormComponent implements OnInit {
 
   ngOnInit() {
     const sources = [this.departmentService.getDepartments()];
-    this.id = this.route.snapshot.paramMap.get('id');
-    if (this.id) {
+    const id = this.route.snapshot.paramMap.get('id');
+
+    if (id !== null) {
+      sources.push(this.instructorService.getInstructor(id));
     }
 
-    this.departmentService.getDepartments()
-      .subscribe((result: any[]) => {
-        this.departments = result;
+    Observable.forkJoin(sources)
+      .subscribe((x: any) => {
+        this.departments = x[0];
+
+        if (id !== null) {
+          this.instructor = x[1];
+          this.populateForm(this.instructor);
+        }
       });
   }
 
-  save() {
-    if (this.form.valid) {
+  submit() {
+    let result$;
+    if (this.instructor.id) {
+      const user = this.form.get('user').value;
+      user.departmentId = this.form.get('departmentId').value;
+      result$ = this.instructorService.update(this.instructor.id, user);
+    } else {
       const user = this.form.get('user').value;
       user.password = 'P@ssw0rd';
       user.passwordAgain = 'P@ssw0rd';
       user.role = 'Instructor';
-      user.departmentId = this.form.get('departmentId').value,
-
-      this.userService.register(user)
-      .subscribe((u: UserRegistration) => {
-        this.router.navigate(['/instructors']);
-      }, err => console.error(err));
+      user.departmentId = this.form.get('departmentId').value;
+      result$ = this.userService.register(user);
     }
+
+    result$.subscribe(x => {
+      this.router.navigate(['instructors']);
+    });
+  }
+
+  populateForm(data) {
+    data.departmentId = data.user.departmentId;
+    this.form.patchValue(data);
   }
 }

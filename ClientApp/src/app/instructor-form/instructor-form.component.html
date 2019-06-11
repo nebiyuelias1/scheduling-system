@@ -1,5 +1,9 @@
-<h2>New Instructor</h2>
-<form [formGroup]="form" (ngSubmit)="save()">
+<h2 *ngIf="!instructor.id; else editHeader">New Instructor</h2>
+<ng-template #editHeader>
+  <h2>Edit Instructor</h2>
+</ng-template>
+
+<form [formGroup]="form" (ngSubmit)="submit()">
   <div formGroupName="user">
     <div class="form-group">
       <label for="firstName">First Name</label>
@@ -16,7 +20,7 @@
       <input type="text" id="grandFatherName" class="form-control" formControlName="grandFatherName">
     </div>
 
-    <div class="form-group">
+    <div class="form-group" *ngIf="!instructor.id">
       <label for="email">Email</label>
       <input type="email" id="email" class="form-control" formControlName="email">
     </div>

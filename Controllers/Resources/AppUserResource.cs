@@ -18,5 +18,6 @@ namespace SchedulingSystem.Controllers.Resources
         
         public DepartmentResource Department { get; set; }
         public int DepartmentId { get; set; }
+        public string Email { get; set; }
     }
 }

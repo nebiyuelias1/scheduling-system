@@ -22,6 +22,10 @@ export class InstructorService {
     return this.http.delete('/api/instructors/' + id);
   }
 
+  update(id: number, value: any) {
+    return this.http.put('/api/instructors/' + id, value);
+  }
+
   toQueryString(obj) {
     const parts = [];
     for (const key of Object.keys(obj)) {

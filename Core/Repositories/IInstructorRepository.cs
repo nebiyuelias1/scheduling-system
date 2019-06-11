@@ -6,7 +6,7 @@ namespace SchedulingSystem.Core.Repositories
 {
     public interface IInstructorRepository : IRepository<Instructor>
     {
-        Task<Instructor> GetInstructorWithDept(string userId);
+        Task<Instructor> GetInstructorWithDept(int id);
         Task<QueryResult<Instructor>> GetInstructors(InstructorQuery query);
     }
 }

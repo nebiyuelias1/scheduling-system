@@ -32,13 +32,13 @@ namespace SchedulingSystem.Persistence.Repositories
             return result;
         }
 
-        public async Task<Instructor> GetInstructorWithDept(string userId)
+        public async Task<Instructor> GetInstructorWithDept(int id)
         {
             return await SchedulingDbContext
                 .Instructors
                 .Include(i => i.User)
                     .ThenInclude(u => u.Department)
-                .SingleOrDefaultAsync(i => i.UserId == userId);
+                .SingleOrDefaultAsync(i => i.Id == id);
         }
     }
 }

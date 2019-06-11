@@ -47,7 +47,7 @@ namespace SchedulingSystem.Controllers
         public async Task<IActionResult> GetRoles()
         {
             return Ok(await roleManager.Roles
-                .Select(r => new 
+                .Select(r => new
                 {
                     r.Id,
                     r.Name,
@@ -93,11 +93,9 @@ namespace SchedulingSystem.Controllers
             if (result.Succeeded)
             {
                 await userManager.AddToRoleAsync(user, resource.Role);
-                switch (resource.Role)
-                {
-                    case "Instructor":
-                        return RedirectToAction("Create", "Instructors", new { userId = user.Id });
-                }
+                CreateAccount(resource.Role, user.Id);
+                await unitOfWork.CompleteAsync();
+
                 //await userManager.AddToRoleAsync(user, adminRole.Name);
                 // var student = new IdentityRole("Student");
                 // await roleManager.CreateAsync(student);
@@ -108,7 +106,8 @@ namespace SchedulingSystem.Controllers
             return Ok(new { Id = user.Id, Username = user.UserName });
         }
 
-        
+
+
         private async Task<ClaimsIdentity> GetClaimsIdentity(string userName, string password)
         {
             if (string.IsNullOrEmpty(userName) || string.IsNullOrEmpty(password))
@@ -135,7 +134,8 @@ namespace SchedulingSystem.Controllers
                     claims.AddRange(c);
                 }
                 var dept = await unitOfWork.Departments.GetDepartment(userToVerify.DepartmentId);
-                if (dept != null) {
+                if (dept != null)
+                {
                     claims.Add(new Claim("dept", dept.Name));
                     claims.Add(new Claim("dept_id", dept.Id.ToString()));
                     claims.Add(new Claim("coll", dept.College.Name));
@@ -159,6 +159,15 @@ namespace SchedulingSystem.Controllers
                 DepartmentId = resource.DepartmentId,
                 SecurityStamp = Guid.NewGuid().ToString()
             };
+        }
+        private void CreateAccount(string role, string userId)
+        {
+            switch (role)
+            {
+                case "Instructor":
+                    unitOfWork.Instructors.Add(new Instructor { UserId = userId });
+                    break;
+            }
         }
 
     }
