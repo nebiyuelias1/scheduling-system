@@ -28,6 +28,8 @@ namespace SchedulingSystem.Persistence
 
         public IDepartmentRepository Departments { get; private set; }
 
+        public ICollegeRepository Colleges { get; private set; }
+
         public UnitOfWork(SchedulingDbContext context)
         {
             this.context = context;
@@ -43,6 +45,7 @@ namespace SchedulingSystem.Persistence
             CourseOfferings = new CourseOfferingRepository(context);
             CourseOfferingInstructorAssignments = new InstructorAssignmentRepository(context);
             Departments = new DepartmentRepository(context);
+            Colleges = new CollegeRepository(context);
         }
 
 

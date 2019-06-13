@@ -52,6 +52,7 @@ import { DeleteDialogComponent } from './delete-dialog/delete-dialog.component';
 import { InstructorsListComponent } from './instructors-list/instructors-list.component';
 import { CoursesListComponent } from './courses-list/courses-list.component';
 import { AssignInstructorComponent } from './assign-instructor/assign-instructor.component';
+import { CollegeDeanAssignmentFormComponent } from './college-dean-assignment-form/college-dean-assignment-form.component';
 
 @NgModule({
   declarations: [
@@ -88,6 +89,7 @@ import { AssignInstructorComponent } from './assign-instructor/assign-instructor
     InstructorsListComponent,
     CoursesListComponent,
     AssignInstructorComponent,
+    CollegeDeanAssignmentFormComponent,
   ],
   imports: [
     AppRoutingModule,

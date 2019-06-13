@@ -24,6 +24,7 @@ import { AuthGuard } from './accounts/auth-guard.service';
 import { InstructorsListComponent } from './instructors-list/instructors-list.component';
 import { CoursesListComponent } from './courses-list/courses-list.component';
 import { AssignInstructorComponent } from './assign-instructor/assign-instructor.component';
+import { CollegeDeanAssignmentFormComponent } from './college-dean-assignment-form/college-dean-assignment-form.component';
 
 const routes: Routes = [
     {
@@ -48,6 +49,13 @@ const routes: Routes = [
                             breadcrumb: 'List'
                         },
                         component: CollegeListComponent
+                    },
+                    {
+                        path: ':id/assign',
+                        data: {
+                            breadcrumb: 'Assign'
+                        },
+                        component: CollegeDeanAssignmentFormComponent
                     }
                 ]
             },

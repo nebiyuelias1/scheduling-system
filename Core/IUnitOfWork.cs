@@ -18,6 +18,7 @@ namespace SchedulingSystem.Core
         ICourseOfferingRepository CourseOfferings { get; }
         IInstructorAssignmentRepository CourseOfferingInstructorAssignments { get; }
         IDepartmentRepository Departments { get; }
+        ICollegeRepository Colleges { get; }
 
         Task<int> CompleteAsync();
     }

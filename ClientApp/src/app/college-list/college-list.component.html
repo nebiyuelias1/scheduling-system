@@ -1,5 +1,34 @@
 <h1>Colleges</h1>
+<div class="mat-elevation-z8 data-table">
+    <mat-table #table [dataSource]="dataSource" matSort aria-label="Elements">
 
-<ol>
-  <li *ngFor="let college of colleges">{{ college.name }}</li>
-</ol>
+        <!-- College Name Column -->
+        <ng-container matColumnDef="collegeName">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>College</mat-header-cell>
+            <mat-cell *matCellDef="let row"> {{row.name}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="action">
+            <mat-header-cell *matHeaderCellDef></mat-header-cell>
+            <mat-cell *matCellDef="let row">
+                <button *ngIf="row.departmentHead === null; else removeAssignment" mat-button
+                    [routerLink]="['/colleges', row.id, 'assign']" color="primary">
+                    <mat-icon>person_add</mat-icon> Assign
+                </button>
+                
+                <ng-template #removeAssignment>
+                    <button mat-button color="warn">
+                        <mat-icon (click)="removeAssignment(1)">delete_outline</mat-icon>Remove
+                    </button>
+                </ng-template>
+            </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+
+    <mat-paginator #paginator [pageIndex]="0" [pageSize]="25" [pageSizeOptions]="[5, 25, 50, 100, 250]"
+        showFirstLastButtons>
+    </mat-paginator>
+</div>

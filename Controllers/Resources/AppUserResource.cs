@@ -4,6 +4,8 @@ namespace SchedulingSystem.Controllers.Resources
 {
     public class AppUserResource
     {
+        public string Id { get; set; }
+        
         [Required]
         [StringLength(255)]
         public string FirstName { get; set; }

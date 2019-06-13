@@ -5,6 +5,7 @@ namespace SchedulingSystem.Core.Models
     public class InstructorQuery : IQueryObject
     {
         public int? DepartmentId { get; set; }
+        public int? CollegeId { get; set; }
         public bool OnlyActive { get; set; }
         public string SortBy { get; set; }
         public bool IsSortAscending { get; set; }

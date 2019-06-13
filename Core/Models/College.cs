@@ -16,5 +16,8 @@ namespace SchedulingSystem.Core.Models
         public string Name { get; set; }
 
         public IList<Department> Departments { get; set; }
+        
+        public AppUser DepartmentHead { get; set; }
+        public string DepartmentHeadId { get; set; }
     }
 }

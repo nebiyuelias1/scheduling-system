@@ -73,6 +73,7 @@ namespace SchedulingSystem.Mapping
             CreateMap<WeekDay, WeekDayResource>();
             CreateMap<AppUser, AppUserResource>();
             CreateMap<QueryResult<Instructor>, QueryResultResource<InstructorResource>>();
+            CreateMap<College, CollegeResource>();
         }
     }
 }
