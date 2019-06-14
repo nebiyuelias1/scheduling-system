@@ -51,5 +51,49 @@ namespace SchedulingSystem.Controllers
 
             return Ok(buildingResources);
         }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetBuilding(int id)
+        {
+            var building = await unitOfWork.Buildings.Get(id);
+
+            if (building == null)
+                return NotFound();
+
+            var result = mapper.Map<Building, BuildingResource>(building);
+
+            return Ok(result);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateBuilding(int id, [FromBody] BuildingResource resource)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var building = await unitOfWork.Buildings.Get(id);
+            if (building == null)
+                return NotFound();
+
+            resource.Id = id;
+            mapper.Map<BuildingResource, Building>(resource, building);
+
+            await unitOfWork.CompleteAsync();
+
+            return Ok(id);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteBuilding(int id)
+        {
+            var building = await unitOfWork.Buildings.Get(id);
+            if (building == null)
+                return NotFound();
+
+            unitOfWork.Buildings.Remove(building);
+            await unitOfWork.CompleteAsync();
+
+            return Ok(id);
+        }
     }
 }

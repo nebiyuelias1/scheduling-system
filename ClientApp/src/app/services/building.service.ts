@@ -13,4 +13,16 @@ export class BuildingService {
   getBuildings() {
     return this.http.get('/api/buildings');
   }
+
+  getBuilding(id: string) {
+    return this.http.get('/api/buildings/' + id);
+  }
+
+  updateBuilding(id, building) {
+    return this.http.put('/api/buildings/' + id, building);
+  }
+
+  delete(id: any) {
+    return this.http.delete('/api/buildings/' + id);
+  }
 }

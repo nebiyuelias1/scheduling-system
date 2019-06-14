@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BuildingService } from '../services/building.service';
 import { FormGroup, FormControl } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-building-form',
@@ -10,17 +11,48 @@ import { FormGroup, FormControl } from '@angular/forms';
 export class BuildingFormComponent implements OnInit {
   form = new FormGroup({
     name: new FormControl(),
-    number: new FormControl()
+    number: new FormControl(),
+    floorCount: new FormControl()
   });
 
-  constructor(private buildingService: BuildingService) { }
+  building: SaveBuilding = {
+    id: 0,
+    name: '',
+    number: 0,
+    floorCount: 0
+  };
+
+  constructor(
+    private buildingService: BuildingService,
+    private route: ActivatedRoute,
+    private router: Router) { }
 
   ngOnInit() {
+    const id = this.route.snapshot.paramMap.get('id');
+
+    if (id) {
+      this.buildingService.getBuilding(id)
+        .subscribe((result: SaveBuilding) => {
+           this.building = result;
+
+           this.populateForm(this.building);
+        },
+          err => console.error(err));
+
+    }
   }
 
-  save() {
-    this.buildingService.save(this.form.value)
-      .subscribe((result) => console.log(result),
-      (error) => console.error(error));
+  submit() {
+    const result$ = this.building.id ?
+      this.buildingService.updateBuilding(this.building.id, this.form.value) :
+      this.buildingService.save(this.form.value);
+
+    result$
+      .subscribe(x => this.router.navigate(['/buildings']),
+        err => console.error(err));
+  }
+
+  populateForm(b: SaveBuilding) {
+    this.form.patchValue(b);
   }
 }

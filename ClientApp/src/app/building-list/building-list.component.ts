@@ -1,6 +1,7 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
+import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { MatPaginator, MatSort, MatTableDataSource, MatDialogConfig, MatDialog } from '@angular/material';
 import { BuildingService } from '../services/building.service';
+import { DeleteDialogComponent } from '../delete-dialog/delete-dialog.component';
 
 @Component({
   selector: 'app-building-list',
@@ -17,7 +18,9 @@ export class BuildingListComponent implements OnInit {
   searchKey: string;
 
   constructor(
-    private buildingService: BuildingService
+    private buildingService: BuildingService,
+    private dialog: MatDialog,
+    private changeDetectorRefs: ChangeDetectorRef
   ) { }
 
   ngOnInit() {
@@ -45,5 +48,34 @@ export class BuildingListComponent implements OnInit {
 
   applyFilter() {
     this.dataSource.filter = this.searchKey.trim().toLowerCase();
+  }
+
+  openDeleteDialog(id) {
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = '400px';
+
+    dialogConfig.data = {
+      id: id,
+      title: 'Delete Building?',
+      message: 'Are you you want to delete this building?'
+    };
+
+    const dialogRef = this.dialog.open(DeleteDialogComponent, dialogConfig);
+    dialogRef.afterClosed()
+      .subscribe(result => {
+        if (result) {
+          this.buildingService.delete(id)
+            .subscribe(x => {
+              const itemIndex = this.dataSource.data.findIndex(obj => obj.id === id);
+              this.dataSource.data.splice(itemIndex, 1);
+              this.dataSource.paginator = this.paginator;
+              this.changeDetectorRefs.detectChanges();
+            },
+            err => console.error(err));
+        }
+      });
   }
 }

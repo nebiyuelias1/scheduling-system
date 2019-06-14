@@ -182,6 +182,13 @@ const routes: Routes = [
                             breadcrumb: 'New'
                         },
                         component: BuildingFormComponent
+                    },
+                    {
+                        path: 'edit/:id',
+                        data: {
+                            breadcrumb: 'Edit'
+                        },
+                        component: BuildingFormComponent
                     }
                 ]
             },
