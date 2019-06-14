@@ -20,6 +20,8 @@ namespace SchedulingSystem.Core
         IDepartmentRepository Departments { get; }
         ICollegeRepository Colleges { get; }
 
+        IBuildingRepository Buildings { get; }
+
         Task<int> CompleteAsync();
     }
 }

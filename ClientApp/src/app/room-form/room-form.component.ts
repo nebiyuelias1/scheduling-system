@@ -23,7 +23,7 @@ export class RoomFormComponent implements OnInit {
     ) { }
 
   ngOnInit() {
-    this.buildingService.get()
+    this.buildingService.getBuildings()
       .subscribe((result: any[]) => this.buildings = result,
         (error) => console.error(error));
 

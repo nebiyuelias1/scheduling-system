@@ -1,0 +1,50 @@
+<h3>Buildings</h3>
+<div class="search-div">
+  <mat-form-field class="search-form-field">
+    <input matInput type="text" placeholder="Search" [(ngModel)]="searchKey" (keyup)="applyFilter()" />
+    <button mat-button *ngIf="searchKey" matSuffix mat-icon-button aria-label="Clear" (click)="clearSearchKey()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-form-field>
+</div>
+<div class="mat-elevation-z8 data-table">
+  <mat-table #table [dataSource]="dataSource" matSort aria-label="Elements">
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
+      <mat-cell *matCellDef="let row"> {{row.name}} </mat-cell>
+    </ng-container>
+
+    <!-- Number Column -->
+    <ng-container matColumnDef="number">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Number</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{row.number}}</mat-cell>
+    </ng-container>
+
+    <!-- Floors Column-->
+    <ng-container matColumnDef="floorCount">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Floors</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{row.floorCount}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="action">
+      <mat-header-cell *matHeaderCellDef></mat-header-cell>
+      <mat-cell *matCellDef="let row">
+        <button mat-icon-button [routerLink]="['/courses/edit', row.id]">
+          <mat-icon>launch</mat-icon>
+        </button>
+        <button mat-icon-button (click)="openDeleteDialog(row.id)" color="warn">
+          <mat-icon>delete_outline</mat-icon>
+        </button>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+
+  <mat-paginator #paginator [pageIndex]="0" [pageSize]="25" [pageSizeOptions]="[5, 25, 50, 100, 250]"
+    showFirstLastButtons>
+  </mat-paginator>
+</div>

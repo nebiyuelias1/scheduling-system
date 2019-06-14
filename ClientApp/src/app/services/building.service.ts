@@ -10,7 +10,7 @@ export class BuildingService {
     return this.http.post('/api/buildings', building);
   }
 
-  get() {
+  getBuildings() {
     return this.http.get('/api/buildings');
   }
 }

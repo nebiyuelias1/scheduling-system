@@ -5,6 +5,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SchedulingSystem.Controllers.Resources;
+using SchedulingSystem.Core;
 using SchedulingSystem.Core.Models;
 using SchedulingSystem.Persistence;
 
@@ -13,12 +14,12 @@ namespace SchedulingSystem.Controllers
     [Route("/api/buildings")]
     public class BuildingsController : Controller
     {
-        private readonly SchedulingDbContext context;
         private readonly IMapper mapper;
+        private readonly IUnitOfWork unitOfWork;
 
-        public BuildingsController(SchedulingDbContext context, IMapper mapper)
+        public BuildingsController(IUnitOfWork unitOfWork, IMapper mapper)
         {
-            this.context = context;
+            this.unitOfWork = unitOfWork;
             this.mapper = mapper;
         }
 
@@ -29,10 +30,10 @@ namespace SchedulingSystem.Controllers
                 return BadRequest(ModelState);
 
             var building = mapper.Map<BuildingResource, Building>(buildingResource);
-            
-            context.Buildings.Add(building);
-            await context.SaveChangesAsync();
 
+            unitOfWork.Buildings.Add(building);
+            await unitOfWork.CompleteAsync();
+            
             buildingResource = mapper.Map<Building, BuildingResource>(building);
 
             return Ok(buildingResource);
@@ -41,14 +42,14 @@ namespace SchedulingSystem.Controllers
         [HttpGet]
         public async Task<IActionResult> GetBuildings()
         {
-            var buildings = await context.Buildings.ToListAsync();
+            var buildings = await unitOfWork.Buildings.GetAll();
 
             if (buildings == null)
                 return NotFound();
 
-            var buildingResources = mapper.Map<IList<Building>, IList<BuildingResource>>(buildings);
+            var buildingResources = mapper.Map<IEnumerable<Building>, IEnumerable<BuildingResource>>(buildings);
 
-            return Ok(buildings);
+            return Ok(buildingResources);
         }
     }
 }

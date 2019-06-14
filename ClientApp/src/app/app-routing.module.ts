@@ -25,6 +25,7 @@ import { InstructorsListComponent } from './instructors-list/instructors-list.co
 import { CoursesListComponent } from './courses-list/courses-list.component';
 import { AssignInstructorComponent } from './assign-instructor/assign-instructor.component';
 import { CollegeDeanAssignmentFormComponent } from './college-dean-assignment-form/college-dean-assignment-form.component';
+import { BuildingListComponent } from './building-list/building-list.component';
 
 const routes: Routes = [
     {
@@ -168,6 +169,13 @@ const routes: Routes = [
                     breadcrumb: 'Buildings'
                 },
                 children: [
+                    {
+                        path: '',
+                        data: {
+                            breadcrumb: 'List'
+                        },
+                        component: BuildingListComponent
+                    },
                     {
                         path: 'new',
                         data: {

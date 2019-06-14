@@ -17,16 +17,16 @@
       </div>
     </div>
   </div>
-  <div *ngIf="userService.decodedToken.head === 'true'" class="col-sm-4">
+  <div *ngIf="userService.decodedToken.admin === 'true'" class="col-sm-4">
     <div class="card">
       <div class="card-body">
         <h5 class="card-title">Buildings</h5>
         <p class="card-text">Buildings</p>
-        <a routerLink="buildings/new" class="btn btn-primary">Add Building</a>
+        <a routerLink="buildings" class="btn btn-primary">Buildings</a>
       </div>
     </div>
   </div>
-  <div *ngIf="userService.decodedToken.head === 'true'" class="col-sm-4">
+  <div *ngIf="userService.decodedToken.admin === 'true'" class="col-sm-4">
     <div class="card">
       <div class="card-body">
         <h5 class="card-title">Rooms</h5>
