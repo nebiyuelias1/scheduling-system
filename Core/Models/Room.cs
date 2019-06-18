@@ -14,12 +14,16 @@ namespace SchedulingSystem.Core.Models
         public string Name { get; set; }
 
         public Building Building { get; set; }
-        
+
         public int BuildingId { get; set; }
-        
+
         public int Size { get; set; }
-        
+
         public ICollection<RoomTypeAssignment> Types { get; set; }
+       
+        public College College { get; set; }
+        public int? CollegeId { get; set; }
+        public int Floor { get; set; }
 
         public Room()
         {

@@ -30,13 +30,16 @@ namespace SchedulingSystem.Mapping
             CreateMap<SaveScheduleConfigurationResource, ScheduleConfiguration>();
             CreateMap<SaveInstructorResource, Instructor>();
             CreateMap<InstructorQueryResource, InstructorQuery>();
+            CreateMap<SaveBuildingResource, Building>();
+
 
             // Domain to API Resource
             CreateMap<Department, DepartmentResource>();
             CreateMap<Curriculum, CurriculumResource>();
             CreateMap<Course, SaveCourseResource>();
             CreateMap<Building, BuildingResource>();
-            CreateMap<Room, SaveRoomResource>();
+            CreateMap<Room, SaveRoomResource>()
+                .ForMember(x => x.Types, opt => opt.MapFrom(r => r.Types.Select(t => t.TypeId)));
             CreateMap<Section, SaveSectionResource>();
             CreateMap<Section, SectionResource>()
                 .ForMember(x => x.Program, opt =>
@@ -49,7 +52,6 @@ namespace SchedulingSystem.Mapping
             CreateMap<RoomTypeAssignment, KeyValuePairResource>()
                 .ForMember(kvp => kvp.Id, opt => opt.MapFrom(rrt => rrt.Type.Id))
                 .ForMember(kvp => kvp.Name, opt => opt.MapFrom(rrt => rrt.Type.Name));
-            CreateMap<Room, RoomResource>();
             CreateMap<SectionRoomAssignment, RoomSectionAssignmentResource>();
             CreateMap<AcademicYear, AcademicYearResource>();
             CreateMap<AcademicSemester, AcademicSemesterResource>()
@@ -74,6 +76,7 @@ namespace SchedulingSystem.Mapping
             CreateMap<AppUser, AppUserResource>();
             CreateMap<QueryResult<Instructor>, QueryResultResource<InstructorResource>>();
             CreateMap<College, CollegeResource>();
+            CreateMap<Building, SaveBuildingResource>();
         }
     }
 }

@@ -24,17 +24,17 @@ namespace SchedulingSystem.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] BuildingResource buildingResource)
+        public async Task<IActionResult> Create([FromBody] SaveBuildingResource buildingResource)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var building = mapper.Map<BuildingResource, Building>(buildingResource);
+            var building = mapper.Map<SaveBuildingResource, Building>(buildingResource);
 
             unitOfWork.Buildings.Add(building);
             await unitOfWork.CompleteAsync();
             
-            buildingResource = mapper.Map<Building, BuildingResource>(building);
+            buildingResource = mapper.Map<Building, SaveBuildingResource>(building);
 
             return Ok(buildingResource);
         }
@@ -66,7 +66,7 @@ namespace SchedulingSystem.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateBuilding(int id, [FromBody] BuildingResource resource)
+        public async Task<IActionResult> UpdateBuilding(int id, [FromBody] SaveBuildingResource resource)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -76,7 +76,7 @@ namespace SchedulingSystem.Controllers
                 return NotFound();
 
             resource.Id = id;
-            mapper.Map<BuildingResource, Building>(resource, building);
+            mapper.Map<SaveBuildingResource, Building>(resource, building);
 
             await unitOfWork.CompleteAsync();
 

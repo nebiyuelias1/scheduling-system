@@ -46,7 +46,7 @@ import { MainComponent } from './main/main.component';
 import { AuthGuard } from './accounts/auth-guard.service';
 import { DataTableComponent } from './data-table/data-table.component';
 import { MatTableModule, MatPaginatorModule, MatSortModule, MatDialogModule,
-  MatIconModule, MatButtonModule, MatFormFieldModule, MatInputModule } from '@angular/material';
+  MatIconModule, MatButtonModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatOptionModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DeleteDialogComponent } from './delete-dialog/delete-dialog.component';
 import { InstructorsListComponent } from './instructors-list/instructors-list.component';
@@ -54,6 +54,7 @@ import { CoursesListComponent } from './courses-list/courses-list.component';
 import { AssignInstructorComponent } from './assign-instructor/assign-instructor.component';
 import { CollegeDeanAssignmentFormComponent } from './college-dean-assignment-form/college-dean-assignment-form.component';
 import { BuildingListComponent } from './building-list/building-list.component';
+import { RoomsListComponent } from './rooms-list/rooms-list.component';
 
 @NgModule({
   declarations: [
@@ -92,6 +93,7 @@ import { BuildingListComponent } from './building-list/building-list.component';
     AssignInstructorComponent,
     CollegeDeanAssignmentFormComponent,
     BuildingListComponent,
+    RoomsListComponent,
   ],
   imports: [
     AppRoutingModule,
@@ -109,7 +111,9 @@ import { BuildingListComponent } from './building-list/building-list.component';
     MatIconModule,
     MatButtonModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    MatSelectModule,
+    MatOptionModule
   ],
   providers: [
     CollegeService,

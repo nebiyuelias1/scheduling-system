@@ -1,0 +1,75 @@
+<h3>Rooms</h3>
+<button mat-raised-button color="primary" [routerLink]="['/rooms', 'new']"><mat-icon>add</mat-icon> New</button>
+<div class="search-div">
+  <mat-form-field class="search-form-field">
+    <input matInput type="text" placeholder="Search" [(ngModel)]="searchKey" (keyup)="applyFilter()" />
+    <button mat-button *ngIf="searchKey" matSuffix mat-icon-button aria-label="Clear" (click)="clearSearchKey()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select placeholder="Room Type" [(ngModel)]="selectedValue" name="type" (change)="onTypeChange()">
+      <mat-option value="any">Any</mat-option>
+      <mat-option *ngFor="let item of types" [value]="item.name">
+        {{item.name}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+<div class="mat-elevation-z8 data-table">
+  <mat-table #table [dataSource]="dataSource" matSort aria-label="Elements">
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
+      <mat-cell *matCellDef="let row"> {{row.name}} </mat-cell>
+    </ng-container>
+
+    <!-- Building Column -->
+    <ng-container matColumnDef="building">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Building</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{ row.building.name }}-{{ row.building.number }}</mat-cell>
+    </ng-container>
+
+    <!-- Floor Column-->
+    <ng-container matColumnDef="floor">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Floor</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{row.floor}}</mat-cell>
+    </ng-container>
+
+    <!-- Size Column-->
+    <ng-container matColumnDef="size">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Room Size</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{row.size}}</mat-cell>
+    </ng-container>
+
+    <!-- Type Column-->
+    <ng-container matColumnDef="types">
+      <mat-header-cell *matHeaderCellDef>Types</mat-header-cell>
+      <mat-cell *matCellDef="let row">
+        <ul *ngFor="let t of row.types">
+          <li>{{ t.name }}</li>
+        </ul>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="action">
+      <mat-header-cell *matHeaderCellDef></mat-header-cell>
+      <mat-cell *matCellDef="let row">
+        <button mat-icon-button [routerLink]="['/rooms', 'edit', row.id]">
+          <mat-icon>launch</mat-icon>
+        </button>
+        <button mat-icon-button (click)="openDeleteDialog(row.id)" color="warn">
+          <mat-icon>delete_outline</mat-icon>
+        </button>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+
+  <mat-paginator #paginator [pageIndex]="0" [pageSize]="25" [pageSizeOptions]="[5, 25, 50, 100, 250]"
+    showFirstLastButtons>
+  </mat-paginator>
+</div>

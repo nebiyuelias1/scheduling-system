@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SchedulingSystem.Persistence;
 
 namespace SchedulingSystem.Migrations
 {
     [DbContext(typeof(SchedulingDbContext))]
-    partial class SchedulingDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190616182706_AddCollegePropertyToRoomModel")]
+    partial class AddCollegePropertyToRoomModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -501,8 +503,6 @@ namespace SchedulingSystem.Migrations
 
                     b.Property<int?>("CollegeId");
 
-                    b.Property<int>("Floor");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100);
@@ -513,7 +513,9 @@ namespace SchedulingSystem.Migrations
 
                     b.HasIndex("BuildingId");
 
-                    b.HasIndex("CollegeId");
+                    b.HasIndex("CollegeId")
+                        .IsUnique()
+                        .HasFilter("[CollegeId] IS NOT NULL");
 
                     b.ToTable("Rooms");
                 });
@@ -845,8 +847,9 @@ namespace SchedulingSystem.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("SchedulingSystem.Core.Models.College", "College")
-                        .WithMany()
-                        .HasForeignKey("CollegeId");
+                        .WithOne()
+                        .HasForeignKey("SchedulingSystem.Core.Models.Room", "CollegeId")
+                        .OnDelete(DeleteBehavior.SetNull);
                 });
 
             modelBuilder.Entity("SchedulingSystem.Core.Models.RoomTypeAssignment", b =>

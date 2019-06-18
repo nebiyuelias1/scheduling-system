@@ -12,9 +12,10 @@ namespace SchedulingSystem.Controllers.Resources
         [StringLength(100)]
         public string Name { get; set; }
 
-        public BuildingResource Building { get; set; }
+        public SaveBuildingResource Building { get; set; }
         
         public int Size { get; set; }
+        public int Floor { get; set; }
         
         public ICollection<KeyValuePairResource> Types { get; set; }
 

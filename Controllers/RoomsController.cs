@@ -56,9 +56,41 @@ namespace SchedulingSystem.Controllers
         {
             var rooms = await unitOfWork.Rooms.GetRooms();
 
+            if (rooms == null)
+                return NotFound();
+
             var result = mapper.Map<IEnumerable<Room>, IEnumerable<RoomResource>>(rooms);
             
             return Ok(result);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetRoom(int id)
+        {
+            var room = await unitOfWork.Rooms.GetRoomWithBuildingAndType(id);
+
+            if (room == null)
+                return NotFound();
+
+            var result = mapper.Map<Room, SaveRoomResource>(room);
+            
+            return Ok(result);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateRoom(int id, [FromBody] SaveRoomResource resource)
+        {
+            var room = await unitOfWork.Rooms.GetRoomWithBuildingAndType(id);
+
+            if (room == null)
+                return NotFound();
+
+            resource.Id = room.Id;
+            mapper.Map<SaveRoomResource, Room>(resource, room);
+
+            await unitOfWork.CompleteAsync();
+
+            return Ok(id);
         }
     }
 }
