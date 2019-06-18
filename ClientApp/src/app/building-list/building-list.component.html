@@ -29,6 +29,12 @@
       <mat-cell *matCellDef="let row">{{row.floorCount}}</mat-cell>
     </ng-container>
 
+    <!-- Rooms Column-->
+    <ng-container matColumnDef="totalRooms">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Total Rooms</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{row.rooms.length}}</mat-cell>
+    </ng-container>
+
     <ng-container matColumnDef="action">
       <mat-header-cell *matHeaderCellDef></mat-header-cell>
       <mat-cell *matCellDef="let row">

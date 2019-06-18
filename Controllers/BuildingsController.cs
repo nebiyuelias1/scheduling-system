@@ -42,7 +42,7 @@ namespace SchedulingSystem.Controllers
         [HttpGet]
         public async Task<IActionResult> GetBuildings()
         {
-            var buildings = await unitOfWork.Buildings.GetAll();
+            var buildings = await unitOfWork.Buildings.GetBuildings();
 
             if (buildings == null)
                 return NotFound();

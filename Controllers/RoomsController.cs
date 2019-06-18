@@ -92,5 +92,19 @@ namespace SchedulingSystem.Controllers
 
             return Ok(id);
         }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteRoom(int id)
+        {
+            var room = await unitOfWork.Rooms.Get(id);
+
+            if (room == null)
+                return NotFound();
+
+            unitOfWork.Rooms.Remove(room);
+            await unitOfWork.CompleteAsync();
+
+            return Ok(id);
+        }
     }
 }

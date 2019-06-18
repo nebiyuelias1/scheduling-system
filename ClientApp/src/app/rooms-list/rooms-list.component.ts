@@ -18,7 +18,7 @@ export class RoomsListComponent implements OnInit {
   dataSource: MatTableDataSource<any>;
   displayedColumns = ['name', 'building', 'size', 'floor', 'types', 'action'];
   searchKey: string;
-  selectedValue = '';
+  selectedValue = -1;
   types: any[];
 
   constructor(
@@ -32,7 +32,7 @@ export class RoomsListComponent implements OnInit {
     const sources = [this.roomService.getRooms(), this.commonService.getTypes()];
 
     Observable.forkJoin(sources)
-      .subscribe(x => {
+      .subscribe((x: any) => {
         this.rooms = x[0];
         this.types = x[1];
         this.dataSource = new MatTableDataSource<any>(this.rooms);
@@ -45,19 +45,11 @@ export class RoomsListComponent implements OnInit {
           const nameColumnFound = data.name.toString().toLowerCase().indexOf(filter) !== -1;
           const building = data.building;
           const buildingColumnFound = (building.name.toString().toLowerCase() + '-' +
-                                      building.number.toString().toLowerCase()).indexOf(filter) !== -1;
+            building.number.toString().toLowerCase()).indexOf(filter) !== -1;
 
           const sizeColumnFound = data.size.toString().toLowerCase().indexOf(filter) !== -1;
 
-          const typeColumnFound = data.types.filter((t: { name: string; }) => {
-            if (filter === 'any') {
-              return true;
-            }
-            return t.name.toLowerCase() === filter.toLowerCase();
-          }).length > 0;
-
-
-          return (nameColumnFound || buildingColumnFound || sizeColumnFound || typeColumnFound);
+          return (nameColumnFound || buildingColumnFound || sizeColumnFound);
         };
 
         this.dataSource.sortingDataAccessor = (data, sortHeaderId) => {
@@ -89,8 +81,8 @@ export class RoomsListComponent implements OnInit {
 
     dialogConfig.data = {
       id: id,
-      title: 'Delete Building?',
-      message: 'Are you you want to delete this building?'
+      title: 'Delete Room?',
+      message: 'Are you you want to delete this room?'
     };
 
     const dialogRef = this.dialog.open(DeleteDialogComponent, dialogConfig);
@@ -99,17 +91,32 @@ export class RoomsListComponent implements OnInit {
         if (result) {
           this.roomService.delete(id)
             .subscribe(x => {
-              const itemIndex = this.dataSource.data.findIndex(obj => obj.id === id);
-              this.dataSource.data.splice(itemIndex, 1);
+              const itemIndex = this.rooms.findIndex(obj => obj.id === id);
+              this.rooms.splice(itemIndex, 1);
+              this.dataSource.data = this.rooms;
               this.dataSource.paginator = this.paginator;
               this.changeDetectorRefs.detectChanges();
             },
-            err => console.error(err));
+              err => console.error(err));
         }
       });
   }
 
   onTypeChange() {
-    this.dataSource.filter = this.selectedValue;
+    if (+this.selectedValue === -1) {
+      this.dataSource.data = this.rooms;
+    } else {
+      this.dataSource.data = this.rooms;
+      const filtered = this.dataSource.data.filter(val => {
+        return val.types.some(t => {
+          return t.id === this.selectedValue;
+        });
+      });
+
+      this.dataSource.data = filtered;
+    }
+
+    this.dataSource.paginator = this.paginator;
+    this.changeDetectorRefs.detectChanges();
   }
 }

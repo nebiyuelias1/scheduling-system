@@ -14,7 +14,7 @@ export class BuildingListComponent implements OnInit {
 
   buildings: any[];
   dataSource: MatTableDataSource<any>;
-  displayedColumns = ['name', 'number', 'floorCount', 'action'];
+  displayedColumns = ['name', 'number', 'floorCount', 'totalRooms', 'action'];
   searchKey: string;
 
   constructor(

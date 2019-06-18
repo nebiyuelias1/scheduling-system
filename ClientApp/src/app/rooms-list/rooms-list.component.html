@@ -9,8 +9,8 @@
   </mat-form-field>
   <mat-form-field>
     <mat-select placeholder="Room Type" [(ngModel)]="selectedValue" name="type" (change)="onTypeChange()">
-      <mat-option value="any">Any</mat-option>
-      <mat-option *ngFor="let item of types" [value]="item.name">
+      <mat-option value="-1">Any</mat-option>
+      <mat-option *ngFor="let item of types" [value]="item.id">
         {{item.name}}
       </mat-option>
     </mat-select>
