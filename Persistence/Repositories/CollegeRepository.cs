@@ -17,7 +17,7 @@ namespace SchedulingSystem.Persistence.Repositories
         {
             return await SchedulingDbContext
                 .Colleges
-                .Include(c => c.DepartmentHead)
+                .Include(c => c.CollegeDean)
                 .ToListAsync();
         }
     }

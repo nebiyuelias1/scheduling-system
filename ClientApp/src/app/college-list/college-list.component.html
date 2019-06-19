@@ -8,17 +8,32 @@
             <mat-cell *matCellDef="let row"> {{row.name}} </mat-cell>
         </ng-container>
 
+        <!-- College Dean Name Column -->
+        <ng-container matColumnDef="collegeDean">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>College Dean Name</mat-header-cell>
+            <mat-cell *matCellDef="let row"> 
+                <span *ngIf="row.collegeDean; else noDean">
+                    {{row.collegeDean.firstName}} 
+                    {{row.collegeDean.fatherName}} 
+                    {{row.collegeDean.grandFatherName}} 
+                </span>
+                <ng-template #noDean>
+                    <span>Not Assigned Yet!</span>
+                </ng-template>
+            </mat-cell>
+        </ng-container>
+
         <ng-container matColumnDef="action">
             <mat-header-cell *matHeaderCellDef></mat-header-cell>
             <mat-cell *matCellDef="let row">
-                <button *ngIf="row.departmentHead === null; else removeAssignment" mat-button
+                <button *ngIf="row.collegeDean === null; else removeAssignment" mat-raised-button
                     [routerLink]="['/colleges', row.id, 'assign']" color="primary">
                     <mat-icon>person_add</mat-icon> Assign
                 </button>
                 
                 <ng-template #removeAssignment>
-                    <button mat-button color="warn">
-                        <mat-icon (click)="removeAssignment(1)">delete_outline</mat-icon>Remove
+                    <button mat-raised-button color="warn" (click)="buttonClicked(row.id)">
+                        <mat-icon>delete_outline</mat-icon>Remove
                     </button>
                 </ng-template>
             </mat-cell>

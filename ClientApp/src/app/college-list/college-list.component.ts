@@ -13,7 +13,7 @@ export class CollegeListComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   colleges: any[];
   dataSource: MatTableDataSource<any>;
-  displayedColumns = ['collegeName', 'action'];
+  displayedColumns = ['collegeName', 'collegeDean', 'action'];
 
   constructor(private collegeService: CollegeService,
     private dialog: MatDialog,
@@ -62,6 +62,35 @@ export class CollegeListComponent implements OnInit {
             .subscribe(x => {
               const itemIndex = this.dataSource.data.findIndex(obj => obj.id === id);
               this.dataSource.data.splice(itemIndex, 1);
+              this.dataSource.paginator = this.paginator;
+              this.changeDetectorRefs.detectChanges();
+            },
+              err => console.error(err));
+        }
+      });
+  }
+
+  buttonClicked(id) {
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = '400px';
+
+    dialogConfig.data = {
+      id: id,
+      title: 'Remove College Dean Assign?',
+      message: 'Are you you want to remove the assignment?'
+    };
+
+    const dialogRef = this.dialog.open(DeleteDialogComponent, dialogConfig);
+    dialogRef.afterClosed()
+      .subscribe(result => {
+        if (result) {
+          this.collegeService.removeAssignment(id)
+            .subscribe(x => {
+              const itemIndex = this.dataSource.data.findIndex(obj => obj.id === id);
+              this.dataSource.data[itemIndex].collegeDean = null;
               this.dataSource.paginator = this.paginator;
               this.changeDetectorRefs.detectChanges();
             },

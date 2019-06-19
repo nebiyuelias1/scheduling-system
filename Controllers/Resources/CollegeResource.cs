@@ -17,6 +17,6 @@ namespace SchedulingSystem.Controllers.Resources
 
         public ICollection<DepartmentResource> Departments { get; set; }
         
-        public AppUserResource DepartmentHead { get; set; }
+        public AppUserResource CollegeDean { get; set; }
     }
 }

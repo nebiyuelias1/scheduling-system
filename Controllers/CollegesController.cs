@@ -44,10 +44,10 @@ namespace SchedulingSystem.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Assign(int id, [FromBody] string userId)
+        public async Task<IActionResult> Assign(int id, [FromBody] CollegeDeanAssignmentResource resource)
         {
             var college = await unitOfWork.Colleges.Get(id);
-            var user = await userManager.FindByIdAsync(userId);
+            var user = await userManager.FindByIdAsync(resource.UserId);
 
             if (college == null || user == null)
                 return NotFound();
@@ -56,7 +56,7 @@ namespace SchedulingSystem.Controllers
             if (college.Id != collegeId)
                 return BadRequest();
 
-            college.DepartmentHeadId = userId;
+            college.CollegeDeanId = resource.UserId;
             await unitOfWork.CompleteAsync();
 
             var result = await userManager.AddToRoleAsync(user, "College Dean");
@@ -74,13 +74,13 @@ namespace SchedulingSystem.Controllers
             if (college == null)
                 return NotFound();
 
-            var user = await userManager.FindByIdAsync(college.DepartmentHeadId);
+            var user = await userManager.FindByIdAsync(college.CollegeDeanId);
             var result = await userManager.RemoveFromRoleAsync(user, "College Dean");
 
             if (!result.Succeeded)
                 return BadRequest(result.Errors);
                 
-            college.DepartmentHeadId = null;
+            college.CollegeDeanId = null;
             await unitOfWork.CompleteAsync();
 
             return Ok(id);
