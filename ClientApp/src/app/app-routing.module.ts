@@ -27,6 +27,8 @@ import { AssignInstructorComponent } from './assign-instructor/assign-instructor
 import { CollegeDeanAssignmentFormComponent } from './college-dean-assignment-form/college-dean-assignment-form.component';
 import { BuildingListComponent } from './building-list/building-list.component';
 import { RoomsListComponent } from './rooms-list/rooms-list.component';
+import { DepartmentListComponent } from './department-list/department-list.component';
+import { DepartmentHeadAssignmentFormComponent } from './department-head-assignment-form/department-head-assignment-form.component';
 
 const routes: Routes = [
     {
@@ -68,11 +70,25 @@ const routes: Routes = [
                 },
                 children: [
                     {
+                        path: '',
+                        data: {
+                            breadcrumb: 'List'
+                        },
+                        component: DepartmentListComponent
+                    },
+                    {
                         path: 'new',
                         data: {
                             breadcrumb: 'New'
                         },
                         component: DepartmentFormComponent
+                    },
+                    {
+                        path: ':id/assign',
+                        data: {
+                            breadcrumb: 'Assign'
+                        },
+                        component: DepartmentHeadAssignmentFormComponent
                     }
                 ]
             },

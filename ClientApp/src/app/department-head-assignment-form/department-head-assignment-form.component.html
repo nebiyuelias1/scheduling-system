@@ -1,0 +1,13 @@
+<h1>Assign Department Head</h1>
+{{ instructorId }}
+<div class="form-group">
+  <label for="instructor">Instructor Name</label>
+  <select id="instructor" class="form-control" [(ngModel)]="instructorId">
+    <option value=""></option>
+    <option *ngFor="let i of instructors" [value]="i.userId">
+      {{ i.user.firstName }} {{ i.user.fatherName }} {{ i.user.grandFatherName }}
+    </option>  
+  </select>
+</div>
+
+<button class="btn btn-primary" [disabled]="isDisabled" (click)="assign()">Assign</button>

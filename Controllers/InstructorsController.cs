@@ -80,10 +80,10 @@ namespace SchedulingSystem.Controllers
             var user = await userManager.FindByIdAsync(instructor.UserId);
             if (user != null)
             {
-                user.FirstName = resource.FirstName;
-                user.FatherName = resource.FatherName;
-                user.GrandFatherName = resource.GrandFatherName;
-                user.DepartmentId = resource.DepartmentId;
+                user.Contact.FirstName = resource.FirstName;
+                user.Contact.FatherName = resource.FatherName;
+                user.Contact.GrandFatherName = resource.GrandFatherName;
+                user.Contact.DepartmentId = resource.DepartmentId;
                 var result = await userManager.UpdateAsync(user);
 
                 if (result.Succeeded)

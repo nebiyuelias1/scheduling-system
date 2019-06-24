@@ -19,5 +19,15 @@ namespace SchedulingSystem.Persistence.Repositories
                         .Include(d => d.College)
                         .SingleOrDefaultAsync(d => d.Id == id);
         }
+
+        public async Task<IEnumerable<Department>> GetDepartments()
+        {
+            return await SchedulingDbContext
+                        .Departments
+                        .Include(d => d.College)
+                        .Include(d => d.DepartmentHead)
+                            .ThenInclude(dh => dh.Contact)
+                        .ToListAsync();
+        }
     }
 }

@@ -19,11 +19,7 @@ namespace SchedulingSystem.Core.Models
         [ForeignKey("College")]
         public int CollegeId { get; set; }
 
-        public ICollection<AppUser> Users { get; set; }
-
-        public Department()
-        {
-            Users = new Collection<AppUser>();
-        }
+        public AppUser DepartmentHead { get; set; }
+        public string DepartmentHeadId { get; set; }
     }
 }

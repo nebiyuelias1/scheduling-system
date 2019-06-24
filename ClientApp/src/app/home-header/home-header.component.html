@@ -2,16 +2,22 @@
   <div *ngIf="userService.decodedToken.admin === 'true'" class="admin-header">
     <h1>Welcome Admin!</h1>
   </div>
-  <div *ngIf="userService.decodedToken.admin !== 'true'" class="department-header">
-    <h1 *ngIf="userService.decodedToken">{{ userService.decodedToken.coll }}</h1>
-    <h2 *ngIf="userService.decodedToken">{{ userService.decodedToken.dept }} Department</h2>
+  <div *ngIf="userService.decodedToken.dean === 'true'; else otherUsers" class="dean-header">
+    <h1>Welcome College Dean!</h1>
   </div>
+  <ng-template #otherUsers>
+    <div *ngIf="userService.decodedToken.admin === 'true'" class="department-header">
+      <h1 *ngIf="userService.decodedToken">{{ userService.decodedToken.coll }}</h1>
+      <h2 *ngIf="userService.decodedToken">{{ userService.decodedToken.dept }} Department</h2>
+    </div>
+  </ng-template>
   <div class="semester-container" *ngIf="currentAcacemicSemester">
     <div>
       Academic Semester: {{ currentAcacemicSemester['semester'] }} (<a routerLink="semesters/new">New</a>)
     </div>
     <div>
-      Academic Year: {{ currentAcacemicSemester.academicYear.etYear }} EC ({{ currentAcacemicSemester.academicYear.gcYear }}) GC
+      Academic Year: {{ currentAcacemicSemester.academicYear.etYear }} EC
+      ({{ currentAcacemicSemester.academicYear.gcYear }}) GC
     </div>
   </div>
   <hr>

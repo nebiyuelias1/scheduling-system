@@ -114,7 +114,9 @@ namespace SchedulingSystem.Controllers
                 return await Task.FromResult<ClaimsIdentity>(null);
 
             // get the user to verifty
-            var userToVerify = await userManager.FindByNameAsync(userName);
+            var userToVerify = await userManager.Users
+                                    .Include(u => u.Contact)
+                                    .SingleOrDefaultAsync(u => u.UserName == userName);
 
             if (userToVerify == null) return await Task.FromResult<ClaimsIdentity>(null);
 
@@ -133,7 +135,7 @@ namespace SchedulingSystem.Controllers
                     var c = await roleManager.GetClaimsAsync(r);
                     claims.AddRange(c);
                 }
-                var dept = await unitOfWork.Departments.GetDepartment(userToVerify.DepartmentId);
+                var dept = await unitOfWork.Departments.GetDepartment(userToVerify.Contact.DepartmentId);
                 if (dept != null)
                 {
                     claims.Add(new Claim("dept", dept.Name));
@@ -149,14 +151,19 @@ namespace SchedulingSystem.Controllers
 
         private AppUser CreateNewUser(RegisterResource resource)
         {
-            return new AppUser
+            var contact = new Contact 
             {
                 FirstName = resource.FirstName,
                 FatherName = resource.FatherName,
                 GrandFatherName = resource.GrandFatherName,
+                DepartmentId = resource.DepartmentId,
+            };
+
+            return new AppUser
+            {
+                Contact = contact,
                 Email = resource.Email,
                 UserName = resource.Email,
-                DepartmentId = resource.DepartmentId,
                 SecurityStamp = Guid.NewGuid().ToString()
             };
         }

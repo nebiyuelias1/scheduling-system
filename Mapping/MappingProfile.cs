@@ -73,10 +73,19 @@ namespace SchedulingSystem.Mapping
             CreateMap<Schedule, ScheduleResource>()
                 .ForMember(sr => sr.TimeTable, opt => opt.Ignore());
             CreateMap<WeekDay, WeekDayResource>();
-            CreateMap<AppUser, AppUserResource>();
+            CreateMap<AppUser, AppUserResource>()
+                .ForMember(aur => aur.FirstName, opt => opt.MapFrom(au => au.Contact.FirstName))
+                .ForMember(aur => aur.FatherName, opt => opt.MapFrom(au => au.Contact.FatherName))
+                .ForMember(aur => aur.GrandFatherName, opt => opt.MapFrom(au => au.Contact.GrandFatherName))
+                .ForMember(aur => aur.DepartmentId, opt => opt.MapFrom(au => au.Contact.DepartmentId))
+                .ForMember(aur => aur.Department, opt => opt.MapFrom(au => au.Contact.Department));
             CreateMap<QueryResult<Instructor>, QueryResultResource<InstructorResource>>();
             CreateMap<College, CollegeResource>();
             CreateMap<Building, SaveBuildingResource>();
+            CreateMap<AppUser, DeptHeadResource>()
+                .ForMember(aur => aur.FirstName, opt => opt.MapFrom(au => au.Contact.FirstName))
+                .ForMember(aur => aur.FatherName, opt => opt.MapFrom(au => au.Contact.FatherName))
+                .ForMember(aur => aur.GrandFatherName, opt => opt.MapFrom(au => au.Contact.GrandFatherName));
         }
     }
 }

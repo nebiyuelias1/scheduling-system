@@ -7,5 +7,7 @@ namespace SchedulingSystem.Controllers.Resources
         public string Name { get; set; }
 
         public int CollegeId { get; set; }
+        
+        public DeptHeadResource DepartmentHead { get; set; }
     }
 }

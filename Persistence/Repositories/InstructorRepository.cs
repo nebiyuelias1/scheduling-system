@@ -21,7 +21,7 @@ namespace SchedulingSystem.Persistence.Repositories
             var query = SchedulingDbContext
                 .Instructors
                 .Include(i => i.User)
-                    .ThenInclude(u => u.Department)
+                    .ThenInclude(u => u.Contact.Department)
                 .AsQueryable();
 
             query = query.ApplyFiltering(queryObj);
@@ -37,7 +37,7 @@ namespace SchedulingSystem.Persistence.Repositories
             return await SchedulingDbContext
                 .Instructors
                 .Include(i => i.User)
-                    .ThenInclude(u => u.Department)
+                    .ThenInclude(u => u.Contact.Department)
                 .SingleOrDefaultAsync(i => i.Id == id);
         }
     }

@@ -1,0 +1,46 @@
+<h1>Departments in your College</h1>
+<div class="mat-elevation-z8 data-table">
+    <mat-table #table [dataSource]="dataSource" matSort aria-label="Elements">
+
+        <!-- Department Name Column -->
+        <ng-container matColumnDef="departmentName">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Department</mat-header-cell>
+            <mat-cell *matCellDef="let row"> {{row.name}} </mat-cell>
+        </ng-container>
+        
+        <!-- Department Head Column -->
+        <ng-container matColumnDef="departmentHead">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Department Head Name</mat-header-cell>
+            <mat-cell *matCellDef="let row">
+                <span *ngIf="row.departmentHead">
+                    {{row.departmentHead.firstName}}
+                    {{row.departmentHead.fatherName}}
+                    {{row.departmentHead.grandFatherName}}
+                </span>
+        </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="action">
+            <mat-header-cell *matHeaderCellDef></mat-header-cell>
+            <mat-cell *matCellDef="let row">
+                <button *ngIf="row.departmentHead === null; else removeAssignment" mat-raised-button
+                    [routerLink]="['/departments', row.id, 'assign']" color="primary">
+                    <mat-icon>person_add</mat-icon> Assign
+                </button>
+                
+                <ng-template #removeAssignment>
+                    <button mat-raised-button color="warn" (click)="buttonClicked(row.id)">
+                        <mat-icon>delete_outline</mat-icon>Remove
+                    </button>
+                </ng-template>
+            </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+
+    <mat-paginator #paginator [pageIndex]="0" [pageSize]="25" [pageSizeOptions]="[5, 25, 50, 100, 250]"
+        showFirstLastButtons>
+    </mat-paginator>
+</div>

@@ -55,6 +55,8 @@ import { AssignInstructorComponent } from './assign-instructor/assign-instructor
 import { CollegeDeanAssignmentFormComponent } from './college-dean-assignment-form/college-dean-assignment-form.component';
 import { BuildingListComponent } from './building-list/building-list.component';
 import { RoomsListComponent } from './rooms-list/rooms-list.component';
+import { DepartmentListComponent } from './department-list/department-list.component';
+import { DepartmentHeadAssignmentFormComponent } from './department-head-assignment-form/department-head-assignment-form.component';
 
 @NgModule({
   declarations: [
@@ -94,6 +96,8 @@ import { RoomsListComponent } from './rooms-list/rooms-list.component';
     CollegeDeanAssignmentFormComponent,
     BuildingListComponent,
     RoomsListComponent,
+    DepartmentListComponent,
+    DepartmentHeadAssignmentFormComponent,
   ],
   imports: [
     AppRoutingModule,

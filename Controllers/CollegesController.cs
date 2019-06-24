@@ -47,12 +47,14 @@ namespace SchedulingSystem.Controllers
         public async Task<IActionResult> Assign(int id, [FromBody] CollegeDeanAssignmentResource resource)
         {
             var college = await unitOfWork.Colleges.Get(id);
-            var user = await userManager.FindByIdAsync(resource.UserId);
+            var user = await userManager.Users
+                            .Include(u => u.Contact)
+                            .SingleOrDefaultAsync(u => u.Id == resource.UserId);
 
             if (college == null || user == null)
                 return NotFound();
 
-            var collegeId = (await unitOfWork.Departments.GetDepartment(user.DepartmentId)).CollegeId;
+            var collegeId = (await unitOfWork.Departments.GetDepartment(user.Contact.DepartmentId)).CollegeId;
             if (college.Id != collegeId)
                 return BadRequest();
 
