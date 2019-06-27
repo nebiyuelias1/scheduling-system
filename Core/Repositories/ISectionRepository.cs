@@ -8,7 +8,7 @@ namespace SchedulingSystem.Core.Repositories
     {
         Task<Section> GetSectionWithCourseOfferings(int sectionId, int semesterId);
         Task<Section> GetSectionWithAssignedRooms(int sectionId);
-        Task<IEnumerable<Section>> GetSectionsWithAssignedRooms();
+        Task<QueryResult<Section>> GetSections(SectionQuery query);
         Task<Section> GetSectionWithBuilding(int sectionId);
     }
 }

@@ -18,7 +18,7 @@ namespace SchedulingSystem.Core.Models
 
         public int StudentCount { get; set; }
 
-        public Department Department { get; set; }
+        public Curriculum Curriculum { get; set; }
         
         public ProgramType Program { get; set; }
 
@@ -30,7 +30,7 @@ namespace SchedulingSystem.Core.Models
 
         public bool IsActive { get; private set; }
 
-        public int DepartmentId { get; set; }
+        public int CurriculumId { get; set; }
 
         public int ProgramTypeId { get; set; }
 

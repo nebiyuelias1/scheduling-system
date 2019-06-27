@@ -26,5 +26,24 @@ namespace SchedulingSystem.Extensions
 
             return query;
         }
+
+        public static IQueryable<Course> ApplyCourseFiltering(this IQueryable<Course> query, CourseQuery queryObj)
+        {
+            if (queryObj.DepartmentId.HasValue)
+                query = query.Where(c => c.Curriculum.DepartmentId == queryObj.DepartmentId);
+
+            return query;
+        }
+
+        public static IQueryable<Section> ApplySectionFilter(this IQueryable<Section> query, SectionQuery queryObj)
+        {
+            if (queryObj.DepartmentId.HasValue)
+                query = query.Where(s => s.Curriculum.DepartmentId == queryObj.DepartmentId);
+
+            if (!queryObj.IncludeInactive)
+                query = query.Where(s => s.IsActive);
+                
+            return query;
+        }
     }
 }

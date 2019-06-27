@@ -57,8 +57,8 @@ export class CourseFormComponent implements OnInit {
     }
 
     Observable.forkJoin(sources)
-      .subscribe(x => {
-        this.curriculums = x[0].items as any[];
+      .subscribe((x: any) => {
+        this.curriculums = x[0].items;
 
         if (id !== null) {
           this.course = x[1] as SaveCourse;

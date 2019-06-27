@@ -5,6 +5,8 @@ import { SectionService } from '../services/section.service';
 import { SaveSection } from '../models/save-section-interface';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { CurriculumService } from '../services/curriculum.service';
+import { UserService } from '../accounts/user.service';
 
 @Component({
   selector: 'app-section-form',
@@ -28,24 +30,32 @@ export class SectionFormComponent implements OnInit {
     name: new FormControl(),
     entranceYear: new FormControl(),
     studentCount: new FormControl(),
-    departmentId: new FormControl(),
+    curriculumId: new FormControl(),
     programTypeId: new FormControl(),
     admissionLevelId: new FormControl()
   });
+  curriculums: any;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private commonService: CommonService,
-    private sectionService: SectionService) {
+    private sectionService: SectionService,
+    private curriculumService: CurriculumService,
+    private userService: UserService) {
       this.route.params
       .subscribe(x => this.section.id = +x['id'] || 0);
     }
 
   ngOnInit() {
+    const query = {
+      departmentId: this.userService.decodedToken.dept_id,
+    };
+
     const sources = [
       this.commonService.getProgramTypes(),
-      this.commonService.getAdmissionLevels()
+      this.commonService.getAdmissionLevels(),
+      this.curriculumService.getCurriculums(query)
     ];
 
     if (this.section.id) {
@@ -56,10 +66,10 @@ export class SectionFormComponent implements OnInit {
       .subscribe((data: any) => {
         this.programTypes = data[0];
         this.admissionLevels = data[1];
+        this.curriculums = data[2].items;
 
         if (this.section.id) {
-          console.log(data[2]);
-          this.setVehicle(data[2]);
+          this.setVehicle(data[3]);
           this.populateForm();
         }
       });

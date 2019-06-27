@@ -14,7 +14,7 @@ namespace SchedulingSystem.Controllers.Resources
 
         public int StudentCount { get; set; }
 
-        public int DepartmentId { get; set; }
+        public int CurriculumId { get; set; }
 
         public int ProgramTypeId { get; set; }
 

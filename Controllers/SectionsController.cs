@@ -38,17 +38,13 @@ namespace SchedulingSystem.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetSections()
+        public async Task<QueryResultResource<SectionResource>> GetSections(SectionQueryResource queryResource)
         {
-            var sections = await unitOfWork.Sections.GetSectionsWithAssignedRooms();
-            sections = sections.Where(s => s.IsActive);
+            var query = Mapper.Map<SectionQueryResource, SectionQuery>(queryResource);
+            
+            var result = await unitOfWork.Sections.GetSections(query);
 
-            if (sections == null)
-                return NotFound();
-
-            var sectionsResource = mapper.Map<IEnumerable<Section>, IEnumerable<SectionResource>>(sections);
-
-            return Ok(sectionsResource);
+            return mapper.Map<QueryResult<Section>, QueryResultResource<SectionResource>>(result);
         }
 
 

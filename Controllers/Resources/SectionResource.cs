@@ -17,7 +17,7 @@ namespace SchedulingSystem.Controllers.Resources
 
         public int StudentCount { get; set; }
 
-        public DepartmentResource Department { get; set; }
+        public CurriculumResource Curriculum { get; set; }
         
         public string Program { get; set; }
 

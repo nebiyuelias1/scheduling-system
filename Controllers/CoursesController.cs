@@ -48,16 +48,13 @@ namespace SchedulingSystem.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetCourses()
+        public async Task<QueryResultResource<CourseResource>> GetCourses(CourseQueryResource filterResource)
         {
-            var courses = await unitOfWork.Courses.GetCoursesWithCurriculum();
+            var filter = Mapper.Map<CourseQueryResource, CourseQuery>(filterResource);
 
-            if (courses == null)
-                return NotFound();
+            var result = await unitOfWork.Courses.GetCourses(filter);
 
-            var result = mapper.Map<IEnumerable<Course>, IEnumerable<CourseResource>>(courses);
-
-            return Ok(result);
+            return mapper.Map<QueryResult<Course>, QueryResultResource<CourseResource>>(result);
         }
 
         [HttpDelete("{id}")]

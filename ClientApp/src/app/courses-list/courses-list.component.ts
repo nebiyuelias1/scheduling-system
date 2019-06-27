@@ -35,12 +35,13 @@ export class CoursesListComponent implements OnInit {
       departmentId: this.userService.decodedToken.dept_id,
     };
 
-    const sources = [ this.curriculumService.getCurriculums(query), this.courseService.getCourses()];
+    const sources = [ this.curriculumService.getCurriculums(query),
+      this.courseService.getCourses(query)];
 
     Observable.forkJoin(sources)
       .subscribe((result: any) => {
         this.curriculums = result[0].items;
-        this.courses = result[1];
+        this.courses = result[1].items;
         this.dataSource = new MatTableDataSource<any>(this.courses);
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;

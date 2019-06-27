@@ -10,8 +10,8 @@ export class CourseService {
     return this.http.post('/api/courses', course);
   }
 
-  getCourses() {
-    return this.http.get('/api/courses');
+  getCourses(query) {
+    return this.http.get('/api/courses?' + this.toQueryString(query));
   }
 
   delete(id: any) {
@@ -24,5 +24,17 @@ export class CourseService {
 
   update(id, value) {
     return this.http.put('/api/courses/' + id, value);
+  }
+
+  toQueryString(obj) {
+    const parts = [];
+    for (const key of Object.keys(obj)) {
+      const value = obj[key];
+      if (value !== null && value !== undefined) {
+        parts.push(encodeURIComponent(key) + '=' + encodeURIComponent(value));
+      }
+    }
+
+    return parts.join('&');
   }
 }

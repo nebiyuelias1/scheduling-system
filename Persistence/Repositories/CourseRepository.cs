@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using SchedulingSystem.Core.Models;
 using SchedulingSystem.Core.Repositories;
+using SchedulingSystem.Extensions;
 
 namespace SchedulingSystem.Persistence.Repositories
 {
@@ -20,11 +21,19 @@ namespace SchedulingSystem.Persistence.Repositories
                                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<Course>> GetCoursesWithCurriculum()
+        public async Task<QueryResult<Course>> GetCourses(CourseQuery queryObj)
         {
-            return await SchedulingDbContext.Courses
+            var result = new QueryResult<Course>();
+            var query = SchedulingDbContext.Courses
                         .Include(c => c.Curriculum)
-                        .ToListAsync();
+                        .AsQueryable();
+                        
+            query = query.ApplyCourseFiltering(queryObj);
+
+            result.TotalItems = await query.CountAsync();
+            result.Items = await query.ToListAsync();
+
+            return result;
         }
     }
 }

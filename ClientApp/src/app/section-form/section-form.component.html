@@ -18,8 +18,11 @@
   </div>
   
   <div class="form-group">
-    <label for="department">Department</label>
-    <input id="department" type="text" class="form-control" formControlName="departmentId">
+    <label for="curriculum">Curriculum</label>
+    <select id="curriculum" class="form-control" formControlName="curriculumId">
+      <option value=""></option>
+      <option *ngFor="let c of curriculums" value="{{ c.id }}">{{ c.nomenclature }}</option>
+    </select>
   </div>
 
   <div class="form-group">

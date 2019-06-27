@@ -6,7 +6,7 @@ namespace SchedulingSystem.Core.Repositories
 {
     public interface ICourseRepository : IRepository<Course>
     {
-        Task<IEnumerable<Course>> GetCoursesWithCurriculum();
+        Task<QueryResult<Course>> GetCourses(CourseQuery filter);
         Task<IEnumerable<Course>> GetCoursesForCurrentSemester(int year, int semester);
     }
 }
