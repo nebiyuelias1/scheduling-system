@@ -18,5 +18,13 @@ namespace SchedulingSystem.Extensions
 
             return query;
         }
+
+        public static IQueryable<Curriculum> ApplyCurriculumFiltering(this IQueryable<Curriculum> query, CurriculumQuery queryObj)
+        {
+            if (queryObj.DepartmentId.HasValue)
+                query = query.Where(c => c.DepartmentId == queryObj.DepartmentId);
+
+            return query;
+        }
     }
 }

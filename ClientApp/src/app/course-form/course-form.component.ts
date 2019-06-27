@@ -5,6 +5,7 @@ import { CourseService } from '../services/course.service';
 import { SaveCourse } from '../models/save-course-interface';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { UserService } from '../accounts/user.service';
 
 @Component({
   selector: 'app-course-form',
@@ -40,12 +41,16 @@ export class CourseFormComponent implements OnInit {
     private curriculumService: CurriculumService,
     private courseService: CourseService,
     private route: ActivatedRoute,
-    private router: Router) { }
+    private router: Router,
+    private userService: UserService) { }
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
+    const query = {
+      departmentId: this.userService.decodedToken.dept_id,
+    };
 
-    const sources = [this.curriculumService.getCurriculums()];
+    const sources = [this.curriculumService.getCurriculums(query)];
 
     if (id !== null) {
       sources.push(this.courseService.getCourse(id));
@@ -53,7 +58,7 @@ export class CourseFormComponent implements OnInit {
 
     Observable.forkJoin(sources)
       .subscribe(x => {
-        this.curriculums = x[0] as any[];
+        this.curriculums = x[0].items as any[];
 
         if (id !== null) {
           this.course = x[1] as SaveCourse;

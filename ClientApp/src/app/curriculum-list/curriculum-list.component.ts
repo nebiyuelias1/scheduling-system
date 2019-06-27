@@ -6,6 +6,7 @@ import { SaveCurriculum } from '../models/save-curriculum-interface';
 import { DeleteDialogComponent } from '../delete-dialog/delete-dialog.component';
 import { CurriculumService } from '../services/curriculum.service';
 import { Router } from '@angular/router';
+import { UserService } from '../accounts/user.service';
 
 @Component({
   selector: 'app-curriculum-list',
@@ -24,12 +25,17 @@ export class CurriculumListComponent implements OnInit {
   constructor(
     private curriculumService: CurriculumService,
     private dialog: MatDialog,
-    private changeDetectorRefs: ChangeDetectorRef) { }
+    private changeDetectorRefs: ChangeDetectorRef,
+    private userService: UserService) { }
 
   ngOnInit() {
-    this.curriculumService.getCurriculums()
-      .subscribe((result: SaveCurriculum[]) => {
-        this.curriculums = result;
+    const query = {
+      departmentId: this.userService.decodedToken.dept_id,
+    };
+
+    this.curriculumService.getCurriculums(query)
+      .subscribe((result: any) => {
+        this.curriculums = result.items;
         this.dataSource = new MatTableDataSource<any>(this.curriculums);
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;

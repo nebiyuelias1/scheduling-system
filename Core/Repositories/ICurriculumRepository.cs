@@ -5,5 +5,6 @@ namespace SchedulingSystem.Core.Repositories
 {
     public interface ICurriculumRepository : IRepository<Curriculum>
     {
+        Task<QueryResult<Curriculum>> GetCurriculums(CurriculumQuery filter);
     }
 }

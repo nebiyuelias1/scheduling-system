@@ -41,9 +41,9 @@ namespace SchedulingSystem.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] DepartmentResource departmentResource)
+        public async Task<IActionResult> Create([FromBody] SaveDepartmentResource departmentResource)
         {
-            var department = mapper.Map<DepartmentResource, Department>(departmentResource);
+            var department = mapper.Map<SaveDepartmentResource, Department>(departmentResource);
 
             unitOfWork.Departments.Add(department);
             await unitOfWork.CompleteAsync();

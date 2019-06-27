@@ -14,7 +14,7 @@ export class CoursesListComponent implements OnInit {
 
   courses: any[];
   dataSource: MatTableDataSource<any>;
-  displayedColumns = ['courseCode', 'title', 'lecture', 'lab', 'tutor', 'deliveryYear', 'deliverySemester', 'curriculum', 'action'];
+  displayedColumns = ['courseCode', 'name', 'lecture', 'lab', 'tutor', 'deliveryYear', 'deliverySemester', 'curriculum', 'action'];
   searchKey: string;
 
   constructor(
@@ -34,9 +34,10 @@ export class CoursesListComponent implements OnInit {
         this.paginator._changePageSize(this.paginator.pageSize);
 
         this.dataSource.filterPredicate = (data, filter) => {
-          return this.displayedColumns.some(d => {
-            return d !== 'action' && data[d].toString().toLowerCase().indexOf(filter) !== -1;
-          });
+          const courseCodeFound = data.courseCode.toString().toLowerCase().indexOf(filter) !== -1;
+          const courseNameFound = data.name.toString().toLowerCase().indexOf(filter) !== -1;
+
+          return courseCodeFound || courseNameFound;
         };
       }, (err) => console.error(err));
   }

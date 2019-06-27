@@ -2,6 +2,10 @@
   <div *ngIf="userService.decodedToken.admin === 'true'" class="admin-header">
     <h1>Welcome Admin!</h1>
   </div>
+  <div *ngIf="userService.decodedToken.head === 'true'" class="head-header">
+    <h1>Welcome Head!</h1>
+    <h2 *ngIf="userService.decodedToken">{{ userService.decodedToken.dept }} Department</h2>
+  </div>
   <div *ngIf="userService.decodedToken.dean === 'true'; else otherUsers" class="dean-header">
     <h1>Welcome College Dean!</h1>
   </div>

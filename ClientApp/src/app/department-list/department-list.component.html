@@ -1,7 +1,9 @@
 <h1>Departments in your College</h1>
+<button mat-raised-button color="primary" routerLink="/departments/new">
+    <mat-icon>add</mat-icon> New
+</button>
 <div class="mat-elevation-z8 data-table">
     <mat-table #table [dataSource]="dataSource" matSort aria-label="Elements">
-
         <!-- Department Name Column -->
         <ng-container matColumnDef="departmentName">
             <mat-header-cell *matHeaderCellDef mat-sort-header>Department</mat-header-cell>

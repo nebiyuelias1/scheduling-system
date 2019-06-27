@@ -1,13 +1,6 @@
 <h2>New Department</h2>
 <form [formGroup]="form" (ngSubmit)="save()">
   <div class="form-group">
-    <label for="college">College</label>
-    <select id="college" class="form-control" formControlName="collegeId">
-      <option value=""></option>
-      <option *ngFor="let college of colleges" value="{{ college.id }}">{{ college.name }}</option>
-    </select>
-  </div>
-  <div class="form-group">
     <label for="department">Department</label>
     <input type="text" id="department" class="form-control" formControlName="name">
   </div>

@@ -3,13 +3,11 @@ import { HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class CurriculumService {
-  
 
   constructor(private http: HttpClient) { }
 
-  getCurriculums()
-  {
-    return this.http.get('/api/curriculums');
+  getCurriculums(query) {
+    return this.http.get('/api/curriculums?' + this.toQueryString(query));
   }
 
   save(curriculum) {
@@ -27,5 +25,16 @@ export class CurriculumService {
   delete(id) {
     return this.http.delete('/api/curriculums/' + id);
   }
-  
+
+  toQueryString(obj) {
+    const parts = [];
+    for (const key of Object.keys(obj)) {
+      const value = obj[key];
+      if (value !== null && value !== undefined) {
+        parts.push(encodeURIComponent(key) + '=' + encodeURIComponent(value));
+      }
+    }
+
+    return parts.join('&');
+  }
 }

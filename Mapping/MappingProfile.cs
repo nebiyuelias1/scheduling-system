@@ -31,6 +31,8 @@ namespace SchedulingSystem.Mapping
             CreateMap<SaveInstructorResource, Instructor>();
             CreateMap<InstructorQueryResource, InstructorQuery>();
             CreateMap<SaveBuildingResource, Building>();
+            CreateMap<SaveDepartmentResource, Department>();
+            CreateMap<CurriculumQueryResource, CurriculumQuery>();
 
 
             // Domain to API Resource
@@ -80,6 +82,7 @@ namespace SchedulingSystem.Mapping
                 .ForMember(aur => aur.DepartmentId, opt => opt.MapFrom(au => au.Contact.DepartmentId))
                 .ForMember(aur => aur.Department, opt => opt.MapFrom(au => au.Contact.Department));
             CreateMap<QueryResult<Instructor>, QueryResultResource<InstructorResource>>();
+            CreateMap<QueryResult<Curriculum>, QueryResultResource<CurriculumResource>>();
             CreateMap<College, CollegeResource>();
             CreateMap<Building, SaveBuildingResource>();
             CreateMap<AppUser, DeptHeadResource>()

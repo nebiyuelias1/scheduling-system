@@ -37,16 +37,13 @@ namespace SchedulingSystem.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetCurriculums()
+        public async Task<QueryResultResource<CurriculumResource>> GetCurriculums(CurriculumQueryResource filterResource)
         {
-            var curriculums = await unitOfWork.Curriculums.GetAll();
+            var filter = Mapper.Map<CurriculumQueryResource, CurriculumQuery>(filterResource);
 
-            if (curriculums == null)
-                return NotFound();
+            var result = await unitOfWork.Curriculums.GetCurriculums(filter);
 
-            var curriculumResource = mapper.Map<IEnumerable<Curriculum>, IEnumerable<CurriculumResource>>(curriculums);
-
-            return Ok(curriculumResource);
+            return mapper.Map<QueryResult<Curriculum>, QueryResultResource<CurriculumResource>>(result);
         }
 
         [HttpPost]

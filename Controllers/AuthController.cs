@@ -141,6 +141,7 @@ namespace SchedulingSystem.Controllers
                     claims.Add(new Claim("dept", dept.Name));
                     claims.Add(new Claim("dept_id", dept.Id.ToString()));
                     claims.Add(new Claim("coll", dept.College.Name));
+                    claims.Add(new Claim("coll_id", dept.CollegeId.ToString()));
                 }
                 return await Task.FromResult(jwtFactory.GenerateClaimsIdentity(userName, userToVerify.Id, claims));
             }
