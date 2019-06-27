@@ -7,6 +7,15 @@
     </button>
   </mat-form-field>
 </div>
+<mat-form-field>
+  <mat-select placeholder="Curriculum" [(ngModel)]="curriculumId" name="curriculumId" (change)="onCurriculumChange()">
+    <mat-option value="-1">Any</mat-option>
+    <mat-option *ngFor="let c of curriculums" [value]="c.id">
+      {{ c.nomenclature }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
 <div class="mat-elevation-z8 data-table">
   <mat-table #table [dataSource]="dataSource" matSort aria-label="Elements">
 

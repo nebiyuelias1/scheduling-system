@@ -1,11 +1,8 @@
 import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
-import { CommonService } from '../services/common.service';
 import { MatPaginator, MatSort, MatDialog, MatDialogConfig, MatTable, MatTableDataSource } from '@angular/material';
-import { CurriculumDataSource } from './curriculum-list-datasource';
 import { SaveCurriculum } from '../models/save-curriculum-interface';
 import { DeleteDialogComponent } from '../delete-dialog/delete-dialog.component';
 import { CurriculumService } from '../services/curriculum.service';
-import { Router } from '@angular/router';
 import { UserService } from '../accounts/user.service';
 
 @Component({

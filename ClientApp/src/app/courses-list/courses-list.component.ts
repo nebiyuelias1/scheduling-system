@@ -2,6 +2,9 @@ import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource, MatDialog, MatDialogConfig } from '@angular/material';
 import { CourseService } from '../services/course.service';
 import { DeleteDialogComponent } from '../delete-dialog/delete-dialog.component';
+import { UserService } from '../accounts/user.service';
+import { CurriculumService } from '../services/curriculum.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-courses-list',
@@ -16,17 +19,28 @@ export class CoursesListComponent implements OnInit {
   dataSource: MatTableDataSource<any>;
   displayedColumns = ['courseCode', 'name', 'lecture', 'lab', 'tutor', 'deliveryYear', 'deliverySemester', 'curriculum', 'action'];
   searchKey: string;
+  curriculums: any[];
+  curriculumId = -1;
 
   constructor(
     private courseService: CourseService,
+    private curriculumService: CurriculumService,
     private dialog: MatDialog,
-    private changeDetectorRefs: ChangeDetectorRef
+    private changeDetectorRefs: ChangeDetectorRef,
+    private userService: UserService
   ) { }
 
   ngOnInit() {
-    this.courseService.getCourses()
-      .subscribe((result: any[]) => {
-        this.courses = result;
+    const query = {
+      departmentId: this.userService.decodedToken.dept_id,
+    };
+
+    const sources = [ this.curriculumService.getCurriculums(query), this.courseService.getCourses()];
+
+    Observable.forkJoin(sources)
+      .subscribe((result: any) => {
+        this.curriculums = result[0].items;
+        this.courses = result[1];
         this.dataSource = new MatTableDataSource<any>(this.courses);
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
@@ -39,7 +53,7 @@ export class CoursesListComponent implements OnInit {
 
           return courseCodeFound || courseNameFound;
         };
-      }, (err) => console.error(err));
+      }, err => console.error(err));
   }
 
   clearSearchKey() {
@@ -78,5 +92,21 @@ export class CoursesListComponent implements OnInit {
             err => console.error(err));
         }
       });
+  }
+
+  onCurriculumChange() {
+    if (+this.curriculumId === -1) {
+      this.dataSource.data = this.courses;
+    } else {
+      this.dataSource.data = this.courses;
+      const filtered = this.dataSource.data.filter(val => {
+        return val.curriculum.id === this.curriculumId;
+      });
+
+      this.dataSource.data = filtered;
+    }
+
+    this.dataSource.paginator = this.paginator;
+    this.changeDetectorRefs.detectChanges();
   }
 }
