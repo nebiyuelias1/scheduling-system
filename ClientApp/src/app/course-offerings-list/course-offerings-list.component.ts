@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { CommonService } from '../services/common.service';
 import { MatPaginator, MatSort, MatTableDataSource, MatDialog, MatDialogConfig } from '@angular/material';
 import { DeleteDialogComponent } from '../delete-dialog/delete-dialog.component';
+import { UserService } from '../accounts/user.service';
 
 @Component({
   selector: 'app-course-offerings-list',
@@ -20,7 +21,8 @@ export class CourseOfferingsListComponent implements OnInit {
   constructor(
     private commonService: CommonService,
     private dialog: MatDialog,
-    private changeDetectorRefs: ChangeDetectorRef) { }
+    private changeDetectorRefs: ChangeDetectorRef,
+    private userService: UserService) { }
 
   ngOnInit() {
     this.commonService.getCourseOfferings()
@@ -63,7 +65,8 @@ export class CourseOfferingsListComponent implements OnInit {
   }
 
   createCourseOfferings() {
-    this.commonService.createCourseOfferings()
+    const deptId = this.userService.decodedToken.dept_id;
+    this.commonService.createCourseOfferings(deptId)
       .subscribe((result: any[]) => {
         this.courseOfferings = result;
         this.dataSource.data = this.courseOfferings;

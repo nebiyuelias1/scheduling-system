@@ -41,64 +41,44 @@ namespace SchedulingSystem.Controllers
             return Ok(result);
         }
 
-        [HttpGet("create")]
-        public async Task<IActionResult> Create()
+        [HttpGet("create/{id}")]
+        public async Task<IActionResult> Create(int id)
         {
             var currentActiveSemester = await unitOfWork.AcademicSemesters.GetCurrentAcademicSemester();
 
             if (currentActiveSemester == null)
                 return BadRequest();
 
-            var sections = await unitOfWork.Sections.GetAll();
-            sections = sections.Where(s => s.IsActive);
+            var sections = (await unitOfWork.Sections.GetSections
+            (
+                new SectionQuery
+                {
+                    DepartmentId = id,
+                }
+            )).Items;
 
             if (sections == null)
                 return BadRequest();
 
             foreach (var section in sections)
             {
-                var sectionYear = helper.CalculateCurrentYearOfSection(Convert.ToInt32(currentActiveSemester.AcademicYear.EtYear), section.EntranceYear);
+                var sectionYear = helper
+                    .CalculateCurrentYearOfSection(Convert.ToInt32(currentActiveSemester.AcademicYear.EtYear), section.EntranceYear);
 
-                var courses = await unitOfWork.Courses.GetCoursesForCurrentSemester(sectionYear, currentActiveSemester.Semester);
+                var courses = await unitOfWork.Courses
+                    .GetCoursesForCurrentSemester(sectionYear, currentActiveSemester.Semester, section.CurriculumId);
 
                 foreach (var course in courses)
                 {
-
                     if (!unitOfWork.CourseOfferings.DoesCourseOfferingExist(currentActiveSemester.Id, course.Id, section.Id))
                     {
-                        var courseOffering = new CourseOffering
-                        {
-                            SectionId = section.Id,
-                            CourseId = course.Id,
-                            AcademicSemesterId = currentActiveSemester.Id
-                        };
-                        
-                        if (course.Lecture > 0) {
-                            courseOffering.Instructors.Add(new InstructorAssignment 
-                            {
-                                TypeId = 1
-                            });
-                        }
-
-                        if (course.Lab > 0) {
-                            courseOffering.Instructors.Add(new InstructorAssignment
-                            {
-                                TypeId = 2
-                            });
-                        }
-
-                        if (course.Tutor > 0) {
-                            courseOffering.Instructors.Add(new InstructorAssignment
-                            {
-                                TypeId = 3
-                            });
-                        }
-                        unitOfWork.CourseOfferings.Add(courseOffering);
+                        unitOfWork.CourseOfferings
+                        .Add(CreateCourseOffering(course, section, currentActiveSemester));
                     }
                 }
             }
 
-           await unitOfWork.CompleteAsync();
+            await unitOfWork.CompleteAsync();
 
             var courseOfferings = await unitOfWork.CourseOfferings.GetCourseOfferingsWithRelatedData(currentActiveSemester.Id);
 
@@ -107,6 +87,8 @@ namespace SchedulingSystem.Controllers
             return Ok(result);
         }
 
+        
+
         [HttpPost]
         public async Task<IActionResult> AssignInstructor([FromBody] SaveInstructorAssignmentResource resource)
         {
@@ -114,13 +96,13 @@ namespace SchedulingSystem.Controllers
                 return BadRequest(ModelState);
 
             var courseOffering = await unitOfWork.CourseOfferings.GetCourseOffering(resource.CourseOfferingId);
-            
+
             if (courseOffering == null)
                 return NotFound();
 
-           var assignment = courseOffering.Instructors.SingleOrDefault(i => i.TypeId == resource.TypeId);
+            var assignment = courseOffering.Instructors.SingleOrDefault(i => i.TypeId == resource.TypeId);
 
-           if (assignment == null)
+            if (assignment == null)
                 return NotFound();
 
             assignment.InstructorId = resource.InstructorId;
@@ -165,7 +147,7 @@ namespace SchedulingSystem.Controllers
         {
             var courseOffering = await unitOfWork.CourseOfferings.GetCourseOffering(id);
 
-            if (courseOffering == null) 
+            if (courseOffering == null)
                 return NotFound();
 
             var assignment = courseOffering.Instructors.SingleOrDefault(i => i.TypeId == typeId);
@@ -177,6 +159,42 @@ namespace SchedulingSystem.Controllers
             await unitOfWork.CompleteAsync();
 
             return Ok(assignment.Id);
+        }
+
+        private CourseOffering CreateCourseOffering(Course course, Section section, AcademicSemester currentActiveSemester)
+        {
+            var courseOffering = new CourseOffering
+            {
+                SectionId = section.Id,
+                CourseId = course.Id,
+                AcademicSemesterId = currentActiveSemester.Id
+            };
+
+            if (course.Lecture > 0)
+            {
+                courseOffering.Instructors.Add(new InstructorAssignment
+                {
+                    TypeId = 1
+                });
+            }
+
+            if (course.Lab > 0)
+            {
+                courseOffering.Instructors.Add(new InstructorAssignment
+                {
+                    TypeId = 2
+                });
+            }
+
+            if (course.Tutor > 0)
+            {
+                courseOffering.Instructors.Add(new InstructorAssignment
+                {
+                    TypeId = 3
+                });
+            }
+
+            return courseOffering;
         }
     }
 }

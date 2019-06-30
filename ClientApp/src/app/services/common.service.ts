@@ -38,8 +38,8 @@ export class CommonService {
     return this.http.post('/api/academicsemesters', academicSemester);
   }
 
-  createCourseOfferings() {
-    return this.http.get('/api/courseofferings/create');
+  createCourseOfferings(deptId) {
+    return this.http.get('/api/courseofferings/create/' + deptId);
   }
 
   getCourseOfferings() {

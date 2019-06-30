@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -18,12 +19,7 @@ namespace SchedulingSystem.Persistence.Repositories
         {
             var result = new QueryResult<Section>();
             
-            var query = SchedulingDbContext.Sections
-                            .Include(s => s.Curriculum)
-                                .ThenInclude(s => s.Department)
-                            .Include(s => s.Program)
-                            .Include(s => s.AdmissionLevel)
-                            .AsQueryable();
+            var query = GetSectionAsQueryable();
             
             query = query.ApplySectionFilter(queryObj);
 
@@ -33,13 +29,11 @@ namespace SchedulingSystem.Persistence.Repositories
             return result;
         }
 
+        
+
         public async Task<Section> GetSectionWithAssignedRooms(int sectionId)
         {
-            return await SchedulingDbContext.Sections
-                            .Include(s => s.Curriculum)
-                                .ThenInclude(c => c.Department)
-                            .Include(s => s.Program)
-                            .Include(s => s.AdmissionLevel)
+            return await GetSectionAsQueryable()
                             .Include(s => s.RoomAssignments)
                                 .ThenInclude(r => r.Room)
                             .Include(s => s.RoomAssignments)
@@ -49,11 +43,7 @@ namespace SchedulingSystem.Persistence.Repositories
 
         public async Task<Section> GetSectionWithBuilding(int sectionId)
         {
-            return await SchedulingDbContext.Sections
-                        .Include(s => s.Curriculum)
-                            .ThenInclude(c => c.Department)
-                        .Include(s => s.Program)
-                        .Include(s => s.AdmissionLevel)
+            return await GetSectionAsQueryable()
                         .Include(s => s.RoomAssignments)
                             .ThenInclude(r => r.Room)
                                 .ThenInclude(r => r.Building)
@@ -80,6 +70,16 @@ namespace SchedulingSystem.Persistence.Repositories
                             .Include(s => s.RoomAssignments)
                                 .ThenInclude(r => r.Type)
                             .SingleOrDefaultAsync(s => s.Id == sectionId && s.CourseOfferings.Select(c => c.AcademicSemesterId).Contains(semesterId));
+        }
+
+        private IQueryable<Section> GetSectionAsQueryable()
+        {
+            return SchedulingDbContext.Sections
+                            .Include(s => s.Curriculum)
+                                .ThenInclude(s => s.Department)
+                            .Include(s => s.Program)
+                            .Include(s => s.AdmissionLevel)
+                            .AsQueryable();
         }
     }
 }

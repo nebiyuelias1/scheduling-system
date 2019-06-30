@@ -14,10 +14,12 @@ namespace SchedulingSystem.Persistence.Repositories
         {
         }
 
-        public async Task<IEnumerable<Course>> GetCoursesForCurrentSemester(int year, int semester)
+        public async Task<IEnumerable<Course>> GetCoursesForCurrentSemester(int year, int semester, int curriculumId)
         {
             return await SchedulingDbContext.Courses
-                                .Where(c => c.DeliveryYear == year && c.DeliverySemester == semester)
+                                .Where(c => c.DeliveryYear == year && 
+                                c.DeliverySemester == semester &&
+                                c.CurriculumId == curriculumId)
                                 .ToListAsync();
         }
 
@@ -27,7 +29,7 @@ namespace SchedulingSystem.Persistence.Repositories
             var query = SchedulingDbContext.Courses
                         .Include(c => c.Curriculum)
                         .AsQueryable();
-                        
+
             query = query.ApplyCourseFiltering(queryObj);
 
             result.TotalItems = await query.CountAsync();
