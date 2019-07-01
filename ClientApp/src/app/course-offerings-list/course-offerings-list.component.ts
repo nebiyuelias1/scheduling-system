@@ -15,7 +15,7 @@ export class CourseOfferingsListComponent implements OnInit {
 
   courseOfferings: any[];
   dataSource: MatTableDataSource<any>;
-  displayedColumns = ['courseName', 'courseCode', 'sectionName', 'entranceYear', 'action'];
+  displayedColumns = ['courseName', 'courseCode', 'sectionName', 'entranceYear', 'isAssignmentCompleted', 'action'];
   searchKey: string;
 
   constructor(
@@ -26,42 +26,42 @@ export class CourseOfferingsListComponent implements OnInit {
 
   ngOnInit() {
     this.commonService.getCourseOfferings()
-    .subscribe((result: any[]) => {
-      this.courseOfferings = result;
-      this.dataSource = new MatTableDataSource<any>(this.courseOfferings);
-      this.dataSource.sort = this.sort;
-      this.dataSource.paginator = this.paginator;
-      this.paginator.length = this.dataSource.data.length;
-      this.paginator._changePageSize(this.paginator.pageSize);
+      .subscribe((result: any[]) => {
+        this.courseOfferings = result;
+        this.dataSource = new MatTableDataSource<any>(this.courseOfferings);
+        this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator;
+        this.paginator.length = this.dataSource.data.length;
+        this.paginator._changePageSize(this.paginator.pageSize);
 
-      this.dataSource.filterPredicate = (data, filter) => {
+        this.dataSource.filterPredicate = (data, filter) => {
           const nameColumn = data['course']['name'].toString().toLowerCase().indexOf(filter);
           const courseCodeColumn = data['course']['courseCode'].toString().toLowerCase().indexOf(filter);
           const sectionNameColumn = data['section']['name'].toString().toLowerCase().indexOf(filter);
           const entranceYearColumn = data['section']['entranceYear'].toString().toLowerCase().indexOf(filter);
 
           return nameColumn !== -1
-          || courseCodeColumn !== -1
-          || sectionNameColumn !== -1
-          || entranceYearColumn !== -1;
-      };
+            || courseCodeColumn !== -1
+            || sectionNameColumn !== -1
+            || entranceYearColumn !== -1;
+        };
 
-      this.dataSource.sortingDataAccessor = (data, sortHeaderId) => {
-        switch (sortHeaderId) {
-          case 'courseName':
-            return data['course']['name'];
-          case 'courseCode':
-            return data['course']['courseCode'];
-          case 'sectionName':
-            return data['section']['name'];
-          case 'entranceYear':
-            return data['section']['entranceYear'];
-          default:
-            return data[sortHeaderId];
-        }
-      };
-    },
-    (error) => console.error(error));
+        this.dataSource.sortingDataAccessor = (data, sortHeaderId) => {
+          switch (sortHeaderId) {
+            case 'courseName':
+              return data['course']['name'];
+            case 'courseCode':
+              return data['course']['courseCode'];
+            case 'sectionName':
+              return data['section']['name'];
+            case 'entranceYear':
+              return data['section']['entranceYear'];
+            default:
+              return data[sortHeaderId];
+          }
+        };
+      },
+        (error) => console.error(error));
   }
 
   createCourseOfferings() {
@@ -72,7 +72,7 @@ export class CourseOfferingsListComponent implements OnInit {
         this.dataSource.data = this.courseOfferings;
         this.changeDetectorRefs.detectChanges();
       },
-      (error) => console.error(error));
+        (error) => console.error(error));
   }
 
   clearSearchKey() {
@@ -108,8 +108,12 @@ export class CourseOfferingsListComponent implements OnInit {
               this.dataSource.paginator = this.paginator;
               this.changeDetectorRefs.detectChanges();
             },
-            err => console.error(err));
+              err => console.error(err));
         }
       });
+  }
+
+  isAssignmentCompleted(courseOffering) {
+    return !(courseOffering.instructors.some(x => x.instructor === null));
   }
 }

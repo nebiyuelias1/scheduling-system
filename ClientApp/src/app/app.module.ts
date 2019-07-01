@@ -46,7 +46,8 @@ import { MainComponent } from './main/main.component';
 import { AuthGuard } from './accounts/auth-guard.service';
 import { DataTableComponent } from './data-table/data-table.component';
 import { MatTableModule, MatPaginatorModule, MatSortModule, MatDialogModule,
-  MatIconModule, MatButtonModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatOptionModule } from '@angular/material';
+  MatIconModule, MatButtonModule, MatFormFieldModule, MatInputModule,
+  MatSelectModule, MatOptionModule, MatChipsModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DeleteDialogComponent } from './delete-dialog/delete-dialog.component';
 import { InstructorsListComponent } from './instructors-list/instructors-list.component';
@@ -117,7 +118,8 @@ import { DepartmentHeadAssignmentFormComponent } from './department-head-assignm
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
-    MatOptionModule
+    MatOptionModule,
+    MatChipsModule
   ],
   providers: [
     CollegeService,

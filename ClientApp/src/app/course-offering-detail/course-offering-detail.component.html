@@ -10,10 +10,19 @@
     <h4>Instructors</h4>
     <div *ngFor="let i of courseOffering.instructors">
       <p>{{ i.type.name }}:
-        <span *ngIf="i.instructor; else noInstructor">{{ i.instructor.firstName }} {{ i.instructor.fatherName }} {{ i.instructor.grandFatherName }}
-          <button mat-raised-button	color="warn" (click)="removeAssignment(i.type.id)">Remove Assignment</button>
+        <span *ngIf="i.instructor; else noInstructor">
+          <mat-chip-list>
+            <mat-chip color="accent">
+              {{ i.instructor.user.firstName }} {{ i.instructor.user.fatherName }}
+              {{ i.instructor.user.grandFatherName }}
+            </mat-chip>
+            <button mat-icon-button color="warn" (click)="removeAssignment(i.type.id)">
+              <mat-icon>delete_forever</mat-icon>
+            </button>
+          </mat-chip-list>
         </span>
-        <ng-template #noInstructor><span><a [routerLink]="['assign', i.type.id]">Assign</a></span></ng-template>
+        <ng-template #noInstructor><span><a color="primary"
+              [routerLink]="['assign', i.type.id]">Assign</a></span></ng-template>
       </p>
     </div>
   </div>

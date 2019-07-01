@@ -24,19 +24,19 @@
       <!-- First Name Column -->
       <ng-container matColumnDef="firstName">
           <mat-header-cell *matHeaderCellDef mat-sort-header>First Name</mat-header-cell>
-          <mat-cell *matCellDef="let row"> {{row.firstName}} </mat-cell>
+          <mat-cell *matCellDef="let row"> {{row.user.firstName}} </mat-cell>
       </ng-container>
 
       <!-- Father Name Column -->
       <ng-container matColumnDef="fatherName">
           <mat-header-cell *matHeaderCellDef mat-sort-header>Father Name</mat-header-cell>
-          <mat-cell *matCellDef="let row">{{row.fatherName}}</mat-cell>
+          <mat-cell *matCellDef="let row">{{row.user.fatherName}}</mat-cell>
       </ng-container>
 
       <!-- Grand Father Name Column -->
       <ng-container matColumnDef="grandFatherName">
           <mat-header-cell *matHeaderCellDef mat-sort-header>Grand Father Name</mat-header-cell>
-          <mat-cell *matCellDef="let row">{{row.grandFatherName}}</mat-cell>
+          <mat-cell *matCellDef="let row">{{row.user.grandFatherName}}</mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="action">

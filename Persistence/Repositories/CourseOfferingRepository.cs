@@ -28,6 +28,8 @@ namespace SchedulingSystem.Persistence.Repositories
                 .Include(c => c.Section)
                 .Include(c => c.Instructors)
                     .ThenInclude(i => i.Instructor)
+                        .ThenInclude(t => t.User)
+                            .ThenInclude(u => u.Contact)
                 .Include(c => c.Instructors)
                     .ThenInclude(i => i.Type)
                 .SingleOrDefaultAsync(c => c.Id == id);
