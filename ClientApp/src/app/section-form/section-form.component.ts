@@ -17,7 +17,7 @@ export class SectionFormComponent implements OnInit {
   section: SaveSection = {
     id: 0,
     admissionLevelId: 0,
-    departmentId: 0,
+    curriculumId: 0,
     entranceYear: 0,
     programTypeId: 0,
     studentCount: 0,
@@ -79,7 +79,7 @@ export class SectionFormComponent implements OnInit {
     this.form.get('name').setValue(this.section.name);
     this.form.get('entranceYear').setValue(this.section.entranceYear);
     this.form.get('studentCount').setValue(this.section.studentCount);
-    this.form.get('departmentId').setValue(this.section.departmentId);
+    this.form.get('curriculumId').setValue(this.section.curriculumId);
     this.form.get('programTypeId').setValue(this.section.programTypeId);
     this.form.get('admissionLevelId').setValue(this.section.admissionLevelId);
   }
@@ -99,7 +99,7 @@ export class SectionFormComponent implements OnInit {
     this.section.name = s.name;
     this.section.entranceYear = s.entranceYear;
     this.section.studentCount = s.studentCount;
-    this.section.departmentId = s.departmentId;
+    this.section.curriculumId = s.curriculumId;
     this.section.programTypeId = s.programTypeId;
     this.section.admissionLevelId = s.admissionLevelId;
   }

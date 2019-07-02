@@ -29,9 +29,9 @@ namespace SchedulingSystem.Controllers
         {
             var section = await unitOfWork.Sections.GetSectionWithAssignedRooms(id);
 
-            if (section == null && !section.IsActive)
+            if (section == null)
                 return NotFound();
-
+                
             var sectionResource = mapper.Map<Section, SaveSectionResource>(section);
 
             return Ok(sectionResource);

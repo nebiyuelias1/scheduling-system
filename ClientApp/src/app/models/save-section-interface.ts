@@ -3,7 +3,7 @@ export interface SaveSection {
     name: string;
     entranceYear: number;
     studentCount: number;
-    departmentId: number;
+    curriculumId: number;
     programTypeId: number;
     admissionLevelId: number;
 }
