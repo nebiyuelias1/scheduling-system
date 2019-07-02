@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SchedulingSystem.Persistence;
 
 namespace SchedulingSystem.Migrations
 {
     [DbContext(typeof(SchedulingDbContext))]
-    partial class SchedulingDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190702065207_SeedLabTypesTable")]
+    partial class SeedLabTypesTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -556,11 +558,7 @@ namespace SchedulingSystem.Migrations
 
                     b.Property<int>("TypeId");
 
-                    b.Property<int?>("LabTypeId");
-
                     b.HasKey("RoomId", "TypeId");
-
-                    b.HasIndex("LabTypeId");
 
                     b.HasIndex("TypeId");
 
@@ -898,10 +896,6 @@ namespace SchedulingSystem.Migrations
 
             modelBuilder.Entity("SchedulingSystem.Core.Models.RoomTypeAssignment", b =>
                 {
-                    b.HasOne("SchedulingSystem.Core.Models.LabType", "LabType")
-                        .WithMany()
-                        .HasForeignKey("LabTypeId");
-
                     b.HasOne("SchedulingSystem.Core.Models.Room", "Room")
                         .WithMany("Types")
                         .HasForeignKey("RoomId")

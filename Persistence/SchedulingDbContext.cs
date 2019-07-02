@@ -28,6 +28,7 @@ namespace SchedulingSystem.Persistence
         public DbSet<ScheduleEntry> ScheduleEntries { get; set; }
         public DbSet<Day> Days { get; set; }
         public DbSet<Schedule> Schedules { get; set; }
+        public DbSet<LabType> LabTypes { get; set; }
         public SchedulingDbContext(DbContextOptions<SchedulingDbContext> options)
             : base(options)
         {

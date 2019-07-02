@@ -8,7 +8,9 @@ namespace SchedulingSystem.Core.Models
     {
         public Room Room { get; set; }
         public Type Type { get; set; }
+        public LabType LabType { get; set; }
         public int RoomId { get; set; }
         public int TypeId { get; set; }
+        public int? LabTypeId { get; set; }
     }
 }
