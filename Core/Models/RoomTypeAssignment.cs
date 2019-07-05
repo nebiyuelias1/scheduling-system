@@ -12,5 +12,7 @@ namespace SchedulingSystem.Core.Models
         public int RoomId { get; set; }
         public int TypeId { get; set; }
         public int? LabTypeId { get; set; }
+
+        
     }
 }

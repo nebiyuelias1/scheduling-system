@@ -4,5 +4,8 @@ interface SaveRoom {
     buildingId: number;
     size: number;
     floor: number;
-    types: number[];
+    types: {
+        typeId: number,
+        labTypeId: number
+    }[];
 }

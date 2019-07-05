@@ -14,11 +14,11 @@ namespace SchedulingSystem.Controllers.Resources
         public int BuildingId { get; set; }
         public int Size { get; set; }
         public int Floor { get; set; }
-        public ICollection<int> Types { get; set; }
+        public ICollection<RoomTypeAssignmentResource> Types { get; set; }
 
         public SaveRoomResource()
         {
-            Types = new Collection<int>();
+            Types = new Collection<RoomTypeAssignmentResource>();
         }
     }
 }

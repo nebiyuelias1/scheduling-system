@@ -8,9 +8,13 @@ namespace SchedulingSystem.Persistence
     public class UnitOfWork : IUnitOfWork
     {
         private readonly SchedulingDbContext context;
+        
         public IScheduleConfigurationRepository ScheduleConfigurations { get; private set; }
+        
         public ITypeRepository Types { get; private set; }
+        
         public IRoomRepository Rooms { get; private set; }
+        
         public ICourseRepository Courses { get; private set; }
 
         public ISectionRepository Sections { get; private set; }
@@ -18,6 +22,7 @@ namespace SchedulingSystem.Persistence
         public IAcademicSemesterRepository AcademicSemesters { get; private set; }
 
         public IWeekDayRepository WeekDays { get; private set; }
+        
         public IInstructorRepository Instructors { get; private set; }
 
         public ICurriculumRepository Curriculums { get; private set; }
@@ -31,6 +36,8 @@ namespace SchedulingSystem.Persistence
         public ICollegeRepository Colleges { get; private set; }
 
         public IBuildingRepository Buildings { get; private set; }
+
+        public ILabTypeRepository LabTypes { get; private set; }
 
         public UnitOfWork(SchedulingDbContext context)
         {
@@ -49,6 +56,7 @@ namespace SchedulingSystem.Persistence
             Departments = new DepartmentRepository(context);
             Colleges = new CollegeRepository(context);
             Buildings = new BuildingRepository(context);
+            LabTypes = new LabTypeRepository(context);
         }
 
 

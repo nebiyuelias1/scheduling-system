@@ -28,9 +28,20 @@
     <input id="floor" type="text" class="form-control" [(ngModel)]="room.floor" name="floor">
   </div>
 
+  <div *ngIf="showLabTypeDropdown" class="form-group">
+    <label for="labType">Lab Type</label>
+    <select id="labType" class="form-control" (change)="onLabTypeChange($event)" name="labTypeId">
+      <option value="0"></option>
+      <option *ngFor="let l of labTypes" value="{{ l.id }}" [selected]="isSelected(l.id)">{{ l.name }}
+      </option>
+    </select>
+  </div>
+
   <div class="checkbox" *ngFor="let type of roomTypes">
-    <label><input type="checkbox" value="{{ type.id }}" (change)="onRoomTypeChange($event)"
-        [checked]="isChecked(type.id)">{{ type.name }}</label>
+    <label>
+      <input type="checkbox" value="{{ type.id }}" (change)="onRoomTypeChange($event)"
+        [checked]="isChecked(type.id)">{{ type.name }}
+    </label>
   </div>
 
   <button type="submit" class="btn btn-primary">Save</button>

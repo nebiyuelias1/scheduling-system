@@ -22,7 +22,7 @@ namespace SchedulingSystem.Mapping
             CreateMap<SaveSectionResource, Section>();
             CreateMap<InstructorResource, Instructor>();
             CreateMap<SaveRoomResource, Room>()
-                .ForMember(r => r.Types, opt => opt.MapFrom(sr => sr.Types.Select(t => new RoomTypeAssignment { TypeId = t })));
+                .ForMember(r => r.Types, opt => opt.MapFrom(sr => sr.Types.Select(t => new RoomTypeAssignment { TypeId = t.TypeId, LabTypeId = t.LabTypeId })));
             CreateMap<SaveRoomSectionAssignmentResource, SectionRoomAssignment>();
             CreateMap<SaveAcademicYearResource, AcademicYear>();
             CreateMap<SaveAcademicSemesterResource, AcademicSemester>();
@@ -42,7 +42,7 @@ namespace SchedulingSystem.Mapping
             CreateMap<Course, SaveCourseResource>();
             CreateMap<Building, BuildingResource>();
             CreateMap<Room, SaveRoomResource>()
-                .ForMember(x => x.Types, opt => opt.MapFrom(r => r.Types.Select(t => t.TypeId)));
+                .ForMember(x => x.Types, opt => opt.MapFrom(r => r.Types.Select(t => new RoomTypeAssignmentResource { TypeId = t.TypeId, LabTypeId = t.LabTypeId })));
             CreateMap<Section, SaveSectionResource>();
             CreateMap<Section, SectionResource>()
                 .ForMember(x => x.Program, opt =>
@@ -92,6 +92,7 @@ namespace SchedulingSystem.Mapping
                 .ForMember(aur => aur.FirstName, opt => opt.MapFrom(au => au.Contact.FirstName))
                 .ForMember(aur => aur.FatherName, opt => opt.MapFrom(au => au.Contact.FatherName))
                 .ForMember(aur => aur.GrandFatherName, opt => opt.MapFrom(au => au.Contact.GrandFatherName));
+            CreateMap<LabType, KeyValuePairResource>();
         }
     }
 }
