@@ -22,6 +22,8 @@ namespace SchedulingSystem.Core.Models
         public Curriculum Curriculum { get; set; }
         public int CurriculumId { get; set; }
         public byte DeliveryYear { get; set; }
-        public byte DeliverySemester { get; set; }    
+        public byte DeliverySemester { get; set; }
+        public LabType LabType { get; set; }
+        public int? LabTypeId { get; set; }
     }
 }

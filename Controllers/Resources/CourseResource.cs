@@ -20,5 +20,6 @@ namespace SchedulingSystem.Controllers.Resources
         public int CurriculumId { get; set; }
         public byte DeliveryYear { get; set; }
         public byte DeliverySemester { get; set; }
+        public int LabTypeId { get; set; }
     }
 }

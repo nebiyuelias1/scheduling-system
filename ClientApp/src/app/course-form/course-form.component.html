@@ -23,8 +23,17 @@
   </div>
   <div class="form-group">
     <label for="lab">Lab</label>
-    <input id="lab" type="text" class="form-control" formControlName="lab">
+    <input id="lab" type="text" class="form-control" formControlName="lab" #lab>
   </div>
+
+  <div *ngIf="lab.value > 0" class="form-group">
+    <label for="labType">Lab Type</label>
+    <select id="labType" class="form-control" formControlName="labTypeId">
+      <option value=""></option>
+      <option *ngFor="let l of labTypes" value="{{ l.id }}">{{ l.name }}</option>
+    </select>
+  </div>
+
   <div class="form-group">
     <label for="tutor">Tutor</label>
     <input id="tutor" type="text" class="form-control" formControlName="tutor">
