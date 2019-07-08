@@ -1,19 +1,65 @@
 <h2>Assign Room</h2>
-<form [formGroup]="form" (ngSubmit)="assignRoom()">
-  <div class="form-group">
-    <label for="assignFor">Assign For</label>
-    <select id="assignFor" class="form-control" formControlName="typeId" (change)="onRoomTypeChange($event)">
-      <option value=""></option>
-      <option *ngFor="let type of roomTypes" value="{{ type.id }}">{{ type.name }}</option>
-    </select>
-  </div>
-  
-  <div class="form-group">
-    <label for="room">Room</label>
-    <select id="room" class="form-control" formControlName="roomId">
-      <option value=""></option>
-      <option *ngFor="let room of rooms" value="{{ room.id }}">{{ room.name }}</option>
-    </select>
-  </div>
-  <button class="btn btn-primary">Assign</button>
-</form>
+<div *ngIf="courseOffering">
+  <h3>Course Offering</h3>
+  <p>Course: {{ courseOffering.course.name }}</p>
+  <p>Section: {{ courseOffering.section.name }}({{ courseOffering.section.entranceYear }})</p>
+  <p>Assignment Type:
+    <span *ngFor="let i of courseOffering.rooms">
+      <span *ngIf="i.type.id == typeId">{{ i.type.name }}</span>
+    </span>
+  </p>
+</div>
+
+<div class="search-div">
+  <mat-form-field class="search-form-field">
+    <input matInput type="text" placeholder="Search" [(ngModel)]="searchKey" (keyup)="applyFilter()" />
+    <button mat-button *ngIf="searchKey" matSuffix mat-icon-button aria-label="Clear" (click)="clearSearchKey()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-form-field>
+</div>
+
+<div class="mat-elevation-z8 data-table">
+  <mat-table #table [dataSource]="dataSource" matSort aria-label="Elements">
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
+      <mat-cell *matCellDef="let row"> {{row.name}} </mat-cell>
+    </ng-container>
+
+    <!-- Building Column -->
+    <ng-container matColumnDef="building">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Building</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{row.building.name}}-{{row.building.number}}</mat-cell>
+    </ng-container>
+
+    <!-- Size Column -->
+    <ng-container matColumnDef="size">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Size</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{row.size}}</mat-cell>
+    </ng-container>
+
+    <!-- Floor Column -->
+    <ng-container matColumnDef="floor">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Floor</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{row.floor}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="action">
+      <mat-header-cell *matHeaderCellDef></mat-header-cell>
+      <mat-cell *matCellDef="let row">
+        <button mat-icon-button (click)="assign(row.id)">
+          <mat-icon>person_add</mat-icon>
+        </button>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+
+  <mat-paginator #paginator [pageIndex]="0" [pageSize]="25" [pageSizeOptions]="[5, 25, 50, 100, 250]"
+    showFirstLastButtons>
+  </mat-paginator>
+</div>

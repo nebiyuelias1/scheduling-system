@@ -29,11 +29,11 @@ export class RoomsListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    const sources = [this.roomService.getRooms(), this.commonService.getTypes()];
+    const sources = [this.roomService.getRooms(null), this.commonService.getTypes()];
 
     Observable.forkJoin(sources)
       .subscribe((x: any) => {
-        this.rooms = x[0];
+        this.rooms = x[0].items;
         this.types = x[1];
         this.dataSource = new MatTableDataSource<any>(this.rooms);
         this.dataSource.sort = this.sort;

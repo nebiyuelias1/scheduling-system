@@ -10,8 +10,8 @@ export class RoomService {
     return this.http.post('/api/rooms', room);
   }
 
-  getRooms() {
-    return this.http.get('/api/rooms');
+  getRooms(query) {
+    return this.http.get('/api/rooms?' + this.toQueryString(query));
   }
 
   delete(id: any) {
@@ -24,5 +24,17 @@ export class RoomService {
 
   update(room: SaveRoom) {
     return this.http.put('/api/rooms/' + room.id, room);
+  }
+
+  toQueryString(obj) {
+    const parts = [];
+    for (const key of Object.keys(obj)) {
+      const value = obj[key];
+      if (value !== null && value !== undefined) {
+        parts.push(encodeURIComponent(key) + '=' + encodeURIComponent(value));
+      }
+    }
+
+    return parts.join('&');
   }
 }

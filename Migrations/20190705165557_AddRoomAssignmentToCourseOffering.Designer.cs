@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SchedulingSystem.Persistence;
 
 namespace SchedulingSystem.Migrations
 {
     [DbContext(typeof(SchedulingDbContext))]
-    partial class SchedulingDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190705165557_AddRoomAssignmentToCourseOffering")]
+    partial class AddRoomAssignmentToCourseOffering
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -371,23 +373,13 @@ namespace SchedulingSystem.Migrations
 
             modelBuilder.Entity("SchedulingSystem.Core.Models.CourseOfferingRoomAssignment", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
                     b.Property<int>("CourseOfferingId");
 
-                    b.Property<int?>("LabTypeId");
-
-                    b.Property<int?>("RoomId");
+                    b.Property<int>("RoomId");
 
                     b.Property<int>("TypeId");
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("CourseOfferingId");
-
-                    b.HasIndex("LabTypeId");
+                    b.HasKey("CourseOfferingId", "RoomId", "TypeId");
 
                     b.HasIndex("RoomId");
 
@@ -846,13 +838,10 @@ namespace SchedulingSystem.Migrations
                         .HasForeignKey("CourseOfferingId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("SchedulingSystem.Core.Models.LabType", "LabType")
-                        .WithMany()
-                        .HasForeignKey("LabTypeId");
-
                     b.HasOne("SchedulingSystem.Core.Models.Room", "Room")
                         .WithMany()
-                        .HasForeignKey("RoomId");
+                        .HasForeignKey("RoomId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("SchedulingSystem.Core.Models.Type", "Type")
                         .WithMany()

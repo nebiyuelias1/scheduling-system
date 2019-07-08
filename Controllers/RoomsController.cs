@@ -41,27 +41,14 @@ namespace SchedulingSystem.Controllers
             return Ok(result);
         }
 
-        [HttpGet("{typeId}")]
-        public async  Task<IActionResult> GetRoomsBasedOnType([FromRoute] int typeId)
-        {
-            var rooms = await unitOfWork.Rooms.GetRooms(typeId);
-
-            var result = mapper.Map<IEnumerable<Room>, IEnumerable<RoomResource>>(rooms);
-            
-            return Ok(result);
-        }
-
         [HttpGet]
-        public async Task<IActionResult> GetRooms()
+        public async Task<QueryResultResource<RoomResource>> GetRooms(RoomQueryResource filterResource)
         {
-            var rooms = await unitOfWork.Rooms.GetRooms();
+            var filter = Mapper.Map<RoomQueryResource, RoomQuery>(filterResource);
 
-            if (rooms == null)
-                return NotFound();
+            var rooms = await unitOfWork.Rooms.GetRooms(filter);
 
-            var result = mapper.Map<IEnumerable<Room>, IEnumerable<RoomResource>>(rooms);
-            
-            return Ok(result);
+            return Mapper.Map<QueryResult<Room>, QueryResultResource<RoomResource>>(rooms);
         }
 
         [HttpGet("{id}")]

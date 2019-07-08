@@ -37,9 +37,6 @@ namespace SchedulingSystem.Persistence
 
         protected override void OnModelCreating(ModelBuilder modelbuilder)
         {
-            modelbuilder.Entity<SectionRoomAssignment>()
-                .HasKey(rs => new { rs.SectionId, rs.RoomId, rs.TypeId });
-
             modelbuilder.Entity<RoomTypeAssignment>()
                 .HasKey(rt => new { rt.RoomId, rt.TypeId });
 

@@ -10,7 +10,6 @@ export class NavMenuComponent {
   isExpanded = false;
 
   constructor(private userService: UserService) {
-    console.log(this.userService.decodedToken);
   }
 
   collapse() {

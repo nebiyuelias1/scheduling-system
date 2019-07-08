@@ -87,10 +87,10 @@ namespace SchedulingSystem.Controllers
             return Ok(result);
         }
 
-        
+
 
         [HttpPost]
-        public async Task<IActionResult> AssignInstructor([FromBody] SaveInstructorAssignmentResource resource)
+        public async Task<IActionResult> Assign([FromBody] SaveAssignmentResource resource)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -100,20 +100,34 @@ namespace SchedulingSystem.Controllers
             if (courseOffering == null)
                 return NotFound();
 
-            var assignment = courseOffering.Instructors.SingleOrDefault(i => i.TypeId == resource.TypeId);
+            if (resource.InstructorId.HasValue)
+            {
+                var assignment = courseOffering.Instructors.SingleOrDefault(i => i.TypeId == resource.TypeId);
 
-            if (assignment == null)
-                return NotFound();
+                if (assignment == null)
+                    return NotFound();
 
-            assignment.InstructorId = resource.InstructorId;
-            await unitOfWork.CompleteAsync();
+                assignment.InstructorId = resource.InstructorId;
+                await unitOfWork.CompleteAsync();
 
-            assignment = await unitOfWork.CourseOfferingInstructorAssignments.GetInstructorAssignment(resource.CourseOfferingId, resource.InstructorId, resource.TypeId);
+                assignment = await unitOfWork.CourseOfferingInstructorAssignments.GetInstructorAssignment(resource.CourseOfferingId, resource.InstructorId.Value, resource.TypeId);
 
-            var result = mapper.Map<InstructorAssignment, InstructorAssignmentResource>(assignment);
+                return Ok(mapper.Map<InstructorAssignment, InstructorAssignmentResource>(assignment));
+            }
+            else if (resource.RoomId.HasValue)
+            {
+                var assignment = courseOffering.Rooms.SingleOrDefault(i => i.TypeId == resource.TypeId);
 
+                if (assignment == null)
+                    return NotFound();
 
-            return Ok(result);
+                assignment.RoomId = resource.RoomId;
+                await unitOfWork.CompleteAsync();
+
+                return Ok(resource.RoomId);
+            }
+
+            return BadRequest();
         }
 
         [HttpDelete("{id}")]
@@ -143,22 +157,37 @@ namespace SchedulingSystem.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> RemoveAssignment(int id, [FromBody] int typeId)
+        public async Task<IActionResult> RemoveAssignment(int id, [FromBody] RemoveAssignmentResource resource)
         {
             var courseOffering = await unitOfWork.CourseOfferings.GetCourseOffering(id);
 
             if (courseOffering == null)
                 return NotFound();
 
-            var assignment = courseOffering.Instructors.SingleOrDefault(i => i.TypeId == typeId);
+            if (resource.RoomId.HasValue)
+            {
+                var assignment = courseOffering.Rooms.SingleOrDefault(r => r.TypeId == resource.TypeId);
+                
+                if (assignment == null)
+                    return NotFound();
+                
+                assignment.RoomId = null;
+                await unitOfWork.CompleteAsync();
 
-            if (assignment == null)
-                return NotFound();
+                return Ok(assignment.Id);
+            }
+            else
+            {
+                var assignment = courseOffering.Instructors.SingleOrDefault(i => i.TypeId == resource.TypeId);
 
-            assignment.InstructorId = null;
-            await unitOfWork.CompleteAsync();
+                if (assignment == null)
+                    return NotFound();
 
-            return Ok(assignment.Id);
+                assignment.InstructorId = null;
+                await unitOfWork.CompleteAsync();
+
+                return Ok(assignment.Id);
+            }
         }
 
         private CourseOffering CreateCourseOffering(Course course, Section section, AcademicSemester currentActiveSemester)
@@ -176,6 +205,10 @@ namespace SchedulingSystem.Controllers
                 {
                     TypeId = 1
                 });
+                courseOffering.Rooms.Add(new CourseOfferingRoomAssignment
+                {
+                    TypeId = 1
+                });
             }
 
             if (course.Lab > 0)
@@ -184,11 +217,20 @@ namespace SchedulingSystem.Controllers
                 {
                     TypeId = 2
                 });
+                courseOffering.Rooms.Add(new CourseOfferingRoomAssignment
+                {
+                    TypeId = 2,
+                    LabTypeId = course.LabTypeId
+                });
             }
 
             if (course.Tutor > 0)
             {
                 courseOffering.Instructors.Add(new InstructorAssignment
+                {
+                    TypeId = 3
+                });
+                courseOffering.Rooms.Add(new CourseOfferingRoomAssignment
                 {
                     TypeId = 3
                 });

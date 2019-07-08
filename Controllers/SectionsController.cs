@@ -75,8 +75,8 @@ namespace SchedulingSystem.Controllers
             if (section == null)
                 return NotFound();
 
-            var result = mapper.Map<SaveRoomSectionAssignmentResource, SectionRoomAssignment>(resource);
-            section.RoomAssignments.Add(result);
+            var result = mapper.Map<SaveRoomSectionAssignmentResource, CourseOfferingRoomAssignment>(resource);
+            //section.RoomAssignments.Add(result);
             await unitOfWork.CompleteAsync();
 
             section = await unitOfWork.Sections.GetSectionWithBuilding(section.Id);

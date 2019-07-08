@@ -47,11 +47,21 @@ export class CourseOfferingDetailComponent implements OnInit, OnDestroy {
   removeAssignment(typeId) {
     this.commonService.removeInstructorAssignment(this.courseOffering.id, typeId)
       .subscribe(x => {
-        console.log(x);
         const assignment = this.courseOffering.instructors.filter(i => i.type.id === typeId)[0];
         const index = this.courseOffering.instructors.indexOf(assignment);
         if (index !== -1) {
           this.courseOffering.instructors[index].instructor = null;
+        }
+      }, err => console.error(err));
+  }
+
+  removeRoomAssignment(typeId, roomId) {
+    this.commonService.removeRoomAssignment(this.courseOffering.id, { typeId: typeId, roomId: roomId })
+      .subscribe(x => {
+        const assignment = this.courseOffering.rooms.filter(i => i.type.id === typeId)[0];
+        const index = this.courseOffering.rooms.indexOf(assignment);
+        if (index !== -1) {
+          this.courseOffering.rooms[index].room = null;
         }
       }, err => console.error(err));
   }

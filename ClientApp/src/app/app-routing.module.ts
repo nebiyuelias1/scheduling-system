@@ -271,15 +271,6 @@ const routes: Routes = [
                         data: {
                             breadcrumb: 'Detail'
                         },
-                        children: [
-                            {
-                                path: 'assign',
-                                component: SectionRoomAssignmentFormComponent,
-                                data: {
-                                    breadcrumb: 'Assign'
-                                }
-                            }
-                        ]
                     },
                 ]
             },
@@ -309,6 +300,13 @@ const routes: Routes = [
                                     breadcrumb: 'Assign'
                                 },
                                 component: AssignInstructorComponent
+                            },
+                            {
+                                path: 'assign-room/:typeId',
+                                component: SectionRoomAssignmentFormComponent,
+                                data: {
+                                    breadcrumb: 'Assign'
+                                }
                             }
                         ],
                         runGuardsAndResolvers: 'always'

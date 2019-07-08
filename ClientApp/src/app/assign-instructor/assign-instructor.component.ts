@@ -23,7 +23,7 @@ export class AssignInstructorComponent implements OnInit {
   searchKey: string;
 
   constructor(private route: ActivatedRoute,
-    private commondService: CommonService,
+    private commonService: CommonService,
     private instructorService: InstructorService,
     private userService: UserService,
     private router: Router) { }
@@ -33,7 +33,7 @@ export class AssignInstructorComponent implements OnInit {
 
     this.route.parent.params
       .subscribe(x => {
-        this.commondService.getCourseOffering(x.id)
+        this.commonService.getCourseOffering(x.id)
           .subscribe(co => this.courseOffering = co,
             err => console.error(err));
       });
@@ -75,7 +75,7 @@ export class AssignInstructorComponent implements OnInit {
   }
 
   assign(id) {
-    this.commondService.assignInstructor({
+    this.commonService.assignToCourseOffering({
       courseOfferingId: this.courseOffering.id,
       instructorId: id,
       typeId: this.typeId

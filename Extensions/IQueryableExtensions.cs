@@ -45,5 +45,14 @@ namespace SchedulingSystem.Extensions
                 
             return query;
         }
+
+        public static IQueryable<Room> ApplyRoomFilter(this IQueryable<Room> query, RoomQuery queryObj)
+        {
+            if (queryObj.TypeId.HasValue)
+                query = query
+                        .Where(r => r.Types.Select(t => t.TypeId).Contains(queryObj.TypeId.Value));
+
+            return query;
+        }
     }
 }

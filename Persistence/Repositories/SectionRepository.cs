@@ -34,21 +34,19 @@ namespace SchedulingSystem.Persistence.Repositories
         public async Task<Section> GetSectionWithAssignedRooms(int sectionId)
         {
             return await GetSectionAsQueryable()
-                            .Include(s => s.RoomAssignments)
-                                .ThenInclude(r => r.Room)
-                            .Include(s => s.RoomAssignments)
-                                .ThenInclude(r => r.Type)
+                            // .Include(s => s.RoomAssignments)
+                                // .ThenInclude(r => r.Room)
+                            // .Include(s => s.RoomAssignments)
+                                // .ThenInclude(r => r.Type)
                             .SingleOrDefaultAsync(s => s.Id == sectionId);
         }
 
         public async Task<Section> GetSectionWithBuilding(int sectionId)
         {
             return await GetSectionAsQueryable()
-                        .Include(s => s.RoomAssignments)
-                            .ThenInclude(r => r.Room)
-                                .ThenInclude(r => r.Building)
-                        .Include(s => s.RoomAssignments)
-                            .ThenInclude(r => r.Type)
+                        // .Include(s => s.RoomAssignments)
+                        //     .ThenInclude(r => r.Room)
+                        //         .ThenInclude(r => r.Building)
                         .SingleOrDefaultAsync(s => s.Id == sectionId);
         }
 
@@ -65,10 +63,10 @@ namespace SchedulingSystem.Persistence.Repositories
                             .Include(s => s.CourseOfferings)
                                 .ThenInclude(c => c.Instructors)
                                     .ThenInclude(i => i.Type)
-                            .Include(s => s.RoomAssignments)
-                                .ThenInclude(r => r.Room)
-                            .Include(s => s.RoomAssignments)
-                                .ThenInclude(r => r.Type)
+                            // .Include(s => s.RoomAssignments)
+                            //     .ThenInclude(r => r.Room)
+                            // .Include(s => s.RoomAssignments)
+                            //     .ThenInclude(r => r.Type)
                             .SingleOrDefaultAsync(s => s.Id == sectionId && s.CourseOfferings.Select(c => c.AcademicSemesterId).Contains(semesterId));
         }
 

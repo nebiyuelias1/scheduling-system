@@ -24,7 +24,6 @@ namespace SchedulingSystem.Core.Models
 
         public AdmissionLevel AdmissionLevel { get; set; }
 
-        public ICollection<SectionRoomAssignment> RoomAssignments { get; set; }
         
         public ICollection<CourseOffering> CourseOfferings { get; set; }
 
@@ -38,7 +37,6 @@ namespace SchedulingSystem.Core.Models
 
         public Section()
         {
-            RoomAssignments = new Collection<SectionRoomAssignment>();
             CourseOfferings = new Collection<CourseOffering>();
             IsActive = true;
         }

@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonService } from '../services/common.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormControl } from '@angular/forms';
+import { RoomService } from '../services/room.service';
+import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 
 @Component({
   selector: 'app-section-room-assignment-form',
@@ -9,35 +11,82 @@ import { FormGroup, FormControl } from '@angular/forms';
   styleUrls: ['./section-room-assignment-form.component.css']
 })
 export class SectionRoomAssignmentFormComponent implements OnInit {
-  sectionId;
-  roomTypes: any[];
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+  typeId;
   rooms: any[];
-  form = new FormGroup({
-    typeId: new FormControl(),
-    roomId: new FormControl()
-  });
+  courseOffering;
+  dataSource: MatTableDataSource<any>;
+  displayedColumns = ['name', 'building', 'size', 'floor', 'action'];
+  searchKey: string;
 
   constructor(
     private commonService: CommonService,
-    private route: ActivatedRoute) { }
+    private roomService: RoomService,
+    private route: ActivatedRoute,
+    private router: Router) { }
 
   ngOnInit() {
-    this.sectionId = this.route.parent.snapshot.paramMap.get('id');
+    this.typeId = this.route.snapshot.paramMap.get('typeId');
 
-    this.commonService.getTypes()
-      .subscribe((result: any[]) => this.roomTypes = result,
-      (error) => console.error(error));
+    this.route.parent.params
+      .subscribe(x => {
+        this.commonService.getCourseOffering(x.id)
+          .subscribe(co => this.courseOffering = co,
+            err => console.error(err));
+      });
+
+    const query = {
+      typeId: this.typeId
+    };
+
+    this.roomService.getRooms(query)
+      .subscribe((r: any) => {
+        this.rooms = r.items;
+        this.dataSource = new MatTableDataSource<any>(this.rooms);
+        this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator;
+        this.paginator.length = this.dataSource.data.length;
+        this.paginator._changePageSize(this.paginator.pageSize);
+
+        this.dataSource.filterPredicate = (data, filter) => {
+          const nameFound = data['name'].toString().toLowerCase().indexOf(filter);
+          const buildingString = data['building']['name'] + '-' + data['building']['number'];
+          const buildingFound = buildingString.toString().toLowerCase().indexOf(filter);
+
+          return nameFound !== -1
+            || buildingFound !== -1;
+        };
+
+        this.dataSource.sortingDataAccessor = (data, sortHeaderId) => {
+          switch (sortHeaderId) {
+            case 'building':
+              return data['building']['name'] + '-' + data['building']['number'];
+            default:
+              return data[sortHeaderId];
+          }
+        };
+      }, err => console.error(err));
   }
 
-  onRoomTypeChange(event) {
-    this.commonService.getRoomsBasedOnType(event.target.value)
-      .subscribe((result: any[]) => this.rooms = result,
-      (error) => console.error(error));
+  clearSearchKey() {
+    this.searchKey = '';
+    this.applyFilter();
   }
 
-  assignRoom() {
-    this.commonService.assignSectionToRoom(this.sectionId, this.form.value)
-      .subscribe(result => console.log(result),
-      error => console.error(error));
+  applyFilter() {
+    this.dataSource.filter = this.searchKey.trim().toLowerCase();
   }
+
+  assign(id) {
+    this.commonService.assignToCourseOffering({
+      courseOfferingId: this.courseOffering.id,
+      roomId: id,
+      typeId: this.typeId
+    })
+    .subscribe(x => {
+      this.router.navigate(['courseofferings', this.courseOffering.id]);
+    }, err => console.error(err));
+  }
+
 }

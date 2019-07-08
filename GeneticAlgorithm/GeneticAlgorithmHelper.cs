@@ -34,18 +34,18 @@ namespace SchedulingSystem.GeneticAlgorithm
                                                     .FirstOrDefault()
                                                     .Instructor;
 
-                    var lectureRoom = section
-                                        .RoomAssignments
-                                        .Where(r => r.TypeId == types.LectureType.Id)
-                                        .FirstOrDefault()
-                                        .Room;
+                    // var lectureRoom = section
+                    //                     .RoomAssignments
+                    //                     .Where(r => r.TypeId == types.LectureType.Id)
+                    //                     .FirstOrDefault()
+                    //                     .Room;
 
                     var scheduleEntry = new ScheduleEntry
                     {
                         Course = courseOffering.Course,
                         CourseId = courseOffering.Course.Id,
                         Instructor = lectureInstructor,
-                        Room = lectureRoom,
+                        // Room = lectureRoom,
                         TypeId = types.LectureType.Id,
                     };
 
@@ -70,18 +70,18 @@ namespace SchedulingSystem.GeneticAlgorithm
                                                     .FirstOrDefault()
                                                     .Instructor;
 
-                    var tutorRoom = section
-                                        .RoomAssignments
-                                        .Where(r => r.TypeId == types.TutorType.Id)
-                                        .FirstOrDefault()
-                                        .Room;
+                    // var tutorRoom = section
+                    //                     .RoomAssignments
+                    //                     .Where(r => r.TypeId == types.TutorType.Id)
+                    //                     .FirstOrDefault()
+                    //                     .Room;
 
                     var scheduleEntry = new ScheduleEntry
                     {
                         Course = courseOffering.Course,
                         CourseId = courseOffering.Course.Id,
                         Instructor = tutorInstructor,
-                        Room = tutorRoom,
+                        // Room = tutorRoom,
                         TypeId = types.TutorType.Id,
                         Duration = 1
                     };
@@ -98,18 +98,18 @@ namespace SchedulingSystem.GeneticAlgorithm
                                                     .FirstOrDefault()
                                                     .Instructor;
 
-                    var labRoom = section
-                                        .RoomAssignments
-                                        .Where(r => r.TypeId == types.LabType.Id)
-                                        .FirstOrDefault()
-                                        .Room;
+                    // var labRoom = section
+                    //                     .RoomAssignments
+                    //                     .Where(r => r.TypeId == types.LabType.Id)
+                    //                     .FirstOrDefault()
+                    //                     .Room;
 
                     var scheduleEntry = new ScheduleEntry
                     {
                         Course = courseOffering.Course,
                         CourseId = courseOffering.Course.Id,
                         Instructor = labInstructor,
-                        Room = labRoom,
+                        // Room = labRoom,
                         TypeId = types.LabType.Id,
                     };
 

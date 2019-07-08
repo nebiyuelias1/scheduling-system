@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SchedulingSystem.Persistence;
 
 namespace SchedulingSystem.Migrations
 {
     [DbContext(typeof(SchedulingDbContext))]
-    partial class SchedulingDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190705170630_ModifyCourseOfferingTable")]
+    partial class ModifyCourseOfferingTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -377,8 +379,6 @@ namespace SchedulingSystem.Migrations
 
                     b.Property<int>("CourseOfferingId");
 
-                    b.Property<int?>("LabTypeId");
-
                     b.Property<int?>("RoomId");
 
                     b.Property<int>("TypeId");
@@ -386,8 +386,6 @@ namespace SchedulingSystem.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CourseOfferingId");
-
-                    b.HasIndex("LabTypeId");
 
                     b.HasIndex("RoomId");
 
@@ -845,10 +843,6 @@ namespace SchedulingSystem.Migrations
                         .WithMany("Rooms")
                         .HasForeignKey("CourseOfferingId")
                         .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("SchedulingSystem.Core.Models.LabType", "LabType")
-                        .WithMany()
-                        .HasForeignKey("LabTypeId");
 
                     b.HasOne("SchedulingSystem.Core.Models.Room", "Room")
                         .WithMany()

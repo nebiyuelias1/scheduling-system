@@ -9,6 +9,7 @@ namespace SchedulingSystem.Core.Models
         public int Id { get; set; }
         public Section Section { get; set; }
         public ICollection<InstructorAssignment> Instructors { get; set; }
+        public ICollection<CourseOfferingRoomAssignment> Rooms { get; set; }
         public Course Course { get; set; }
         public AcademicSemester AcademicSemester { get; set; }
         public int? SectionId { get; set; }
@@ -18,6 +19,7 @@ namespace SchedulingSystem.Core.Models
         public CourseOffering()
         {
             Instructors = new Collection<InstructorAssignment>();
+            Rooms = new Collection<CourseOfferingRoomAssignment>();
         }
     }
 }

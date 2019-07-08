@@ -23,11 +23,9 @@ namespace SchedulingSystem.Controllers.Resources
 
         public string AdmissionLevel { get; set; }
 
-        public ICollection<RoomSectionAssignmentResource> RoomAssignments { get; set; }
 
         public SectionResource()
         {
-            RoomAssignments = new Collection<RoomSectionAssignmentResource>();
         }
     }
 }

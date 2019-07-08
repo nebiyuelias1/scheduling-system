@@ -32,6 +32,12 @@ namespace SchedulingSystem.Persistence.Repositories
                             .ThenInclude(u => u.Contact)
                 .Include(c => c.Instructors)
                     .ThenInclude(i => i.Type)
+                .Include(co => co.Rooms)
+                    .ThenInclude(r => r.Room)
+                .Include(co => co.Rooms)
+                    .ThenInclude(r => r.Type)
+                .Include(co => co.Rooms)
+                    .ThenInclude(r => r.LabType)
                 .SingleOrDefaultAsync(c => c.Id == id);
         }
 
@@ -43,6 +49,10 @@ namespace SchedulingSystem.Persistence.Repositories
                                     .Include(co => co.Instructors)
                                         .ThenInclude(i => i.Type)
                                     .Include(co => co.Course)
+                                    .Include(co => co.Rooms)
+                                        .ThenInclude(r => r.Type)
+                                    .Include(co => co.Rooms)
+                                        .ThenInclude(r => r.LabType)
                                     .Include(co => co.Section)
                                     .Where(co => co.AcademicSemesterId == currentSemesterId)
                                     .ToListAsync();

@@ -50,7 +50,7 @@ export class CommonService {
     return this.http.get('/api/instructors');
   }
 
-  assignInstructor(instructorAssignment) {
+  assignToCourseOffering(instructorAssignment) {
     return this.http.post('/api/courseofferings', instructorAssignment);
   }
 
@@ -87,6 +87,10 @@ export class CommonService {
   }
 
   removeInstructorAssignment(courseOfferingId: any, typeId: any) {
-    return this.http.put('/api/courseofferings/' + courseOfferingId, typeId);
+    return this.http.put('/api/courseofferings/' + courseOfferingId, { typeId: typeId });
+  }
+
+  removeRoomAssignment(id: any, resource) {
+    return this.http.put('/api/courseofferings/' + id, resource);
   }
 }

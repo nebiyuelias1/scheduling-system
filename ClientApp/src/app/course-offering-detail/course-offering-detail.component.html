@@ -21,8 +21,26 @@
             </button>
           </mat-chip-list>
         </span>
-        <ng-template #noInstructor><span><a color="primary"
-              [routerLink]="['assign', i.type.id]">Assign</a></span></ng-template>
+        <ng-template #noInstructor><span><a color="primary" [routerLink]="['assign', i.type.id]">Assign</a></span>
+        </ng-template>
+      </p>
+    </div>
+    <h4>Rooms</h4>
+    <div *ngFor="let r of courseOffering.rooms">
+      <p>{{ r.type.name }}:
+        <span *ngIf="r.room; else noRoom">
+          <mat-chip-list>
+            <mat-chip color="accent">
+              {{ r.room.name }}
+            </mat-chip>
+            <button mat-icon-button color="warn" (click)="removeRoomAssignment(r.type.id, r.room.id)">
+              <mat-icon>delete_forever</mat-icon>
+            </button>
+          </mat-chip-list>
+        </span>
+        <ng-template #noRoom>
+          <span><a color="primary" [routerLink]="['assign-room', r.type.id]">Assign</a></span>
+        </ng-template>
       </p>
     </div>
   </div>
