@@ -28,45 +28,53 @@ export class SectionRoomAssignmentFormComponent implements OnInit {
 
   ngOnInit() {
     this.typeId = this.route.snapshot.paramMap.get('typeId');
+    const query: any = {
+      typeId: this.typeId
+    };
+
 
     this.route.parent.params
       .subscribe(x => {
         this.commonService.getCourseOffering(x.id)
-          .subscribe(co => this.courseOffering = co,
+          .subscribe(co => {
+            this.courseOffering = co;
+
+            if (this.typeId === '2') {
+              query.labTypeId = this.courseOffering.course.labTypeId;
+            }
+
+            this.roomService.getRooms(query)
+              .subscribe((r: any) => {
+                this.rooms = r.items;
+                this.dataSource = new MatTableDataSource<any>(this.rooms);
+                this.dataSource.sort = this.sort;
+                this.dataSource.paginator = this.paginator;
+                this.paginator.length = this.dataSource.data.length;
+                this.paginator._changePageSize(this.paginator.pageSize);
+
+                this.dataSource.filterPredicate = (data, filter) => {
+                  const nameFound = data['name'].toString().toLowerCase().indexOf(filter);
+                  const buildingString = data['building']['name'] + '-' + data['building']['number'];
+                  const buildingFound = buildingString.toString().toLowerCase().indexOf(filter);
+
+                  return nameFound !== -1
+                    || buildingFound !== -1;
+                };
+
+                this.dataSource.sortingDataAccessor = (data, sortHeaderId) => {
+                  switch (sortHeaderId) {
+                    case 'building':
+                      return data['building']['name'] + '-' + data['building']['number'];
+                    default:
+                      return data[sortHeaderId];
+                  }
+                };
+              }, err => console.error(err));
+          },
             err => console.error(err));
       });
 
-    const query = {
-      typeId: this.typeId
-    };
 
-    this.roomService.getRooms(query)
-      .subscribe((r: any) => {
-        this.rooms = r.items;
-        this.dataSource = new MatTableDataSource<any>(this.rooms);
-        this.dataSource.sort = this.sort;
-        this.dataSource.paginator = this.paginator;
-        this.paginator.length = this.dataSource.data.length;
-        this.paginator._changePageSize(this.paginator.pageSize);
-
-        this.dataSource.filterPredicate = (data, filter) => {
-          const nameFound = data['name'].toString().toLowerCase().indexOf(filter);
-          const buildingString = data['building']['name'] + '-' + data['building']['number'];
-          const buildingFound = buildingString.toString().toLowerCase().indexOf(filter);
-
-          return nameFound !== -1
-            || buildingFound !== -1;
-        };
-
-        this.dataSource.sortingDataAccessor = (data, sortHeaderId) => {
-          switch (sortHeaderId) {
-            case 'building':
-              return data['building']['name'] + '-' + data['building']['number'];
-            default:
-              return data[sortHeaderId];
-          }
-        };
-      }, err => console.error(err));
   }
 
   clearSearchKey() {
@@ -84,9 +92,9 @@ export class SectionRoomAssignmentFormComponent implements OnInit {
       roomId: id,
       typeId: this.typeId
     })
-    .subscribe(x => {
-      this.router.navigate(['courseofferings', this.courseOffering.id]);
-    }, err => console.error(err));
+      .subscribe(x => {
+        this.router.navigate(['courseofferings', this.courseOffering.id]);
+      }, err => console.error(err));
   }
 
 }

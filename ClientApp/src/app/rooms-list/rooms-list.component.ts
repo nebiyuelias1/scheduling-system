@@ -29,7 +29,7 @@ export class RoomsListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    const sources = [this.roomService.getRooms(null), this.commonService.getTypes()];
+    const sources = [this.roomService.getRooms({}), this.commonService.getTypes()];
 
     Observable.forkJoin(sources)
       .subscribe((x: any) => {

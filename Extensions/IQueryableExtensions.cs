@@ -52,6 +52,10 @@ namespace SchedulingSystem.Extensions
                 query = query
                         .Where(r => r.Types.Select(t => t.TypeId).Contains(queryObj.TypeId.Value));
 
+            if (queryObj.LabTypeId.HasValue)
+                query = query
+                        .Where(r => r.Types.Select(t => t.LabTypeId).Contains(queryObj.LabTypeId.Value));
+
             return query;
         }
     }

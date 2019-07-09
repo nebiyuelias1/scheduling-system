@@ -114,6 +114,9 @@ export class CourseOfferingsListComponent implements OnInit {
   }
 
   isAssignmentCompleted(courseOffering) {
-    return !(courseOffering.instructors.some(x => x.instructor === null));
+    const instAssignmentCompleted = !(courseOffering.instructors.some(x => x.instructor === null));
+    const roomAssignmentCompleted = !(courseOffering.rooms.some(x => x.room === null));
+
+    return instAssignmentCompleted || roomAssignmentCompleted;
   }
 }
