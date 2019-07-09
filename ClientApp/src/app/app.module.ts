@@ -59,6 +59,7 @@ import { RoomsListComponent } from './rooms-list/rooms-list.component';
 import { DepartmentListComponent } from './department-list/department-list.component';
 import { DepartmentHeadAssignmentFormComponent } from './department-head-assignment-form/department-head-assignment-form.component';
 import { LabTypeService } from './services/lab-type.service';
+import { ScheduleListComponent } from './schedule-list/schedule-list.component';
 
 @NgModule({
   declarations: [
@@ -100,6 +101,7 @@ import { LabTypeService } from './services/lab-type.service';
     RoomsListComponent,
     DepartmentListComponent,
     DepartmentHeadAssignmentFormComponent,
+    ScheduleListComponent,
   ],
   imports: [
     AppRoutingModule,

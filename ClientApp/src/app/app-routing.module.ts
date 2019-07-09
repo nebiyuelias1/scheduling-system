@@ -29,6 +29,7 @@ import { BuildingListComponent } from './building-list/building-list.component';
 import { RoomsListComponent } from './rooms-list/rooms-list.component';
 import { DepartmentListComponent } from './department-list/department-list.component';
 import { DepartmentHeadAssignmentFormComponent } from './department-head-assignment-form/department-head-assignment-form.component';
+import { ScheduleListComponent } from './schedule-list/schedule-list.component';
 
 const routes: Routes = [
     {
@@ -334,6 +335,13 @@ const routes: Routes = [
                     breadcrumb: 'Schedules'
                 },
                 children: [
+                    {
+                        path: '',
+                        data: {
+                            breadcrumb: 'List'
+                        },
+                        component: ScheduleListComponent
+                    },
                     {
                         path: ':id',
                         data: {
