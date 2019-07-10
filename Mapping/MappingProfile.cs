@@ -36,6 +36,7 @@ namespace SchedulingSystem.Mapping
             CreateMap<CourseQueryResource, CourseQuery>();
             CreateMap<SectionQueryResource, SectionQuery>();
             CreateMap<RoomQueryResource, RoomQuery>();
+            CreateMap<CourseOfferingQueryResource, CourseOfferingQuery>();
 
             // Domain to API Resource
             CreateMap<Department, DepartmentResource>();
@@ -95,6 +96,7 @@ namespace SchedulingSystem.Mapping
                 .ForMember(aur => aur.FatherName, opt => opt.MapFrom(au => au.Contact.FatherName))
                 .ForMember(aur => aur.GrandFatherName, opt => opt.MapFrom(au => au.Contact.GrandFatherName));
             CreateMap<LabType, KeyValuePairResource>();
+            CreateMap<Section, ListCourseOfferingSectionResource>();
         }
     }
 }

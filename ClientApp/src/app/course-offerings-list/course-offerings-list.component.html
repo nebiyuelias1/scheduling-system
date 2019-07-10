@@ -10,7 +10,10 @@
     </mat-form-field>
 </div>
 <div class="mat-elevation-z8 data-table">
-    <mat-table #table [dataSource]="dataSource" matSort aria-label="Elements">
+    <mat-table 
+        #table [dataSource]="dataSource"
+         matSort aria-label="Elements"
+         multiTemplateDataRows>
 
         <!-- Course Name Column -->
         <ng-container matColumnDef="courseName">

@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using SchedulingSystem.Core.Models;
 using SchedulingSystem.Core.Repositories;
+using SchedulingSystem.Extensions;
 
 namespace SchedulingSystem.Persistence.Repositories
 {
@@ -41,21 +42,31 @@ namespace SchedulingSystem.Persistence.Repositories
                 .SingleOrDefaultAsync(c => c.Id == id);
         }
 
-        public async Task<IEnumerable<CourseOffering>> GetCourseOfferingsWithRelatedData(int currentSemesterId)
+        public async Task<QueryResult<CourseOffering>> GetCourseOfferingsWithRelatedData(CourseOfferingQuery queryObj)
         {
-            return await SchedulingDbContext.CourseOfferings
-                                    .Include(co => co.Instructors)
-                                        .ThenInclude(i => i.Instructor)
-                                    .Include(co => co.Instructors)
-                                        .ThenInclude(i => i.Type)
-                                    .Include(co => co.Course)
-                                    .Include(co => co.Rooms)
-                                        .ThenInclude(r => r.Type)
-                                    .Include(co => co.Rooms)
-                                        .ThenInclude(r => r.LabType)
-                                    .Include(co => co.Section)
-                                    .Where(co => co.AcademicSemesterId == currentSemesterId)
-                                    .ToListAsync();
+            var result = new QueryResult<CourseOffering>();
+
+            var query = SchedulingDbContext.CourseOfferings
+                            .Include(co => co.Instructors)
+                                .ThenInclude(i => i.Instructor)
+                            .Include(co => co.Instructors)
+                                .ThenInclude(i => i.Type)
+                            .Include(co => co.Course)
+                            .Include(co => co.Section)
+                                .ThenInclude(s => s.Curriculum)
+                            .Include(co => co.Rooms)
+                                .ThenInclude(r => r.Type)
+                            .Include(co => co.Rooms)
+                                .ThenInclude(r => r.LabType)
+                            .Include(co => co.Section)
+                            .AsQueryable();
+
+            query = query.ApplyCourseOfferingFilter(queryObj);
+
+            result.Items = await query.ToListAsync();
+            result.TotalItems = await query.CountAsync();
+            
+            return result;
         }
     }
 }

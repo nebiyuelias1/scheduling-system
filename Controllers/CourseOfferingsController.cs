@@ -27,16 +27,28 @@ namespace SchedulingSystem.Controllers
             this.mapper = mapper;
         }
 
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> GetAll(CourseOfferingQueryResource filterResource)
         {
+            var filter = Mapper.Map<CourseOfferingQueryResource, CourseOfferingQuery>(filterResource);
             var currentActiveSemester = await unitOfWork.AcademicSemesters.GetCurrentAcademicSemester();
 
             if (currentActiveSemester == null)
                 return BadRequest();
 
-            var courseOfferings = await unitOfWork.CourseOfferings.GetCourseOfferingsWithRelatedData(currentActiveSemester.Id);
+            filter.SemesterId = currentActiveSemester.Id;
 
-            var result = mapper.Map<IEnumerable<CourseOffering>, IEnumerable<CourseOfferingResource>>(courseOfferings);
+            var courseOfferings = await unitOfWork.CourseOfferings.GetCourseOfferingsWithRelatedData(filter);
+            
+            var sectionGrouping = courseOfferings.Items.GroupBy(c => c.Section);
+           
+            var result = new ListCourseOfferingResource();
+            foreach (var group in sectionGrouping)
+            {
+                var item = new ListCourseOfferingSectionResource();
+                item = Mapper.Map<Section, ListCourseOfferingSectionResource>(group.Key);
+                
+                result.Sections.Add(item);
+            }
 
             return Ok(result);
         }
@@ -80,9 +92,9 @@ namespace SchedulingSystem.Controllers
 
             await unitOfWork.CompleteAsync();
 
-            var courseOfferings = await unitOfWork.CourseOfferings.GetCourseOfferingsWithRelatedData(currentActiveSemester.Id);
+            var courseOfferings = await unitOfWork.CourseOfferings.GetCourseOfferingsWithRelatedData(new CourseOfferingQuery());
 
-            var result = mapper.Map<IEnumerable<CourseOffering>, IEnumerable<CourseOfferingResource>>(courseOfferings);
+            var result = mapper.Map<IEnumerable<CourseOffering>, IEnumerable<CourseOfferingResource>>(courseOfferings.Items);
 
             return Ok(result);
         }

@@ -6,7 +6,7 @@ namespace SchedulingSystem.Core.Repositories
 {
     public interface ICourseOfferingRepository : IRepository<CourseOffering>
     {
-        Task<IEnumerable<CourseOffering>> GetCourseOfferingsWithRelatedData(int currentSemesterId);
+        Task<QueryResult<CourseOffering>> GetCourseOfferingsWithRelatedData(CourseOfferingQuery queryObj);
         bool DoesCourseOfferingExist(int currentSemesterId, int courseId, int sectionId);
         Task<CourseOffering> GetCourseOffering(int id);
     }

@@ -58,5 +58,15 @@ namespace SchedulingSystem.Extensions
 
             return query;
         }
+
+        public static IQueryable<CourseOffering> ApplyCourseOfferingFilter(this IQueryable<CourseOffering> query, CourseOfferingQuery queryObj)
+        {
+            if (queryObj.DepartmentId.HasValue)
+                query = query.Where(c => c.Section.Curriculum.DepartmentId == queryObj.DepartmentId.Value);
+
+            query = query.Where(c => c.AcademicSemesterId == queryObj.SemesterId);
+            
+            return query;
+        }
     }
 }
