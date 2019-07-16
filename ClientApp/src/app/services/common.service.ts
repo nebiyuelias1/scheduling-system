@@ -42,8 +42,8 @@ export class CommonService {
     return this.http.get('/api/courseofferings/create/' + deptId);
   }
 
-  getCourseOfferings() {
-    return this.http.get('/api/courseofferings');
+  getCourseOfferings(query) {
+    return this.http.get('/api/courseofferings?' + this.toQueryString(query));
   }
 
   getInstructors() {
@@ -92,5 +92,17 @@ export class CommonService {
 
   removeRoomAssignment(id: any, resource) {
     return this.http.put('/api/courseofferings/' + id, resource);
+  }
+
+  toQueryString(obj) {
+    const parts = [];
+    for (const key of Object.keys(obj)) {
+      const value = obj[key];
+      if (value !== null && value !== undefined) {
+        parts.push(encodeURIComponent(key) + '=' + encodeURIComponent(value));
+      }
+    }
+
+    return parts.join('&');
   }
 }

@@ -9,8 +9,8 @@ import { DeleteDialogComponent } from '../delete-dialog/delete-dialog.component'
   styleUrls: ['./building-list.component.css']
 })
 export class BuildingListComponent implements OnInit {
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator, null) paginator: MatPaginator;
+  @ViewChild(MatSort, null) sort: MatSort;
 
   buildings: any[];
   dataSource: MatTableDataSource<any>;

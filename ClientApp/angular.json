@@ -24,18 +24,13 @@
               "src/styles.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
-              "node_modules/dragula/dist/dragula.min.css",
-              "node_modules/fullcalendar/dist/fullcalendar.min.css",
-              "node_modules/fullcalendar-scheduler/dist/scheduler.min.css"
+              "node_modules/dragula/dist/dragula.min.css"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
               "node_modules/bootstrap/dist/js/bootstrap.min.js",
               "node_modules/moment/moment.js",
-              "node_modules/dragula/dist/dragula.min.js",
-              "node_modules/fullcalendar/dist/fullcalendar.min.js",
-              "node_modules/fullcalendar/dist/dragula.min.js",
-              "node_modules/fullcalendar-scheduler/dist/scheduler.min.js"
+              "node_modules/dragula/dist/dragula.min.js"
             ]
           },
           "configurations": {

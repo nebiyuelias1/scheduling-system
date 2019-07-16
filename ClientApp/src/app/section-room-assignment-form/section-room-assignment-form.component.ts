@@ -11,8 +11,8 @@ import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
   styleUrls: ['./section-room-assignment-form.component.css']
 })
 export class SectionRoomAssignmentFormComponent implements OnInit {
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator, null) paginator: MatPaginator;
+  @ViewChild(MatSort, null) sort: MatSort;
   typeId;
   rooms: any[];
   courseOffering;

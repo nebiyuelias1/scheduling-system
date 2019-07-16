@@ -10,8 +10,8 @@ import { UserService } from '../accounts/user.service';
   styleUrls: ['./section-list.component.css']
 })
 export class SectionListComponent implements OnInit {
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator, null) paginator: MatPaginator;
+  @ViewChild(MatSort, null) sort: MatSort;
 
   sections: any[];
   dataSource: MatTableDataSource<any>;

@@ -39,15 +39,10 @@ import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
 import { AppRoutingModule } from './app-routing.module';
 import { CurriculumListComponent } from './curriculum-list/curriculum-list.component';
 import { HomeHeaderComponent } from './home-header/home-header.component';
-import { TimetableComponent } from './timetable/timetable.component';
-import { NgxFullCalendarModule } from 'ngx-fullcalendar';
 import { AccountsModule } from './accounts/accounts.module';
 import { MainComponent } from './main/main.component';
 import { AuthGuard } from './accounts/auth-guard.service';
 import { DataTableComponent } from './data-table/data-table.component';
-import { MatTableModule, MatPaginatorModule, MatSortModule, MatDialogModule,
-  MatIconModule, MatButtonModule, MatFormFieldModule, MatInputModule,
-  MatSelectModule, MatOptionModule, MatChipsModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DeleteDialogComponent } from './delete-dialog/delete-dialog.component';
 import { InstructorsListComponent } from './instructors-list/instructors-list.component';
@@ -60,6 +55,7 @@ import { DepartmentListComponent } from './department-list/department-list.compo
 import { DepartmentHeadAssignmentFormComponent } from './department-head-assignment-form/department-head-assignment-form.component';
 import { LabTypeService } from './services/lab-type.service';
 import { ScheduleListComponent } from './schedule-list/schedule-list.component';
+import { AppMaterialModule } from './app-material.module';
 
 @NgModule({
   declarations: [
@@ -89,7 +85,6 @@ import { ScheduleListComponent } from './schedule-list/schedule-list.component';
     BreadcrumbComponent,
     CurriculumListComponent,
     HomeHeaderComponent,
-    TimetableComponent,
     MainComponent,
     DataTableComponent,
     DeleteDialogComponent,
@@ -104,25 +99,14 @@ import { ScheduleListComponent } from './schedule-list/schedule-list.component';
     ScheduleListComponent,
   ],
   imports: [
+    BrowserAnimationsModule,
+    AppMaterialModule,
     AppRoutingModule,
     AccountsModule,
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     FormsModule,
-    BrowserAnimationsModule,
     ReactiveFormsModule,
-    NgxFullCalendarModule,
-    MatTableModule,
-    MatPaginatorModule,
-    MatSortModule,
-    MatDialogModule,
-    MatIconModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    MatOptionModule,
-    MatChipsModule
   ],
   providers: [
     CollegeService,

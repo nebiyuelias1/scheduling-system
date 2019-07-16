@@ -1,17 +1,18 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs/Rx';
+import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject } from 'rxjs/Rx';
 import { JwtHelperService } from '@auth0/angular-jwt';
 
 // Add the RxJS Observable operators we need in this app.
 import { BaseService } from './base.service';
 import { UserRegistration } from './models/user.registration.interface';
 import { Credentials } from './models/credentials.interface';
+import { Observable } from 'rxjs/internal/Observable';
 
 @Injectable()
 export class UserService extends BaseService {
   // Observable navItem source
-  private _authNavStatusSource = new BehaviorSubject<boolean>(false);
+  private _authNavStatusSource = new BehaviorSubject(false);
   // Observable navItem stream
   authNavStatus$ = this._authNavStatusSource.asObservable();
 
@@ -43,7 +44,7 @@ export class UserService extends BaseService {
   register(user): Observable<UserRegistration> {
 
     return this.http.post('/register', user)
-      .map(res => res)
+      .map((res: UserRegistration) => res as UserRegistration)
       .catch(this.handleError);
   }
 

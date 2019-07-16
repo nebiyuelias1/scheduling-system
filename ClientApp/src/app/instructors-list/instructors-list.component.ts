@@ -10,8 +10,8 @@ import { UserService } from '../accounts/user.service';
   styleUrls: ['./instructors-list.component.css']
 })
 export class InstructorsListComponent implements OnInit {
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator, null) paginator: MatPaginator;
+  @ViewChild(MatSort, null) sort: MatSort;
 
   instructors: any[];
   dataSource: MatTableDataSource<any>;

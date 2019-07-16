@@ -12,8 +12,8 @@ import { UserService } from '../accounts/user.service';
   styleUrls: ['./assign-instructor.component.css']
 })
 export class AssignInstructorComponent implements OnInit {
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator, null) paginator: MatPaginator;
+  @ViewChild(MatSort, null) sort: MatSort;
 
   courseOffering;
   typeId;

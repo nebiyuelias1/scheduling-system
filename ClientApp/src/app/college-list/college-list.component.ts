@@ -9,8 +9,8 @@ import { DeleteDialogComponent } from '../delete-dialog/delete-dialog.component'
   styleUrls: ['./college-list.component.css']
 })
 export class CollegeListComponent implements OnInit {
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator, null) paginator: MatPaginator;
+  @ViewChild(MatSort, null) sort: MatSort;
   colleges: any[];
   dataSource: MatTableDataSource<any>;
   displayedColumns = ['collegeName', 'collegeDean', 'action'];

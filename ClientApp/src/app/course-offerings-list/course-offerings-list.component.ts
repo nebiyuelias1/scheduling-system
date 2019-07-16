@@ -3,20 +3,29 @@ import { CommonService } from '../services/common.service';
 import { MatPaginator, MatSort, MatTableDataSource, MatDialog, MatDialogConfig } from '@angular/material';
 import { DeleteDialogComponent } from '../delete-dialog/delete-dialog.component';
 import { UserService } from '../accounts/user.service';
+import { trigger, state, style, transition, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-course-offerings-list',
   templateUrl: './course-offerings-list.component.html',
-  styleUrls: ['./course-offerings-list.component.css']
+  styleUrls: ['./course-offerings-list.component.css'],
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({height: '0px', minHeight: '0'})),
+      state('expanded', style({height: '*'})),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ])
+  ]
 })
 export class CourseOfferingsListComponent implements OnInit {
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator, null) paginator: MatPaginator;
+  @ViewChild(MatSort, null) sort: MatSort;
 
   courseOfferings: any[];
   dataSource: MatTableDataSource<any>;
-  displayedColumns = ['courseName', 'courseCode', 'sectionName', 'entranceYear', 'isAssignmentCompleted', 'action'];
+  displayedColumns = ['section'];
   searchKey: string;
+  expandedSection;
 
   constructor(
     private commonService: CommonService,
@@ -25,9 +34,13 @@ export class CourseOfferingsListComponent implements OnInit {
     private userService: UserService) { }
 
   ngOnInit() {
-    this.commonService.getCourseOfferings()
-      .subscribe((result: any[]) => {
-        this.courseOfferings = result;
+    const query = {
+      departmentId: this.userService.decodedToken.dept_id,
+    };
+
+    this.commonService.getCourseOfferings(query)
+      .subscribe((result: any) => {
+        this.courseOfferings = result.sections;
         this.dataSource = new MatTableDataSource<any>(this.courseOfferings);
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
@@ -36,14 +49,11 @@ export class CourseOfferingsListComponent implements OnInit {
 
         this.dataSource.filterPredicate = (data, filter) => {
           const nameColumn = data['course']['name'].toString().toLowerCase().indexOf(filter);
-          const courseCodeColumn = data['course']['courseCode'].toString().toLowerCase().indexOf(filter);
-          const sectionNameColumn = data['section']['name'].toString().toLowerCase().indexOf(filter);
-          const entranceYearColumn = data['section']['entranceYear'].toString().toLowerCase().indexOf(filter);
+          // const courseCodeColumn = data['course']['courseCode'].toString().toLowerCase().indexOf(filter);
+          // const sectionNameColumn = data['section']['name'].toString().toLowerCase().indexOf(filter);
+          // const entranceYearColumn = data['section']['entranceYear'].toString().toLowerCase().indexOf(filter);
 
-          return nameColumn !== -1
-            || courseCodeColumn !== -1
-            || sectionNameColumn !== -1
-            || entranceYearColumn !== -1;
+          return nameColumn !== -1;
         };
 
         this.dataSource.sortingDataAccessor = (data, sortHeaderId) => {
