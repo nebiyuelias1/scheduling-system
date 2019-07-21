@@ -27,30 +27,16 @@ namespace SchedulingSystem.Controllers
             this.mapper = mapper;
         }
 
-        public async Task<IActionResult> GetAll(CourseOfferingQueryResource filterResource)
+        public async Task<QueryResultResource<CourseOfferingResource>> GetAll(CourseOfferingQueryResource filterResource)
         {
             var filter = Mapper.Map<CourseOfferingQueryResource, CourseOfferingQuery>(filterResource);
             var currentActiveSemester = await unitOfWork.AcademicSemesters.GetCurrentAcademicSemester();
-
-            if (currentActiveSemester == null)
-                return BadRequest();
 
             filter.SemesterId = currentActiveSemester.Id;
 
             var courseOfferings = await unitOfWork.CourseOfferings.GetCourseOfferingsWithRelatedData(filter);
             
-            var sectionGrouping = courseOfferings.Items.GroupBy(c => c.Section);
-           
-            var result = new ListCourseOfferingResource();
-            foreach (var group in sectionGrouping)
-            {
-                var item = new ListCourseOfferingSectionResource();
-                item = Mapper.Map<Section, ListCourseOfferingSectionResource>(group.Key);
-                
-                result.Sections.Add(item);
-            }
-
-            return Ok(result);
+            return mapper.Map<QueryResult<CourseOffering>, QueryResultResource<CourseOfferingResource>>(courseOfferings);
         }
 
         [HttpGet("create/{id}")]

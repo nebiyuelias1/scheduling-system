@@ -4,34 +4,157 @@ import { MatPaginator, MatSort, MatTableDataSource, MatDialog, MatDialogConfig }
 import { DeleteDialogComponent } from '../delete-dialog/delete-dialog.component';
 import { UserService } from '../accounts/user.service';
 import { trigger, state, style, transition, animate } from '@angular/animations';
+import { data } from './myjson';
 
 @Component({
   selector: 'app-course-offerings-list',
   templateUrl: './course-offerings-list.component.html',
   styleUrls: ['./course-offerings-list.component.css'],
-  animations: [
-    trigger('detailExpand', [
-      state('collapsed', style({height: '0px', minHeight: '0'})),
-      state('expanded', style({height: '*'})),
-      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
-    ])
-  ]
 })
 export class CourseOfferingsListComponent implements OnInit {
-  @ViewChild(MatPaginator, null) paginator: MatPaginator;
-  @ViewChild(MatSort, null) sort: MatSort;
 
-  courseOfferings: any[];
-  dataSource: MatTableDataSource<any>;
-  displayedColumns = ['section'];
-  searchKey: string;
-  expandedSection;
+  @ViewChild('myTable', null) table: any;
+
+  funder = [];
+  calculated = [];
+  pending = [];
+  groups = [];
+
+  editing = {};
+  rows = [];
 
   constructor(
+    private userService: UserService,
     private commonService: CommonService,
-    private dialog: MatDialog,
-    private changeDetectorRefs: ChangeDetectorRef,
-    private userService: UserService) { }
+    private dialog: MatDialog) {
+  }
+
+  fetch(cb) {
+    const req = new XMLHttpRequest();
+    req.open('GET', `./forRowGrouping.json`);
+
+    req.onload = () => {
+      cb(JSON.parse(req.response));
+    };
+
+    req.send();
+  }
+
+  getGroupRowHeight(group, rowHeight) {
+    let s = {};
+
+    s = {
+      height: (group.length * 40) + 'px',
+      width: '100%'
+    };
+
+    return s;
+  }
+
+  checkGroup(event, row, rowIndex, group) {
+    let groupStatus = 'Pending';
+    let expectedPaymentDealtWith = true;
+
+    row.exppayyes = 0;
+    row.exppayno = 0;
+    row.exppaypending = 0;
+
+    if (event.target.checked) {
+      if (event.target.value === '0') { // expected payment yes selected
+        row.exppayyes = 1;
+      } else if (event.target.value === '1') { // expected payment yes selected
+        row.exppayno = 1;
+      } else if (event.target.value === '2') { // expected payment yes selected
+        row.exppaypending = 1;
+      }
+    }
+
+    if (group.length === 2) { // There are only 2 lines in a group
+      // tslint:disable-next-line:max-line-length
+      if (['Calculated', 'Funder'].indexOf(group[0].source) > -1 && ['Calculated', 'Funder'].indexOf(group[1].source) > -1) { // Sources are funder and calculated
+        // tslint:disable-next-line:max-line-length
+        if (group[0].startdate === group[1].startdate && group[0].enddate === group[1].enddate) { // Start dates and end dates match
+          for (let index = 0; index < group.length; index++) {
+            if (group[index].source !== row.source) {
+              if (event.target.value === '0') { // expected payment yes selected
+                group[index].exppayyes = 0;
+                group[index].exppaypending = 0;
+                group[index].exppayno = 1;
+              }
+            }
+
+            if (group[index].exppayyes === 0 && group[index].exppayno === 0 && group[index].exppaypending === 0) {
+              expectedPaymentDealtWith = false;
+            }
+            console.log('expectedPaymentDealtWith', expectedPaymentDealtWith);
+          }
+        }
+      }
+    } else {
+      for (let index = 0; index < group.length; index++) {
+        if (group[index].exppayyes === 0 && group[index].exppayno === 0 && group[index].exppaypending === 0) {
+          expectedPaymentDealtWith = false;
+        }
+        console.log('expectedPaymentDealtWith', expectedPaymentDealtWith);
+      }
+    }
+
+    // check if there is a pending selected payment or a row that does not have any expected payment selected
+    if (group.filter(rowFilter => rowFilter.exppaypending === 1).length === 0
+      && group.filter(rowFilter => rowFilter.exppaypending === 0
+                      && rowFilter.exppayyes === 0
+                      && rowFilter.exppayno === 0).length === 0) {
+      console.log('expected payment dealt with');
+
+      // check if can set the group status
+      const numberOfExpPayYes = group.filter(rowFilter => rowFilter.exppayyes === 1).length;
+      const numberOfSourceFunder = group.filter(
+          rowFilter => rowFilter.exppayyes === 1 && rowFilter.source === 'Funder').length;
+      const numberOfSourceCalculated = group.filter(
+          rowFilter => rowFilter.exppayyes === 1 && rowFilter.source === 'Calculated').length;
+      const numberOfSourceManual = group.filter(
+          rowFilter => rowFilter.exppayyes === 1 && rowFilter.source === 'Manual').length;
+
+      console.log('numberOfExpPayYes', numberOfExpPayYes);
+      console.log('numberOfSourceFunder', numberOfSourceFunder);
+      console.log('numberOfSourceCalculated', numberOfSourceCalculated);
+      console.log('numberOfSourceManual', numberOfSourceManual);
+
+      if (numberOfExpPayYes > 0) {
+        if (numberOfExpPayYes === numberOfSourceFunder) {
+          groupStatus = 'Funder Selected';
+        } else if (numberOfExpPayYes === numberOfSourceCalculated) {
+          groupStatus = 'Calculated Selected';
+        } else if (numberOfExpPayYes === numberOfSourceManual) {
+          groupStatus = 'Manual Selected';
+        } else {
+          groupStatus = 'Hybrid Selected';
+        }
+      }
+    }
+
+    group[0].groupstatus = groupStatus;
+  }
+
+  updateValue(event, cell, rowIndex) {
+    this.editing[rowIndex + '-' + cell] = false;
+    this.rows[rowIndex][cell] = event.target.value;
+    this.rows = [...this.rows];
+  }
+
+  toggleExpandGroup(group) {
+    console.log('Toggled Expand Group!', group);
+    this.table.groupHeader.toggleExpandGroup(group);
+  }
+
+  onDetailToggle(event) {
+    console.log('Detail Toggled', event);
+  }
+
+  toggleExpandRow(row) {
+    console.log('Toggled Expand Row!', row);
+    this.table.rowDetail.toggleExpandRow(row);
+  }
 
   ngOnInit() {
     const query = {
@@ -39,59 +162,17 @@ export class CourseOfferingsListComponent implements OnInit {
     };
 
     this.commonService.getCourseOfferings(query)
-      .subscribe((result: any) => {
-        this.courseOfferings = result.sections;
-        this.dataSource = new MatTableDataSource<any>(this.courseOfferings);
-        this.dataSource.sort = this.sort;
-        this.dataSource.paginator = this.paginator;
-        this.paginator.length = this.dataSource.data.length;
-        this.paginator._changePageSize(this.paginator.pageSize);
-
-        this.dataSource.filterPredicate = (data, filter) => {
-          const nameColumn = data['course']['name'].toString().toLowerCase().indexOf(filter);
-          // const courseCodeColumn = data['course']['courseCode'].toString().toLowerCase().indexOf(filter);
-          // const sectionNameColumn = data['section']['name'].toString().toLowerCase().indexOf(filter);
-          // const entranceYearColumn = data['section']['entranceYear'].toString().toLowerCase().indexOf(filter);
-
-          return nameColumn !== -1;
-        };
-
-        this.dataSource.sortingDataAccessor = (data, sortHeaderId) => {
-          switch (sortHeaderId) {
-            case 'courseName':
-              return data['course']['name'];
-            case 'courseCode':
-              return data['course']['courseCode'];
-            case 'sectionName':
-              return data['section']['name'];
-            case 'entranceYear':
-              return data['section']['entranceYear'];
-            default:
-              return data[sortHeaderId];
-          }
-        };
-      },
-        (error) => console.error(error));
+      .subscribe((x: any) => {
+        this.rows = x.items;
+      });
   }
 
-  createCourseOfferings() {
-    const deptId = this.userService.decodedToken.dept_id;
-    this.commonService.createCourseOfferings(deptId)
-      .subscribe((result: any[]) => {
-        this.courseOfferings = result;
-        this.dataSource.data = this.courseOfferings;
-        this.changeDetectorRefs.detectChanges();
-      },
-        (error) => console.error(error));
-  }
 
-  clearSearchKey() {
-    this.searchKey = '';
-    this.applyFilter();
-  }
+  isAssignmentCompleted(courseOffering) {
+    const instAssignmentCompleted = !(courseOffering.instructors.some(x => x.instructor === null));
+    const roomAssignmentCompleted = !(courseOffering.rooms.some(x => x.room === null));
 
-  applyFilter() {
-    this.dataSource.filter = this.searchKey.trim().toLowerCase();
+    return instAssignmentCompleted || roomAssignmentCompleted;
   }
 
   openDeleteDialog(id) {
@@ -113,20 +194,26 @@ export class CourseOfferingsListComponent implements OnInit {
         if (result) {
           this.commonService.deleteCourseOffering(id)
             .subscribe(x => {
-              const itemIndex = this.dataSource.data.findIndex(obj => obj.id === id);
-              this.dataSource.data.splice(itemIndex, 1);
-              this.dataSource.paginator = this.paginator;
-              this.changeDetectorRefs.detectChanges();
+              const itemIndex = this.rows.findIndex(obj => obj.id === id);
+              this.rows.splice(itemIndex, 1);
+              this.rows = [...this.rows];
+              // this.dataSource.paginator = this.paginator;
+              // this.changeDetectorRefs.detectChanges();
             },
               err => console.error(err));
         }
       });
   }
 
-  isAssignmentCompleted(courseOffering) {
-    const instAssignmentCompleted = !(courseOffering.instructors.some(x => x.instructor === null));
-    const roomAssignmentCompleted = !(courseOffering.rooms.some(x => x.room === null));
-
-    return instAssignmentCompleted || roomAssignmentCompleted;
+  createCourseOfferings() {
+    const deptId = this.userService.decodedToken.dept_id;
+    this.commonService.createCourseOfferings(deptId)
+      .subscribe((result: any[]) => {
+        this.rows = result;
+        this.rows = [...this.rows];
+        // this.dataSource.data = this.courseOfferings;
+        // this.changeDetectorRefs.detectChanges();
+      },
+        (error) => console.error(error));
   }
 }

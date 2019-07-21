@@ -12,6 +12,7 @@ namespace SchedulingSystem.Controllers.Resources
 
         public ICollection<InstructorAssignmentResource> Instructors { get; set; }
         public ICollection<CourseOfferingRoomAssignmentResource> Rooms { get; set; }
+        public string SectionName { get; set; }
 
         public CourseOfferingResource()
         {

@@ -69,7 +69,8 @@ namespace SchedulingSystem.Mapping
                     StartDate = s.AcademicYear.StartDate,
                     EndDate = s.AcademicYear.EndDate
                 }));
-            CreateMap<CourseOffering, CourseOfferingResource>();
+            CreateMap<CourseOffering, CourseOfferingResource>()
+                .ForMember(co => co.SectionName, opt => opt.MapFrom(c => c.Section.Name));
             CreateMap<InstructorAssignment, InstructorAssignmentResource>();
             CreateMap<ScheduleConfiguration, ScheduleConfigurationResource>();
             CreateMap<AdmissionLevel, KeyValuePairResource>();
@@ -89,6 +90,7 @@ namespace SchedulingSystem.Mapping
             CreateMap<QueryResult<Course>, QueryResultResource<CourseResource>>();
             CreateMap<QueryResult<Section>, QueryResultResource<SectionResource>>();
             CreateMap<QueryResult<Room>, QueryResultResource<RoomResource>>();
+            CreateMap<QueryResult<CourseOffering>, QueryResultResource<CourseOfferingResource>>();
             CreateMap<College, CollegeResource>();
             CreateMap<Building, SaveBuildingResource>();
             CreateMap<AppUser, DeptHeadResource>()
