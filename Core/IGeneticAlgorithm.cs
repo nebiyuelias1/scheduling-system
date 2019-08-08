@@ -5,6 +5,6 @@ namespace SchedulingSystem.Core
 {
     public interface IGeneticAlgorithm
     {
-        Task<Schedule> GenerateScheduleForSection(int sectionId, ScheduleConfiguration scheduleConfiguration);
+        Task<Schedule> GenerateScheduleForSection(int sectionId);
     }
 }

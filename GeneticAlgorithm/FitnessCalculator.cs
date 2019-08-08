@@ -12,21 +12,49 @@ namespace SchedulingSystem.GeneticAlgorithm
     {
         
         private readonly IUnitOfWork unitOfWork;
-        private Types types;
 
         public FitnessCalculator(IUnitOfWork unitOfWork)
         {
             this.unitOfWork = unitOfWork;
         }
 
-        public double CalculateFitness(Schedule schedule, ICollection<CourseOffering> courseOfferings, Types types)
+        public double CalculateFitness(Schedule schedule, IEnumerable<ScheduleEntry> scheduleEntries)
         {
-            this.types = types;
             int conflicts = 0;
-            conflicts += CountConflictsBasedOnLectureConsecutiveness(courseOfferings, schedule);
-            conflicts += CountConflictsBasedOnLabConsecutiveness(courseOfferings, schedule);
+
+            conflicts += CountInstructorAndRoomClashConflicts(schedule, scheduleEntries);
 
             return 1.0/(conflicts + 1);
+        }
+
+        private int CountInstructorAndRoomClashConflicts(Schedule schedule, IEnumerable<ScheduleEntry> scheduleEntries)
+        {
+            int conflicts = 0;
+            foreach (var daySchedule in schedule.TimeTable)
+            {
+                foreach (var daySession in daySchedule.DaySessions)
+                {
+                    foreach (var scheduleEntry in daySession.ScheduleEntries)
+                    {
+                        var instructorConflictFound = scheduleEntries.Any(s => s.DaySession.DaySchedule.WeekDay.Number 
+                                                                    == scheduleEntry.DaySession.DaySchedule.WeekDay.Number
+                                                        && s.Period == scheduleEntry.Period &&
+                                                        s.InstructorId == scheduleEntry.InstructorId);
+
+                        var roomConflictFound = scheduleEntries.Any(s => s.DaySession.DaySchedule.WeekDay.Number
+                                                                    == scheduleEntry.DaySession.DaySchedule.WeekDay.Number
+                                                        && s.Period == scheduleEntry.Period &&
+                                                        s.RoomId == scheduleEntry.RoomId);
+
+                        if (instructorConflictFound)
+                            conflicts++;
+
+                        if (roomConflictFound)
+                            conflicts++;
+                    }
+                }
+            }
+            return conflicts;
         }
 
         private int CountConflictsBasedOnLabConsecutiveness(ICollection<CourseOffering> courseOfferings, Schedule schedule)

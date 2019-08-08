@@ -39,6 +39,8 @@ namespace SchedulingSystem.Persistence
 
         public ILabTypeRepository LabTypes { get; private set; }
 
+        public IScheduleEntryRepository ScheduleEntries { get; private set; }
+
         public UnitOfWork(SchedulingDbContext context)
         {
             this.context = context;
@@ -57,6 +59,7 @@ namespace SchedulingSystem.Persistence
             Colleges = new CollegeRepository(context);
             Buildings = new BuildingRepository(context);
             LabTypes = new LabTypeRepository(context);
+            ScheduleEntries = new ScheduleEntryRepository(context);
         }
 
 

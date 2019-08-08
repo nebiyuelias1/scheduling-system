@@ -34,11 +34,10 @@
         </ng-template>
     </ngx-datatable-group-header>
     <!-- Row Detail Template -->
-    <ngx-datatable-row-detail [rowHeight]="100" #myDetailRow (toggle)="onDetailToggle($event)">
+    <ngx-datatable-row-detail [rowHeight]="50" #myDetailRow (toggle)="onDetailToggle($event)">
         <ng-template let-group="group" let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
             <div style="padding-left:35px;">
-                <div><strong>Total: {{ group|json }}</strong></div>
-                <div>row detail content sample</div>
+                <strong>Total: </strong>{{ row.value.length }} Course Offerings
             </div>
         </ng-template>
     </ngx-datatable-row-detail>

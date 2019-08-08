@@ -63,10 +63,8 @@ namespace SchedulingSystem.Persistence.Repositories
                             .Include(s => s.CourseOfferings)
                                 .ThenInclude(c => c.Instructors)
                                     .ThenInclude(i => i.Type)
-                            // .Include(s => s.RoomAssignments)
-                            //     .ThenInclude(r => r.Room)
-                            // .Include(s => s.RoomAssignments)
-                            //     .ThenInclude(r => r.Type)
+                            .Include(s => s.CourseOfferings)
+                                .ThenInclude(r => r.Rooms)
                             .SingleOrDefaultAsync(s => s.Id == sectionId && s.CourseOfferings.Select(c => c.AcademicSemesterId).Contains(semesterId));
         }
 

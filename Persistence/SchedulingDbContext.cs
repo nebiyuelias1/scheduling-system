@@ -32,7 +32,7 @@ namespace SchedulingSystem.Persistence
         public SchedulingDbContext(DbContextOptions<SchedulingDbContext> options)
             : base(options)
         {
-            
+
         }
 
         protected override void OnModelCreating(ModelBuilder modelbuilder)
@@ -73,10 +73,10 @@ namespace SchedulingSystem.Persistence
                 .HasForeignKey(s => s.InstructorId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            modelbuilder.Entity<Schedule>()
-                .HasMany(s => s.Days)
-                .WithOne(d => d.Schedule)
-                .HasForeignKey(s => s.ScheduleId)
+            modelbuilder.Entity<DaySession>()
+                .HasOne(s => s.DaySchedule)
+                .WithMany(d => d.DaySessions)
+                .HasForeignKey(s => s.DayScheduleId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelbuilder.Entity<Instructor>()

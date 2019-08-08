@@ -12,14 +12,11 @@ namespace SchedulingSystem.Core.Models
     {
         public int Id { get; set; }
 
-        public ICollection<Day> Days { get; set; }
-
         public AcademicSemester AcademicSemester { get; set; }
 
         public Section Section { get; set; }
-
-        [NotMapped]
-        public IDictionary<int, IList<List<ScheduleEntry>>> TimeTable { get; set; }
+        
+        public IList<DaySchedule> TimeTable { get; set; }
 
         [NotMapped]
         public double Fitness { get; set; }
@@ -28,57 +25,59 @@ namespace SchedulingSystem.Core.Models
 
         public int SectionId { get; set; }
 
-        public Schedule()
+        public Schedule(Section section, ScheduleConfiguration scheduleConfiguration, IList<WeekDay> weekDays)
+            : this()
         {
-            Days = new Collection<Day>();
-            TimeTable = new Dictionary<int, IList<List<ScheduleEntry>>>();
-        }
-
-
-        public static Schedule GetNewScheduleForSection(Section section, ScheduleConfiguration scheduleConfiguration)
-        {
-            var schedule = new Schedule();
-            schedule.Section = section;
-
+            this.Section = section;
             for (int i = 0; i < scheduleConfiguration.NumberOfDaysPerWeek; i++)
             {
-                schedule.TimeTable[i] = new List<List<ScheduleEntry>>();
+                var daySchedule = new DaySchedule
+                {
+                    WeekDayId = weekDays[i].Id
+                };
+
                 if (scheduleConfiguration.HasLunchBreak())
                 {
-                    schedule.TimeTable[i].Add(new List<ScheduleEntry>(scheduleConfiguration.HalfNumberOfPeriodsPerDay));
-                    schedule.TimeTable[i].Add(new List<ScheduleEntry>(scheduleConfiguration.HalfNumberOfPeriodsPerDay));
+                    daySchedule.DaySessions.Add(
+                        new DaySession(scheduleConfiguration.HalfNumberOfPeriodsPerDay));
+
+                    daySchedule.DaySessions.Add(
+                        new DaySession(scheduleConfiguration.HalfNumberOfPeriodsPerDay));
                 }
                 else
                 {
-                    schedule.TimeTable[i].Add(new List<ScheduleEntry>());
+                    daySchedule.DaySessions.Add(new DaySession());
                 }
-            }
 
-            return schedule;
+                this.TimeTable.Add(daySchedule);
+            }
+        }
+        public Schedule()
+        {
+            TimeTable = new Collection<DaySchedule>();
         }
 
         public int AddScheduleEntry(ScheduleEntry scheduleEntry, int day)
         {
-            var earlyOrAfternoon = Helper.GetRandomInteger(2);
-
-            if (earlyOrAfternoon == 0 && TimeTable[day].Count > 1)
+            if (TimeTable[day].DaySessions.Count > 1)
             {
-                var earlyScheduleEntries = TimeTable[day].First();
-                var earlySum = earlyScheduleEntries.Sum(s => s?.Duration);
-                if (earlySum + scheduleEntry.Duration <= earlyScheduleEntries.Capacity)
+                var earlyDaySession = TimeTable[day].DaySessions.First();
+                var earlySum = earlyDaySession.ScheduleEntries.Sum(s => s?.Duration);
+
+                if (earlySum + scheduleEntry.Duration <= earlyDaySession.ScheduleEntries.Capacity)
                 {
                     scheduleEntry.Period = Convert.ToInt32(earlySum);
-                    earlyScheduleEntries.Add(scheduleEntry);
+                    earlyDaySession.ScheduleEntries.Add(scheduleEntry);
                     return scheduleEntry.Duration;
                 }
             }
-            
-            var afternoonScheduleEntries = TimeTable[day].Last();
-            var afternoonSum = afternoonScheduleEntries.Sum(s => s?.Duration);
-            if (afternoonSum + scheduleEntry.Duration <= afternoonScheduleEntries.Capacity)
+
+            var afternoonScheduleEntries = TimeTable[day].DaySessions.Last();
+            var afternoonSum = afternoonScheduleEntries.ScheduleEntries.Sum(s => s?.Duration);
+            if (afternoonSum + scheduleEntry.Duration <= afternoonScheduleEntries.ScheduleEntries.Capacity)
             {
-                scheduleEntry.Period = Convert.ToInt32(afternoonSum) + afternoonScheduleEntries.Capacity;
-                afternoonScheduleEntries.Add(scheduleEntry);
+                scheduleEntry.Period = Convert.ToInt32(afternoonSum) + afternoonScheduleEntries.ScheduleEntries.Capacity;
+                afternoonScheduleEntries.ScheduleEntries.Add(scheduleEntry);
                 return scheduleEntry.Duration;
             }
 

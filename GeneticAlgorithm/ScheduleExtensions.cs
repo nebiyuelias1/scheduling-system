@@ -52,11 +52,11 @@ namespace SchedulingSystem.GeneticAlgorithm
                 randDayTwo = rand.Next(schedule.TimeTable.Count);
             }
 
-            var randDayOneSchedule = schedule.TimeTable[randDayOne].ToList();
-            var randDayTwoSchedule = schedule.TimeTable[randDayTwo].ToList();
+            //var randDayOneSchedule = schedule.TimeTable[randDayOne].ToList();
+            //var randDayTwoSchedule = schedule.TimeTable[randDayTwo].ToList();
 
-            schedule.TimeTable[randDayOne] = randDayTwoSchedule;
-            schedule.TimeTable[randDayTwo] = randDayOneSchedule;
+            //schedule.TimeTable[randDayOne] = randDayTwoSchedule;
+            // schedule.TimeTable[randDayTwo] = randDayOneSchedule;
         }
 
         private static void RemoveScheduleEntries(IList<ScheduleEntry> daySchedule, Schedule scheduleB)
@@ -68,37 +68,39 @@ namespace SchedulingSystem.GeneticAlgorithm
                     continue;
                 }
 
-                foreach (var key in scheduleB.TimeTable.Keys)
-                {
-                    var earlyScheduleEntries = scheduleB.TimeTable[key].First();
-                    var foundSchedule = earlyScheduleEntries
-                                        .Where(s => s?.Course.CourseCode == scheduleEntry.Course.CourseCode &&
-                                                s?.TypeId == scheduleEntry.TypeId &&
-                                                s?.Duration == scheduleEntry.Duration)
-                                        .FirstOrDefault();
+                // foreach (var key in scheduleB.TimeTable.Keys)
+                // {
+                //     var earlyScheduleEntries = scheduleB.TimeTable[key].First();
+                //     var foundSchedule = earlyScheduleEntries
+                //                         .Where(s => s?.Course.CourseCode == scheduleEntry.Course.CourseCode &&
+                //                                 s?.TypeId == scheduleEntry.TypeId 
+                //                                 // && s?.Duration == scheduleEntry.Duration
+                //                                 )
+                //                         .FirstOrDefault();
 
-                    if (foundSchedule != null)
-                    {
-                        foundSchedule = null;
-                        break;
-                    }
+                //     if (foundSchedule != null)
+                //     {
+                //         foundSchedule = null;
+                //         break;
+                //     }
 
-                    if (scheduleB.TimeTable[key].Count > 1)
-                    {
-                        var afternoonScheduleEntries = scheduleB.TimeTable[key].Last();
-                        foundSchedule = afternoonScheduleEntries
-                                        .Where(s => s?.Course.CourseCode == scheduleEntry.Course.CourseCode &&
-                                                s?.TypeId == scheduleEntry.TypeId &&
-                                                s?.Duration == scheduleEntry.Duration)
-                                        .FirstOrDefault();
+                //     if (scheduleB.TimeTable[key].Count > 1)
+                //     {
+                //         var afternoonScheduleEntries = scheduleB.TimeTable[key].Last();
+                //         foundSchedule = afternoonScheduleEntries
+                //                         .Where(s => s?.Course.CourseCode == scheduleEntry.Course.CourseCode &&
+                //                                 s?.TypeId == scheduleEntry.TypeId 
+                //                                 // && s?.Duration == scheduleEntry.Duration
+                //                                 )
+                //                         .FirstOrDefault();
 
-                        if (foundSchedule != null)
-                        {
-                            foundSchedule = null;
-                            break;
-                        }
-                    }
-                }
+                //         if (foundSchedule != null)
+                //         {
+                //             foundSchedule = null;
+                //             break;
+                //         }
+                //     }
+                // }
             }
         }
     }

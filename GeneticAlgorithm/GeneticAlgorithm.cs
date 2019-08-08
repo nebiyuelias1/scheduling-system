@@ -16,8 +16,6 @@ namespace SchedulingSystem.GeneticAlgorithm
         private readonly IUnitOfWork unitOfWork;
         public ICollection<Schedule> Population { get; set; }
         private readonly IFitnessCalculator fitnessCalculator;
-        private Types types;
-        public ScheduleConfiguration ScheduleConfiguration { get; set; }
 
         public GeneticAlgorithm(IGeneticAlgorithmHelper helper, IUnitOfWork unitOfWork, IFitnessCalculator fitnessCalculator)
         {
@@ -27,10 +25,11 @@ namespace SchedulingSystem.GeneticAlgorithm
             Population = new Collection<Schedule>();
         }
 
-        public async Task<Schedule> GenerateScheduleForSection(int sectionId, ScheduleConfiguration scheduleConfiguration)
+        public async Task<Schedule> GenerateScheduleForSection(int sectionId)
         {
-            this.ScheduleConfiguration = scheduleConfiguration;
-            this.types = await unitOfWork.Types.GetTypes();
+            var scheduleConfiguration = await unitOfWork
+                                        .ScheduleConfigurations
+                                        .GetScheduleConfigurationForSection(sectionId);
 
             var currentSemester = await unitOfWork.AcademicSemesters
                                     .GetCurrentAcademicSemester();
@@ -39,16 +38,20 @@ namespace SchedulingSystem.GeneticAlgorithm
                                 .Sections
                                 .GetSectionWithCourseOfferings(sectionId, currentSemester.Id);
 
-            Population = InitializePopulation(section, scheduleConfiguration);
+            var semesterScheduleEntries = unitOfWork
+                                                .ScheduleEntries
+                                                .GetScheduleEntriesForSemester(currentSemester.Id, section.ProgramTypeId, section.AdmissionLevelId);
 
-            return FindBestSchedule();
+            Population = await InitializePopulation(section, scheduleConfiguration);
+
+            return FindBestSchedule(semesterScheduleEntries);
         }
 
-        private Schedule FindBestSchedule()
+        private Schedule FindBestSchedule(IEnumerable<ScheduleEntry> scheduleEntries)
         {
             while (true)
             {
-                var matingPool = NaturalSelection();
+                var matingPool = NaturalSelection(scheduleEntries);
                 CreateNextGeneration(matingPool.ToList());
 
                 if (Population.Any(p => p.Fitness >= 0.1))
@@ -77,7 +80,7 @@ namespace SchedulingSystem.GeneticAlgorithm
 
                 if (rand.NextDouble() <= GeneticAlgorithmConf.CROSSOVER_RATE)
                 {
-                    child = parentA.Crossover(parentB, ScheduleConfiguration);
+                    // child = parentA.Crossover(parentB, ScheduleConfiguration);
                 }
                 else if (parentA.Fitness > parentB.Fitness)
                 {
@@ -99,13 +102,13 @@ namespace SchedulingSystem.GeneticAlgorithm
             Population = population;
         }
 
-        private ICollection<Schedule> NaturalSelection()
+        private ICollection<Schedule> NaturalSelection(IEnumerable<ScheduleEntry> scheduleEntries)
         {
             List<Schedule> matingPool = new List<Schedule>();
 
             foreach (var item in Population)
             {
-                item.Fitness = fitnessCalculator.CalculateFitness(item, item.Section.CourseOfferings, types);
+                item.Fitness = fitnessCalculator.CalculateFitness(item, scheduleEntries);
             }
 
             var fitnessSum = Population.Sum(p => p.Fitness);
@@ -122,13 +125,14 @@ namespace SchedulingSystem.GeneticAlgorithm
             return matingPool;
         }
 
-        private ICollection<Schedule> InitializePopulation(Section section, ScheduleConfiguration scheduleConfiguration)
+        private async Task<ICollection<Schedule>> InitializePopulation(Section section, ScheduleConfiguration scheduleConfiguration)
         {
             ICollection<Schedule> population = new Collection<Schedule>();
+            var weekDays = await unitOfWork.WeekDays.GetFirstWeekDays(scheduleConfiguration.NumberOfDaysPerWeek);
 
             for (int i = 0; i < GeneticAlgorithmConf.POPULATION_SIZE; i++)
             {
-                var schedule = helper.InitializeScheduleForSection(section, scheduleConfiguration, types);
+                var schedule = helper.InitializeScheduleForSection(section, scheduleConfiguration, weekDays.ToList());
                 population.Add(schedule);
             }
 

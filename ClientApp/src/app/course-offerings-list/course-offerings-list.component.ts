@@ -4,7 +4,6 @@ import { MatPaginator, MatSort, MatTableDataSource, MatDialog, MatDialogConfig }
 import { DeleteDialogComponent } from '../delete-dialog/delete-dialog.component';
 import { UserService } from '../accounts/user.service';
 import { trigger, state, style, transition, animate } from '@angular/animations';
-import { data } from './myjson';
 
 @Component({
   selector: 'app-course-offerings-list',

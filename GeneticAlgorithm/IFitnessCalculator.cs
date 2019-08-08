@@ -6,6 +6,6 @@ namespace SchedulingSystem.GeneticAlgorithm
 {
     public interface IFitnessCalculator
     {
-        double CalculateFitness(Schedule schedule, ICollection<CourseOffering> courseOfferings, Types types);
+        double CalculateFitness(Schedule schedule, IEnumerable<ScheduleEntry> scheduleEntries);
     }
 }

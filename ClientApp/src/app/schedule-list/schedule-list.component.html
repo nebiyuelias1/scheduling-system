@@ -1,3 +1,57 @@
-<p>
-  schedule-list works!
-</p>
+<h3>Sections in your Department</h3>
+<div class="search-div">
+    <mat-form-field class="search-form-field">
+        <input matInput type="text" placeholder="Search" [(ngModel)]="searchKey" (keyup)="applyFilter()" />
+        <button mat-button *ngIf="searchKey" matSuffix mat-icon-button aria-label="Clear" (click)="clearSearchKey()">
+            <mat-icon>close</mat-icon>
+        </button>
+    </mat-form-field>
+</div>
+<div class="mat-elevation-z8 data-table">
+    <mat-table #table [dataSource]="dataSource" matSort aria-label="Elements">
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
+            <mat-cell *matCellDef="let row"> {{row.name}} </mat-cell>
+        </ng-container>
+
+        <!-- Entrance Year Column -->
+        <ng-container matColumnDef="entranceYear">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Entrance Year</mat-header-cell>
+            <mat-cell *matCellDef="let row">{{row.entranceYear}}</mat-cell>
+        </ng-container>
+
+        <!-- Student Count Column -->
+        <ng-container matColumnDef="studentCount">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Student Count</mat-header-cell>
+            <mat-cell *matCellDef="let row">{{row.studentCount}}</mat-cell>
+        </ng-container>
+
+        <!-- Program Column -->
+        <ng-container matColumnDef="program">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Program</mat-header-cell>
+            <mat-cell *matCellDef="let row">{{ row.program }}</mat-cell>
+        </ng-container>
+
+        <!-- Admission level Column -->
+        <ng-container matColumnDef="admissionLevel">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Admission Level</mat-header-cell>
+            <mat-cell *matCellDef="let row">{{ row.admissionLevel }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="action">
+            <mat-header-cell *matHeaderCellDef></mat-header-cell>
+            <mat-cell *matCellDef="let row">
+              <a [routerLink]="[row.id]">Generate Schedule</a>
+            </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+
+    <mat-paginator #paginator [pageIndex]="0" [pageSize]="25" [pageSizeOptions]="[5, 25, 50, 100, 250]"
+        showFirstLastButtons>
+    </mat-paginator>
+</div>

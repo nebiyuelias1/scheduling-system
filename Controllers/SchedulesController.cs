@@ -27,31 +27,10 @@ namespace SchedulingSystem.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetSchedule(int id)
         {
-            var scheduleConfiguration = await unitOfWork
-                                        .ScheduleConfigurations
-                                        .GetScheduleConfigurationForSection(id);
+            var schedule = await algorithm.GenerateScheduleForSection(id);
 
-            var schedule = await algorithm.GenerateScheduleForSection(id, scheduleConfiguration);
-
-            var scheduleResource = mapper.Map<Schedule, ScheduleResource>(schedule);
-            foreach (var key in schedule.TimeTable.Keys)
-            {
-                var scheduleResourceTimetable = schedule.TimeTable[key].First();
-                if (schedule.TimeTable[key].Count > 1)
-                {
-                    scheduleResourceTimetable.AddRange(schedule.TimeTable[key].Last());
-                }
-                scheduleResource.TimeTable[key] = scheduleResourceTimetable;
-            }
-            var scheduleConfigurationResource = mapper.Map<ScheduleConfiguration, ScheduleConfigurationResource>(scheduleConfiguration);
-
-            var timetableResource = new TimetableResource
-            {
-                Schedule = scheduleResource,
-                ScheduleConfiguration = scheduleConfigurationResource
-            };
-
-            return Ok(timetableResource);
+            
+            return Ok(schedule);
         }
     }
 }
