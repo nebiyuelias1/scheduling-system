@@ -76,8 +76,12 @@ namespace SchedulingSystem.Mapping
             CreateMap<AdmissionLevel, KeyValuePairResource>();
             CreateMap<ProgramType, KeyValuePairResource>();
             CreateMap<Course, CourseResource>();
-            CreateMap<Schedule, ScheduleResource>()
-                .ForMember(sr => sr.TimeTable, opt => opt.Ignore());
+            CreateMap<Schedule, ScheduleResource>();
+            CreateMap<DaySchedule, DayScheduleResource>();
+            CreateMap<WeekDay, WeekDayResource>();
+            CreateMap<DaySession, DaySessionResource>();
+            CreateMap<ScheduleEntry, ScheduleEntryResource>();
+                
             CreateMap<WeekDay, WeekDayResource>();
             CreateMap<AppUser, AppUserResource>()
                 .ForMember(aur => aur.FirstName, opt => opt.MapFrom(au => au.Contact.FirstName))

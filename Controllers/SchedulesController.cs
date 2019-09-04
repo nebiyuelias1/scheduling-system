@@ -30,7 +30,7 @@ namespace SchedulingSystem.Controllers
             var schedule = await algorithm.GenerateScheduleForSection(id);
 
             
-            return Ok(schedule);
+            return Ok(mapper.Map<Schedule, ScheduleResource>(schedule));
         }
     }
 }

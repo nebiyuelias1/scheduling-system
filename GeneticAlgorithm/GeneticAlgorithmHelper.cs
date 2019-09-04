@@ -14,6 +14,10 @@ namespace SchedulingSystem.GeneticAlgorithm
 {
     public class GeneticAlgorithmHelper : IGeneticAlgorithmHelper
     {
+        public readonly int LECTURE_ID = 1;
+        public readonly int LAB_ID = 2;
+        public readonly int TUTOR_ID = 3;
+        
         public Schedule InitializeScheduleForSection(Section section, ScheduleConfiguration scheduleConfiguration, IList<WeekDay> weekDays)
         {
             var schedule = new Schedule(section, scheduleConfiguration, weekDays);
@@ -29,34 +33,20 @@ namespace SchedulingSystem.GeneticAlgorithm
                 {
                     var randDay = Helper.GetRandomInteger(scheduleConfiguration.NumberOfDaysPerWeek);
 
-                    var lectureInstructor = courseOffering.Instructors
-                                                    //.Where(i => i.TypeId == types.LectureType.Id)
-                                                    .FirstOrDefault()
-                                                    .Instructor;
+                    var lectureInstructorId = GetInstructorId(courseOffering, LECTURE_ID);
 
-                    var lectureRoom = courseOffering
-                                        .Rooms
-                                        //.Where(r => r.TypeId == types.LectureType.Id)
-                                        .FirstOrDefault()
-                                        .Room;
+                    var lectureRoomId = GetRoomId(courseOffering, LECTURE_ID);
 
-                    var scheduleEntry = new ScheduleEntry
-                    {
-                        Course = courseOffering.Course,
-                        CourseId = courseOffering.Course.Id,
-                        Instructor = lectureInstructor,
-                        Room = lectureRoom,
-                        //TypeId = types.LectureType.Id,
-                    };
-
+                    var scheduleEntry = CreateScheduleEntry(courseOffering.Course.Id, lectureInstructorId, lectureRoomId,  LECTURE_ID);
+                    
                     if (lecture >= GeneticAlgorithmConf.MAX_CONSECUTIVE_LECTURE)
                     {
-                        //scheduleEntry.Duration = GeneticAlgorithmConf.MAX_CONSECUTIVE_LECTURE;
+                        scheduleEntry.Duration = GeneticAlgorithmConf.MAX_CONSECUTIVE_LECTURE;
                         lecture -= schedule.AddScheduleEntry(scheduleEntry, randDay);
                     }
                     else if (lecture > 0)
                     {
-                        //scheduleEntry.Duration = GeneticAlgorithmConf.MAX_CONSECUTIVE_LECTURE - 1;
+                        scheduleEntry.Duration = GeneticAlgorithmConf.MAX_CONSECUTIVE_LECTURE - 1;
                         lecture -= schedule.AddScheduleEntry(scheduleEntry, randDay);
                     }
                 }
@@ -65,26 +55,11 @@ namespace SchedulingSystem.GeneticAlgorithm
                 {
                     var randDay = Helper.GetRandomInteger(scheduleConfiguration.NumberOfDaysPerWeek);
 
-                    var tutorInstructor = courseOffering.Instructors
-                                                    //.Where(i => i.TypeId == types.TutorType.Id)
-                                                    .FirstOrDefault()
-                                                    .Instructor;
+                    var tutorInstructorId = GetInstructorId(courseOffering, TUTOR_ID);
 
-                    var tutorRoom = courseOffering
-                                        .Rooms
-                                        //.Where(r => r.TypeId == types.TutorType.Id)
-                                        .FirstOrDefault()
-                                        .Room;
+                    var tutorRoomId = GetRoomId(courseOffering, TUTOR_ID);
 
-                    var scheduleEntry = new ScheduleEntry
-                    {
-                        Course = courseOffering.Course,
-                        CourseId = courseOffering.Course.Id,
-                        Instructor = tutorInstructor,
-                        Room = tutorRoom,
-                        //TypeId = types.TutorType.Id,
-                        //Duration = 1
-                    };
+                    var scheduleEntry = CreateScheduleEntry(courseOffering.Course.Id, tutorInstructorId, tutorRoomId, TUTOR_ID, duration: 1);
 
                     tutor -= schedule.AddScheduleEntry(scheduleEntry, randDay);
                 }
@@ -93,39 +68,57 @@ namespace SchedulingSystem.GeneticAlgorithm
                 {
                     var randDay = Helper.GetRandomInteger(scheduleConfiguration.NumberOfDaysPerWeek);
 
-                    var labInstructor = courseOffering.Instructors
-                                                    //.Where(i => i.TypeId == types.LabType.Id)
-                                                    .FirstOrDefault()
-                                                    .Instructor;
+                    var labInstructorId = GetInstructorId(courseOffering, LAB_ID);
 
-                    var labRoom =  courseOffering
-                                        .Rooms
-                                        //.Where(r => r.TypeId == types.LabType.Id)
-                                        .FirstOrDefault()
-                                        .Room;
+                    var labRoomId =  GetRoomId(courseOffering, LAB_ID);
 
-                    var scheduleEntry = new ScheduleEntry
-                    {
-                        Course = courseOffering.Course,
-                        CourseId = courseOffering.Course.Id,
-                        Instructor = labInstructor,
-                        Room = labRoom,
-                        //TypeId = types.LabType.Id,
-                    };
+                    var scheduleEntry = CreateScheduleEntry(courseOffering.Course.Id, labInstructorId, labRoomId, LAB_ID);
 
                     if (lab >= GeneticAlgorithmConf.MAX_CONSECUTIVE_LAB)
                     {
-                        //scheduleEntry.Duration = GeneticAlgorithmConf.MAX_CONSECUTIVE_LAB;
+                        scheduleEntry.Duration = GeneticAlgorithmConf.MAX_CONSECUTIVE_LAB;
                         lab -= schedule.AddScheduleEntry(scheduleEntry, randDay);
                     }
                     else if (lab >= (GeneticAlgorithmConf.MAX_CONSECUTIVE_LAB - 1))
                     {
-                        //scheduleEntry.Duration = GeneticAlgorithmConf.MAX_CONSECUTIVE_LAB - 1;
+                        scheduleEntry.Duration = GeneticAlgorithmConf.MAX_CONSECUTIVE_LAB - 1;
                         lab -= schedule.AddScheduleEntry(scheduleEntry, randDay);
                     }
                 }
             }
             return schedule;
+        }
+
+        private ScheduleEntry CreateScheduleEntry(int courseId, int instructorId, int roomId, int typeId, int duration = 0)
+        {
+            return  new ScheduleEntry
+            {
+                CourseId = courseId,
+                InstructorId = instructorId,
+                RoomId = roomId,
+                TypeId = typeId,
+                Duration = duration
+            };
+        }
+
+        private int GetInstructorId(CourseOffering courseOffering, int typeId)
+        {
+            var id  = courseOffering.Instructors
+                .Where(i => i.TypeId == typeId)
+                .FirstOrDefault()
+                .InstructorId;
+
+            return (int)id;
+        }
+
+        private int GetRoomId(CourseOffering courseOffering, int typeId)
+        {
+            var id = courseOffering.Rooms
+                        .Where(r => r.TypeId == typeId)
+                        .FirstOrDefault()
+                        .RoomId;
+
+            return (int)id;
         }
     }
 }

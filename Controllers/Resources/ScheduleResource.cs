@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using SchedulingSystem.Core.Models;
 
 namespace SchedulingSystem.Controllers.Resources
@@ -7,13 +8,21 @@ namespace SchedulingSystem.Controllers.Resources
     {
         public int Id { get; set; }
         
-        public IDictionary<int, IList<ScheduleEntry>> TimeTable { get; set; }
+        public AcademicSemesterResource AcademicSemester { get; set; }
+
+        public SectionResource Section { get; set; }
         
+        public ICollection<DayScheduleResource> TimeTable { get; set; }
+
         public double Fitness { get; set; }
+
+        public int AcademicSemesterId { get; set; }
+
+        public int SectionId { get; set; }
 
         public ScheduleResource()
         {
-            TimeTable = new Dictionary<int, IList<ScheduleEntry>>();
+            TimeTable = new Collection<DayScheduleResource>();
         }
 
     }

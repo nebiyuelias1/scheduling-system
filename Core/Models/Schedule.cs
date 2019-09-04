@@ -46,7 +46,7 @@ namespace SchedulingSystem.Core.Models
                 }
                 else
                 {
-                    daySchedule.DaySessions.Add(new DaySession());
+                    daySchedule.DaySessions.Add(new DaySession(scheduleConfiguration.NumberOfPeriodsPerDay));
                 }
 
                 this.TimeTable.Add(daySchedule);

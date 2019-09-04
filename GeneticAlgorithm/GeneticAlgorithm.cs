@@ -76,7 +76,7 @@ namespace SchedulingSystem.GeneticAlgorithm
                 var parentA = matingPool[a];
                 var parentB = matingPool[b];
 
-                Schedule child = null;
+                Schedule child = parentA;
 
                 if (rand.NextDouble() <= GeneticAlgorithmConf.CROSSOVER_RATE)
                 {

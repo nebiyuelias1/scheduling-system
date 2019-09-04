@@ -9,7 +9,6 @@ namespace SchedulingSystem.Core.Models
         public WeekDay WeekDay { get; set; }
         public int WeekDayId { get; set; }
         public ICollection<DaySession> DaySessions { get; set; }
-        public int DaySessionId { get; set; }
         public Schedule Schedule { get; set; }
         public int ScheduleId { get; set; }
 
