@@ -30,6 +30,7 @@ import { RoomsListComponent } from './rooms-list/rooms-list.component';
 import { DepartmentListComponent } from './department-list/department-list.component';
 import { DepartmentHeadAssignmentFormComponent } from './department-head-assignment-form/department-head-assignment-form.component';
 import { ScheduleListComponent } from './schedule-list/schedule-list.component';
+import { DemoComponentComponent } from './demo-component/demo-component.component';
 
 const routes: Routes = [
     {
@@ -40,6 +41,10 @@ const routes: Routes = [
             {
                 path: '',
                 component: HomeComponent
+            },
+            {
+                path: 'demo',
+                component: DemoComponentComponent
             },
             {
                 path: 'colleges',

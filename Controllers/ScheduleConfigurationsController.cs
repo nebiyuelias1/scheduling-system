@@ -41,5 +41,15 @@ namespace SchedulingSystem.Controllers
 
             return Ok(result);
         }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetScheduleConfiguration(int id)
+        {
+            var scheduleConfiguration = await unitOfWork
+                                        .ScheduleConfigurations
+                                        .GetScheduleConfigurationForSection(id);
+
+            return Ok(mapper.Map<ScheduleConfiguration, ScheduleConfigurationResource>(scheduleConfiguration));
+        }
     }
 }

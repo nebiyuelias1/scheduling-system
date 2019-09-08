@@ -56,6 +56,10 @@ import { DepartmentHeadAssignmentFormComponent } from './department-head-assignm
 import { LabTypeService } from './services/lab-type.service';
 import { ScheduleListComponent } from './schedule-list/schedule-list.component';
 import { AppMaterialModule } from './app-material.module';
+import { FullCalendarModule } from '@fullcalendar/angular'; // for FullCalendar!
+import { DemoComponentComponent } from './demo-component/demo-component.component';
+import { TimetableComponent } from './timetable/timetable.component';
+import { ScheduleConfigurationService } from './services/schedule-configuration.service';
 
 @NgModule({
   declarations: [
@@ -97,6 +101,8 @@ import { AppMaterialModule } from './app-material.module';
     DepartmentListComponent,
     DepartmentHeadAssignmentFormComponent,
     ScheduleListComponent,
+    DemoComponentComponent,
+    TimetableComponent,
   ],
   imports: [
     BrowserAnimationsModule,
@@ -108,6 +114,7 @@ import { AppMaterialModule } from './app-material.module';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
+    FullCalendarModule
   ],
   providers: [
     CollegeService,
@@ -120,6 +127,7 @@ import { AppMaterialModule } from './app-material.module';
     SectionService,
     InstructorService,
     LabTypeService,
+    ScheduleConfigurationService,
     AuthGuard
   ],
   bootstrap: [AppComponent],
