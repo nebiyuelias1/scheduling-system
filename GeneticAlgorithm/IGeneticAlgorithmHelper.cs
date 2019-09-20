@@ -6,6 +6,6 @@ namespace SchedulingSystem.GeneticAlgorithm
 {
     public interface IGeneticAlgorithmHelper
     {
-        Schedule InitializeScheduleForSection(Section section, ScheduleConfiguration scheduleConfiguration, IList<WeekDay> types);
+    Schedule InitializeScheduleForSection(Section section, ScheduleConfiguration scheduleConfiguration, IList<WeekDay> types);
     }
 }

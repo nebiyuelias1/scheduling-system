@@ -37,6 +37,7 @@ namespace SchedulingSystem.Mapping
             CreateMap<SectionQueryResource, SectionQuery>();
             CreateMap<RoomQueryResource, RoomQuery>();
             CreateMap<CourseOfferingQueryResource, CourseOfferingQuery>();
+            CreateMap<ScheduleConfigurationQueryResource, ScheduleConfigurationQuery>();
 
             // Domain to API Resource
             CreateMap<Department, DepartmentResource>();

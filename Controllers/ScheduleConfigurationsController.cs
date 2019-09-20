@@ -42,14 +42,14 @@ namespace SchedulingSystem.Controllers
             return Ok(result);
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetScheduleConfiguration(int id)
+        [HttpGet]
+        public async Task<IActionResult> GetScheduleConfiguration(ScheduleConfigurationQueryResource filterResource)
         {
-            var scheduleConfiguration = await unitOfWork
-                                        .ScheduleConfigurations
-                                        .GetScheduleConfigurationForSection(id);
+            var filter = Mapper.Map<ScheduleConfigurationQueryResource, ScheduleConfigurationQuery>(filterResource);
+            
+            var result = await unitOfWork.ScheduleConfigurations.GetScheduleConfiguration(filter);
 
-            return Ok(mapper.Map<ScheduleConfiguration, ScheduleConfigurationResource>(scheduleConfiguration));
+            return Ok(mapper.Map<ScheduleConfiguration, ScheduleConfigurationResource>(result));
         }
     }
 }

@@ -26,7 +26,6 @@ export class ScheduleComponent implements OnInit {
   }
 
   generateSchedule() {
-    console.log('clicked!');
     this.commonService.getTimetable(this.section.id)
       .subscribe(s => {
         this.schedule = s;

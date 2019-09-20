@@ -21,5 +21,12 @@ namespace SchedulingSystem.Persistence.Repositories
                 LabType = await SchedulingDbContext.Types.SingleOrDefaultAsync(t => t.Name == "Lab")
             };
         }
+
+        public async Task<Type> GetType(int typeId)
+        {
+            return await SchedulingDbContext
+                    .Types
+                    .SingleOrDefaultAsync(t => t.Id == typeId);
+        }
     }
 }

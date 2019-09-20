@@ -33,7 +33,7 @@ namespace SchedulingSystem.Core.Models
             {
                 var daySchedule = new DaySchedule
                 {
-                    WeekDayId = weekDays[i].Id
+                    WeekDay = weekDays[i]
                 };
 
                 if (scheduleConfiguration.HasLunchBreak())

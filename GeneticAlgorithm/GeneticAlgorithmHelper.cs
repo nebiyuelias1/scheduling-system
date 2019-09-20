@@ -33,11 +33,11 @@ namespace SchedulingSystem.GeneticAlgorithm
                 {
                     var randDay = Helper.GetRandomInteger(scheduleConfiguration.NumberOfDaysPerWeek);
 
-                    var lectureInstructorId = GetInstructorId(courseOffering, LECTURE_ID);
+                    var lectureInstructor = GetInstructor(courseOffering, LECTURE_ID);
 
-                    var lectureRoomId = GetRoomId(courseOffering, LECTURE_ID);
+                    var lectureRoom = GetRoom(courseOffering, LECTURE_ID);
 
-                    var scheduleEntry = CreateScheduleEntry(courseOffering.Course.Id, lectureInstructorId, lectureRoomId,  LECTURE_ID);
+                    var scheduleEntry = CreateScheduleEntry(courseOffering.Course, lectureInstructor, lectureRoom,  LECTURE_ID);
                     
                     if (lecture >= GeneticAlgorithmConf.MAX_CONSECUTIVE_LECTURE)
                     {
@@ -55,11 +55,11 @@ namespace SchedulingSystem.GeneticAlgorithm
                 {
                     var randDay = Helper.GetRandomInteger(scheduleConfiguration.NumberOfDaysPerWeek);
 
-                    var tutorInstructorId = GetInstructorId(courseOffering, TUTOR_ID);
+                    var tutorInstructor = GetInstructor(courseOffering, TUTOR_ID);
 
-                    var tutorRoomId = GetRoomId(courseOffering, TUTOR_ID);
+                    var tutorRoom = GetRoom(courseOffering, TUTOR_ID);
 
-                    var scheduleEntry = CreateScheduleEntry(courseOffering.Course.Id, tutorInstructorId, tutorRoomId, TUTOR_ID, duration: 1);
+                    var scheduleEntry = CreateScheduleEntry(courseOffering.Course, tutorInstructor, tutorRoom, TUTOR_ID, duration: 1);
 
                     tutor -= schedule.AddScheduleEntry(scheduleEntry, randDay);
                 }
@@ -68,11 +68,11 @@ namespace SchedulingSystem.GeneticAlgorithm
                 {
                     var randDay = Helper.GetRandomInteger(scheduleConfiguration.NumberOfDaysPerWeek);
 
-                    var labInstructorId = GetInstructorId(courseOffering, LAB_ID);
+                    var labInstructor = GetInstructor(courseOffering, LAB_ID);
 
-                    var labRoomId =  GetRoomId(courseOffering, LAB_ID);
+                    var labRoom =  GetRoom(courseOffering, LAB_ID);
 
-                    var scheduleEntry = CreateScheduleEntry(courseOffering.Course.Id, labInstructorId, labRoomId, LAB_ID);
+                    var scheduleEntry = CreateScheduleEntry(courseOffering.Course, labInstructor, labRoom, LAB_ID);
 
                     if (lab >= GeneticAlgorithmConf.MAX_CONSECUTIVE_LAB)
                     {
@@ -89,36 +89,32 @@ namespace SchedulingSystem.GeneticAlgorithm
             return schedule;
         }
 
-        private ScheduleEntry CreateScheduleEntry(int courseId, int instructorId, int roomId, int typeId, int duration = 0)
+        private ScheduleEntry CreateScheduleEntry(Course course, Instructor instructor, Room room, int typeId, int duration = 0)
         {
             return  new ScheduleEntry
             {
-                CourseId = courseId,
-                InstructorId = instructorId,
-                RoomId = roomId,
+                Course = course,
+                Instructor = instructor,
+                Room = room,
                 TypeId = typeId,
                 Duration = duration
             };
         }
 
-        private int GetInstructorId(CourseOffering courseOffering, int typeId)
+        private Instructor GetInstructor(CourseOffering courseOffering, int typeId)
         {
-            var id  = courseOffering.Instructors
+            return courseOffering.Instructors
                 .Where(i => i.TypeId == typeId)
                 .FirstOrDefault()
-                .InstructorId;
-
-            return (int)id;
+                .Instructor;
         }
 
-        private int GetRoomId(CourseOffering courseOffering, int typeId)
+        private Room GetRoom(CourseOffering courseOffering, int typeId)
         {
-            var id = courseOffering.Rooms
+            return courseOffering.Rooms
                         .Where(r => r.TypeId == typeId)
                         .FirstOrDefault()
-                        .RoomId;
-
-            return (int)id;
+                        .Room;
         }
     }
 }

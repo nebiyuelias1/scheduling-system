@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using SchedulingSystem.Controllers.Resources;
 using SchedulingSystem.Core;
 using SchedulingSystem.Core.Models;
 using SchedulingSystem.Persistence;
@@ -29,7 +30,11 @@ namespace SchedulingSystem.GeneticAlgorithm
         {
             var scheduleConfiguration = await unitOfWork
                                         .ScheduleConfigurations
-                                        .GetScheduleConfigurationForSection(sectionId);
+                                        .GetScheduleConfiguration(new ScheduleConfigurationQuery
+                                            {
+                                                SectionId = sectionId
+                                            }
+                                        );
 
             var currentSemester = await unitOfWork.AcademicSemesters
                                     .GetCurrentAcademicSemester();
