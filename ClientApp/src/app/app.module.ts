@@ -60,6 +60,7 @@ import { FullCalendarModule } from '@fullcalendar/angular'; // for FullCalendar!
 import { DemoComponentComponent } from './demo-component/demo-component.component';
 import { TimetableComponent } from './timetable/timetable.component';
 import { ScheduleConfigurationService } from './services/schedule-configuration.service';
+import { ScheduleService } from './services/schedule.service';
 
 @NgModule({
   declarations: [
@@ -128,6 +129,7 @@ import { ScheduleConfigurationService } from './services/schedule-configuration.
     InstructorService,
     LabTypeService,
     ScheduleConfigurationService,
+    ScheduleService,
     AuthGuard
   ],
   bootstrap: [AppComponent],

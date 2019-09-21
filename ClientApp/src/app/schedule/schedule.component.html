@@ -1,3 +1,4 @@
 {{ section|json }}
-<button class="btn btn-primary" (click)="generateSchedule()">Generate</button>
+<button *ngIf="!schedule" class="btn btn-primary" (click)="generateSchedule()">Generate</button>
 <app-timetable *ngIf="schedule" [timetable]="schedule.timeTable" [sectionId]="section.id"></app-timetable>
+<button *ngIf="schedule" class="btn btn-primary" #btn (click)="saveSchedule(btn)">Save</button>

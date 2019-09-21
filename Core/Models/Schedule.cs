@@ -25,15 +25,20 @@ namespace SchedulingSystem.Core.Models
 
         public int SectionId { get; set; }
 
-        public Schedule(Section section, ScheduleConfiguration scheduleConfiguration, IList<WeekDay> weekDays)
+        public Schedule(Section section, ScheduleConfiguration scheduleConfiguration, IList<WeekDay> weekDays, AcademicSemester academicSemester)
             : this()
         {
-            this.Section = section;
+            // this.Section = section;
+            this.SectionId = section.Id;
+            // this.AcademicSemester = academicSemester;
+            this.AcademicSemesterId = academicSemester.Id;
+
             for (int i = 0; i < scheduleConfiguration.NumberOfDaysPerWeek; i++)
             {
                 var daySchedule = new DaySchedule
                 {
-                    WeekDay = weekDays[i]
+                    WeekDay = weekDays[i],
+                    WeekDayId = weekDays[i].Id
                 };
 
                 if (scheduleConfiguration.HasLunchBreak())

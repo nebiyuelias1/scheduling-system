@@ -47,7 +47,7 @@ namespace SchedulingSystem.GeneticAlgorithm
                                                 .ScheduleEntries
                                                 .GetScheduleEntriesForSemester(currentSemester.Id, section.ProgramTypeId, section.AdmissionLevelId);
 
-            Population = await InitializePopulation(section, scheduleConfiguration);
+            Population = await InitializePopulation(section, scheduleConfiguration, currentSemester);
 
             return FindBestSchedule(semesterScheduleEntries);
         }
@@ -130,14 +130,14 @@ namespace SchedulingSystem.GeneticAlgorithm
             return matingPool;
         }
 
-        private async Task<ICollection<Schedule>> InitializePopulation(Section section, ScheduleConfiguration scheduleConfiguration)
+        private async Task<ICollection<Schedule>> InitializePopulation(Section section, ScheduleConfiguration scheduleConfiguration, AcademicSemester currentSemester)
         {
             ICollection<Schedule> population = new Collection<Schedule>();
             var weekDays = await unitOfWork.WeekDays.GetFirstWeekDays(scheduleConfiguration.NumberOfDaysPerWeek);
 
             for (int i = 0; i < GeneticAlgorithmConf.POPULATION_SIZE; i++)
             {
-                var schedule = helper.InitializeScheduleForSection(section, scheduleConfiguration, weekDays.ToList());
+                var schedule = helper.InitializeScheduleForSection(section, scheduleConfiguration, weekDays.ToList(), currentSemester);
                 population.Add(schedule);
             }
 

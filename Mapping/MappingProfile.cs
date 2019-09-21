@@ -38,6 +38,21 @@ namespace SchedulingSystem.Mapping
             CreateMap<RoomQueryResource, RoomQuery>();
             CreateMap<CourseOfferingQueryResource, CourseOfferingQuery>();
             CreateMap<ScheduleConfigurationQueryResource, ScheduleConfigurationQuery>();
+            CreateMap<ScheduleResource, Schedule>()
+                .ForMember(s => s.TimeTable, opt => opt.MapFrom(sr => sr.TimeTable));
+            CreateMap<AcademicSemesterResource, AcademicSemester>();
+            CreateMap<SectionResource, Section>()
+                .ForMember(x => x.Program, opt => opt.Ignore())
+                .ForMember(x => x.AdmissionLevel, opt => opt.Ignore());
+            CreateMap<SaveDayScheduleResource, DaySchedule>();
+            CreateMap<WeekDayResource, WeekDay>();
+            CreateMap<SaveDaySessionResource, DaySession>();
+            CreateMap<SaveScheduleEntryResource, ScheduleEntry>();
+            CreateMap<CourseResource, Course>();
+            CreateMap<AppUserResource, AppUser>();
+            CreateMap<RoomResource, Room>();
+            CreateMap<KeyValuePairResource, Type>();
+            CreateMap<SaveScheduleResource, Schedule>();
 
             // Domain to API Resource
             CreateMap<Department, DepartmentResource>();

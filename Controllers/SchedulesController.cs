@@ -32,5 +32,21 @@ namespace SchedulingSystem.Controllers
             
             return Ok(mapper.Map<Schedule, ScheduleResource>(schedule));
         }
+
+        [HttpPost("{id}")]
+        public async Task<IActionResult> SaveSchedule(int id, [FromBody] SaveScheduleResource resource)
+        {
+            var section = await unitOfWork.Sections.Get(id);
+            if (section == null)
+            {
+                return BadRequest();
+            }
+            var schedule = mapper.Map<SaveScheduleResource, Schedule>(resource);
+
+            unitOfWork.Schedules.Add(schedule);
+            await unitOfWork.CompleteAsync();
+
+            return Ok();
+        }
     }
 }

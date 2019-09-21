@@ -22,6 +22,7 @@ namespace SchedulingSystem.Core
         IBuildingRepository Buildings { get; }
         ILabTypeRepository LabTypes { get; }
         IScheduleEntryRepository ScheduleEntries { get; }
+        IScheduleRepository Schedules { get; }
 
         Task<int> CompleteAsync();
     }

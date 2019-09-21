@@ -40,6 +40,7 @@ namespace SchedulingSystem.Persistence
         public ILabTypeRepository LabTypes { get; private set; }
 
         public IScheduleEntryRepository ScheduleEntries { get; private set; }
+        public IScheduleRepository Schedules { get; private set; }
 
         public UnitOfWork(SchedulingDbContext context)
         {
@@ -60,6 +61,7 @@ namespace SchedulingSystem.Persistence
             Buildings = new BuildingRepository(context);
             LabTypes = new LabTypeRepository(context);
             ScheduleEntries = new ScheduleEntryRepository(context);
+            Schedules = new ScheduleRepository(context);
         }
 
 

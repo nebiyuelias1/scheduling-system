@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonService } from '../services/common.service';
 import { ActivatedRoute } from '@angular/router';
 import { SectionService } from '../services/section.service';
+import { ScheduleService } from '../services/schedule.service';
 
 @Component({
   selector: 'app-schedule',
@@ -14,6 +15,7 @@ export class ScheduleComponent implements OnInit {
 
   constructor(
     private commonService: CommonService,
+    private scheduleService: ScheduleService,
     private sectionService: SectionService,
     private route: ActivatedRoute) { }
 
@@ -32,5 +34,12 @@ export class ScheduleComponent implements OnInit {
         console.log(this.schedule);
       },
         err => console.log(err));
+  }
+
+  saveSchedule(e) {
+    // this.scheduleService.saveSchedule(this.section.id, this.schedule)
+    //   .subscribe(() => {
+    //     console.log('schedule generated...');
+    //   }, err => console.error(err));
   }
 }

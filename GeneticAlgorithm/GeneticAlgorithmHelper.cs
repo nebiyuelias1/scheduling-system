@@ -18,9 +18,9 @@ namespace SchedulingSystem.GeneticAlgorithm
         public readonly int LAB_ID = 2;
         public readonly int TUTOR_ID = 3;
         
-        public Schedule InitializeScheduleForSection(Section section, ScheduleConfiguration scheduleConfiguration, IList<WeekDay> weekDays)
+        public Schedule InitializeScheduleForSection(Section section, ScheduleConfiguration scheduleConfiguration, IList<WeekDay> weekDays, AcademicSemester academicSemester)
         {
-            var schedule = new Schedule(section, scheduleConfiguration, weekDays);
+            var schedule = new Schedule(section, scheduleConfiguration, weekDays, academicSemester);
 
             foreach (var courseOffering in section.CourseOfferings)
             {
@@ -94,8 +94,11 @@ namespace SchedulingSystem.GeneticAlgorithm
             return  new ScheduleEntry
             {
                 Course = course,
+                CourseId = course.Id,
                 Instructor = instructor,
+                InstructorId = instructor.Id,
                 Room = room,
+                RoomId = room.Id,
                 TypeId = typeId,
                 Duration = duration
             };

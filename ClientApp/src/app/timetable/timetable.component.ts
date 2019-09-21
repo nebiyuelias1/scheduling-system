@@ -33,13 +33,13 @@ export class TimetableComponent implements OnInit {
           for (const daySession of day.daySessions) {
             for (const scheduleEntry of daySession.scheduleEntries) {
               const start = scheduleConfiguration
-                              .durations[scheduleEntry.period]
+                              ['durations'][scheduleEntry.period]
                               .startTime
                               .split('T')[1]
                               .split(':');
 
               const end = scheduleConfiguration
-                              .durations[scheduleEntry.period + scheduleEntry.duration - 1]
+                              ['durations'][scheduleEntry.period + scheduleEntry.duration - 1]
                               .endTime
                               .split('T')[1]
                               .split(':');
