@@ -61,6 +61,7 @@ import { DemoComponentComponent } from './demo-component/demo-component.componen
 import { TimetableComponent } from './timetable/timetable.component';
 import { ScheduleConfigurationService } from './services/schedule-configuration.service';
 import { ScheduleService } from './services/schedule.service';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -115,7 +116,12 @@ import { ScheduleService } from './services/schedule.service';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    FullCalendarModule
+    FullCalendarModule,
+    ToastrModule.forRoot({
+      // timeOut: 10000,
+      preventDuplicates: true,
+      closeButton: true
+    }) // ToastrModule added
   ],
   providers: [
     CollegeService,

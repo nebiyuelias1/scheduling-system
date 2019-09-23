@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import { FullCalendarComponent } from '@fullcalendar/angular';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -18,7 +19,7 @@ export class DemoComponentComponent implements OnInit {
     { title: 'event-1', date: '2019-09-05' },
     { title: 'event-2', date: '2019-09-06' }
   ];
-  constructor() { }
+  constructor(private toastr: ToastrService) { }
 
   ngOnInit() {
     this.options = {
@@ -47,6 +48,22 @@ export class DemoComponentComponent implements OnInit {
       // add other plugins
       plugins: [dayGridPlugin, timeGridPlugin ]
     };
+  }
+
+  showSuccess() {
+    this.toastr.success('Hello world!', 'Toastr fun!', {
+      positionClass: 'toast-top-right',
+      closeButton: true
+    });
+    this.toastr.error('everything is broken', 'Major Error', {
+      timeOut: 3000
+    });
+    this.toastr.info('info...', 'This is info', {
+      timeOut: 3000
+    });
+    this.toastr.warning('warning...', 'This is warning', {
+      timeOut: 3000
+    });
   }
 
 }

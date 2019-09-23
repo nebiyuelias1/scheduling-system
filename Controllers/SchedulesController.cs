@@ -24,8 +24,8 @@ namespace SchedulingSystem.Controllers
             this.mapper = mapper;
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetSchedule(int id)
+        [HttpGet("generate/{id}")]
+        public async Task<IActionResult> GenerateSchedule(int id)
         {
             var schedule = await algorithm.GenerateScheduleForSection(id);
 
@@ -47,6 +47,16 @@ namespace SchedulingSystem.Controllers
             await unitOfWork.CompleteAsync();
 
             return Ok();
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetSchedule(int id)
+        {
+            var schedule = await unitOfWork.Schedules.GetScheduleForSection(id);
+            if (schedule == null) return NotFound();
+
+            var result = mapper.Map<Schedule, ScheduleResource>(schedule);
+            return Ok(result);
         }
     }
 }

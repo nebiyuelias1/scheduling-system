@@ -7,6 +7,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { CurriculumService } from '../services/curriculum.service';
 import { UserService } from '../accounts/user.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-section-form',
@@ -42,7 +43,8 @@ export class SectionFormComponent implements OnInit {
     private commonService: CommonService,
     private sectionService: SectionService,
     private curriculumService: CurriculumService,
-    private userService: UserService) {
+    private userService: UserService,
+    private toastr: ToastrService) {
       this.route.params
       .subscribe(x => this.section.id = +x['id'] || 0);
     }
@@ -90,8 +92,10 @@ export class SectionFormComponent implements OnInit {
       this.sectionService.save(this.form.value);
 
     result$.subscribe(x => {
+      this.toastr.success('Section saved successfully.', 'Section Saved');
+
       this.router.navigate(['/sections']);
-    }, err => console.error(err));
+    }, err => this.toastr.error(err.message, 'Section Save Error'));
   }
 
   private setVehicle(s: SaveSection) {
