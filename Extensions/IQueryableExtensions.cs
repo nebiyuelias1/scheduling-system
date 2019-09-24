@@ -43,7 +43,7 @@ namespace SchedulingSystem.Extensions
 
             if (!queryObj.IncludeInactive)
                 query = query.Where(s => s.IsActive);
-                
+
             return query;
         }
 

@@ -25,6 +25,7 @@ export class ScheduleListComponent implements OnInit {
   ngOnInit() {
     const query = {
       departmentId: this.userService.decodedToken.dept_id,
+      includeSchedule: true
     };
 
     this.sectionService.getSections(query)

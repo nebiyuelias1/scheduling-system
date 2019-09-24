@@ -43,7 +43,15 @@
         <ng-container matColumnDef="action">
             <mat-header-cell *matHeaderCellDef></mat-header-cell>
             <mat-cell *matCellDef="let row">
-              <a [routerLink]="[row.id]">Generate Schedule</a>
+              <a [routerLink]="[row.id]">
+                  <ng-container *ngIf="row.schedules.length > 0; then thenTemplate; else elseTemplate"></ng-container>
+                  <ng-template #thenTemplate>
+                      <span>View Schedule</span>
+                  </ng-template>
+                  <ng-template #elseTemplate>
+                      <span>Generate Schedule</span>
+                  </ng-template>
+                </a>
             </mat-cell>
         </ng-container>
 

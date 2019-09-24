@@ -63,6 +63,7 @@ namespace SchedulingSystem.Mapping
                 .ForMember(x => x.Types, opt => opt.MapFrom(r => r.Types.Select(t => new RoomTypeAssignmentResource { TypeId = t.TypeId, LabTypeId = t.LabTypeId })));
             CreateMap<Section, SaveSectionResource>();
             CreateMap<Section, SectionResource>()
+                .ForMember(x => x.Schedules, opt => opt.MapFrom(s => s.Schedules))
                 .ForMember(x => x.Program, opt =>
                     opt.MapFrom(s =>  s.Program.Name ))
                 .ForMember(x => x.AdmissionLevel, opt =>
@@ -97,6 +98,7 @@ namespace SchedulingSystem.Mapping
             CreateMap<WeekDay, WeekDayResource>();
             CreateMap<DaySession, DaySessionResource>();
             CreateMap<ScheduleEntry, ScheduleEntryResource>();
+            CreateMap<Schedule, SectionScheduleResource>();
                 
             CreateMap<WeekDay, WeekDayResource>();
             CreateMap<AppUser, AppUserResource>()

@@ -23,6 +23,8 @@ namespace SchedulingSystem.Persistence.Repositories
             
             query = query.ApplySectionFilter(queryObj);
 
+            if (queryObj.IncludeSchedule) query = query.Select(s => IncludeOnlyCurrentSemesterSchedule(s));
+
             result.TotalItems = await query.CountAsync();
             result.Items = await query.ToListAsync();
             
@@ -71,12 +73,22 @@ namespace SchedulingSystem.Persistence.Repositories
 
         private IQueryable<Section> GetSectionAsQueryable()
         {
-            return SchedulingDbContext.Sections
+            var queryObj = SchedulingDbContext.Sections
                             .Include(s => s.Curriculum)
                                 .ThenInclude(s => s.Department)
                             .Include(s => s.Program)
                             .Include(s => s.AdmissionLevel)
+                            .Include(s => s.Schedules)
+                                .ThenInclude(sc => sc.AcademicSemester)
                             .AsQueryable();
+
+            return queryObj;
+        }
+
+        private Section IncludeOnlyCurrentSemesterSchedule(Section s)
+        {
+            s.Schedules = s.Schedules.Where(sc => sc.AcademicSemester.IsCurrentSemester).ToList();
+            return s;
         }
     }
 }

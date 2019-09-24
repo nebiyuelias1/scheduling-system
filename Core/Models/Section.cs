@@ -26,6 +26,7 @@ namespace SchedulingSystem.Core.Models
 
         
         public ICollection<CourseOffering> CourseOfferings { get; set; }
+        public ICollection<Schedule> Schedules { get; set; }
 
         public bool IsActive { get; private set; }
 
@@ -38,6 +39,7 @@ namespace SchedulingSystem.Core.Models
         public Section()
         {
             CourseOfferings = new Collection<CourseOffering>();
+            Schedules = new Collection<Schedule>();
             IsActive = true;
         }
 

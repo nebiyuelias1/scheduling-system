@@ -26,7 +26,7 @@ export class SectionListComponent implements OnInit {
 
   ngOnInit() {
     const query = {
-      departmentId: this.userService.decodedToken.dept_id,
+      departmentId: this.userService.decodedToken.dept_id
     };
 
     this.sectionService.getSections(query)
