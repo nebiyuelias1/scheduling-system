@@ -41,7 +41,7 @@
     "hammerjs": "^2.0.8",
     "jquery": "^3.4.1",
     "material-design-icons": "^3.0.1",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "ngx-fullcalendar": "^5.0.0-alpha.1",
     "ngx-toastr": "^10.2.0",
     "rxjs": "^6.5.2",
