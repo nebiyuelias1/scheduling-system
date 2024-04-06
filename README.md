@@ -1,6 +1,11 @@
 # Scheduling System
 This is a class scheduling app for Ethiopian universities that can automatically generate weekly schedules.
 
+[![.NET Core](https://img.shields.io/badge/.NET%20Core-3.1%20%7C%205.0-brightgreen)](https://dotnet.microsoft.com/download) 
+[![Node.js](https://img.shields.io/badge/Node.js-14%20%7C%2016-brightgreen)](https://nodejs.org/) 
+[![Angular CLI](https://img.shields.io/badge/Angular%20CLI-12-brightgreen)](https://angular.io/cli) 
+[![SQL Server](https://img.shields.io/badge/SQL%20Server-2019-brightgreen)](https://www.microsoft.com/en-us/sql-server/sql-server-downloads)
+
 ## Prerequisites
 
 Before you begin, make sure you have the following installed on your machine:
