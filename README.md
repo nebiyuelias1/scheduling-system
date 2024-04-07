@@ -1,5 +1,7 @@
 # Scheduling System
-This is a class scheduling app for Ethiopian universities that can automatically generate weekly schedules.
+Welcome to iScheduler 2.0, an App designed specifically for Ethiopian universities! Utilizing a cutting-edge Genetic Algorithm, we've crafted a solution that automates the creation of weekly schedules with precision and efficiency.
+
+No more manual headaches or conflicting schedules. Our app intelligently balances course offerings, faculty availability, and student preferences to deliver optimized schedules that maximize resources and minimize conflicts.
 
 [![.NET Core](https://img.shields.io/badge/.NET%20Core-3.1%20%7C%205.0-brightgreen)](https://dotnet.microsoft.com/download) 
 [![Node.js](https://img.shields.io/badge/Node.js-14%20%7C%2016-brightgreen)](https://nodejs.org/) 
