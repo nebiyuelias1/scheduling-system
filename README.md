@@ -20,7 +20,7 @@ Before you begin, make sure you have the following installed on your machine:
 ## Setting Up the Database
 
 1. Install SQL Server if you haven't already.
-2. Create a new database for the project. You can do this using SQL Server Management Studio or any other preferred method.
+2. Create a new database for the project. You can do this using [SQL Server Management Studio](https://learn.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms?view=sql-server-ver16) or any other preferred method.
 3. Update the connection string in `appsettings.json` file in the ASP.NET Core project (`scheduling-system/appsettings.json`) to point to your newly created database.
 
 ```json
