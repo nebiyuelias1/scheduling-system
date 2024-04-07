@@ -62,3 +62,14 @@ ng serve
 
 ## Accessing the Application
 You can now access the application by visiting http://localhost:4200 in your web browser. The Angular frontend communicates with the ASP.NET Core API running on https://localhost:5001 to fetch and manipulate data.
+
+## References
+For those interested in delving deeper into the Genetic Algorithm utilized in our app, we recommend exploring the following research:
+
+[[1]](https://ieeexplore.ieee.org/abstract/document/7577525) S. Parera, H. T. Sukmana and L. K. Wardhani, "Application of genetic algorithm for class scheduling (Case study: Faculty of science and technology UIN Jakarta)," 2016 4th International Conference on Cyber and IT Service Management, Bandung, Indonesia, 2016, pp. 1-5
+
+[[2]](https://iopscience.iop.org/article/10.1088/1742-6596/995/1/012050/meta) Ahmad, Izah R., et al. "A heuristics approach for classroom scheduling using genetic algorithm technique." Journal of physics: Conference series. Vol. 995. No. 1. IOP Publishing, 2018.
+
+[[3]](https://iopscience.iop.org/article/10.1088/1742-6596/953/1/012067/meta) Saptarini, N. G. A. P. H., I. W. Suasnawa, and P. I. Ciptayani. "Senior high school course scheduling using genetic algorithm." Journal of Physics: Conference Series. Vol. 953. No. 1. IOP Publishing, 2018.
+
+
