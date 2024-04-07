@@ -35,15 +35,19 @@ Before you begin, make sure you have the following installed on your machine:
 ```
 dotnet restore
 ```
-3. After the restoration is complete, run the following command to apply any pending migrations and seed data:
+3. Install entity framework globally:
+```
+dotnet tool install --global dotnet-ef
+```
+4. After the restoration is complete, run the following command to apply any pending migrations and seed data:
 ```
 dotnet ef database update
 ```
-4. Once the database is updated, run the following command to start the ASP.NET Core API:
+5. Once the database is updated, run the following command to start the ASP.NET Core API:
 ```
 dotnet run
 ```
-5. The API should now be running on https://localhost:5001 (or http://localhost:5000).
+6. The API should now be running on https://localhost:5001 (or http://localhost:5000).
 
 ## Running the Angular Client
 1. Navigate to the root directory of the Angular project in your terminal or command prompt:
