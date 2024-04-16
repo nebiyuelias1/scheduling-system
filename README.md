@@ -65,7 +65,7 @@ dotnet run
 6. The API should now be running on https://localhost:5001 (or http://localhost:5000).
 
 ## Accessing the Application
-You can now access the application by visiting https://localhost:5001 in your web browser. Your browser might complain about the URL not being secure but you can simply proceed because this is just a development server.
+You can now access the application by visiting https://localhost:5001 in your web browser. Your browser might complain about the URL not being secure but you can simply proceed because this is just a development server. Look at the [howtouse.md](/howtouse.md) file for more details about using the app.
 
 ## References
 For those interested in delving deeper into the Genetic Algorithm utilized in our app, we recommend exploring the following research:
