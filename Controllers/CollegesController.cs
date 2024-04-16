@@ -53,8 +53,11 @@ namespace SchedulingSystem.Controllers
 
             if (college == null || user == null)
                 return NotFound();
+            
+            if (user.Contact.DepartmentId == null)
+                return BadRequest();
 
-            var collegeId = (await unitOfWork.Departments.GetDepartment(user.Contact.DepartmentId)).CollegeId;
+            var collegeId = (await unitOfWork.Departments.GetDepartment(user.Contact.DepartmentId.GetValueOrDefault())).CollegeId;
             if (college.Id != collegeId)
                 return BadRequest();
 

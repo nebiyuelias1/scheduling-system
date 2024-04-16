@@ -4,4 +4,7 @@ export interface UserRegistration {
     password: string;
     passwordAgain: string;
     role: string;
+    firstName: string;
+    fatherName: string;
+    grandFatherName: string;
 }

@@ -135,14 +135,18 @@ namespace SchedulingSystem.Controllers
                     var c = await roleManager.GetClaimsAsync(r);
                     claims.AddRange(c);
                 }
-                var dept = await unitOfWork.Departments.GetDepartment(userToVerify.Contact.DepartmentId);
-                if (dept != null)
-                {
-                    claims.Add(new Claim("dept", dept.Name));
-                    claims.Add(new Claim("dept_id", dept.Id.ToString()));
-                    claims.Add(new Claim("coll", dept.College.Name));
-                    claims.Add(new Claim("coll_id", dept.CollegeId.ToString()));
+
+                if (userToVerify.Contact != null && userToVerify.Contact.DepartmentId != null) {
+                    var dept = await unitOfWork.Departments.GetDepartment(userToVerify.Contact.DepartmentId.GetValueOrDefault());
+                    if (dept != null)
+                    {
+                        claims.Add(new Claim("dept", dept.Name));
+                        claims.Add(new Claim("dept_id", dept.Id.ToString()));
+                        claims.Add(new Claim("coll", dept.College.Name));
+                        claims.Add(new Claim("coll_id", dept.CollegeId.ToString()));
+                    }
                 }
+         
                 return await Task.FromResult(jwtFactory.GenerateClaimsIdentity(userName, userToVerify.Id, claims));
             }
 

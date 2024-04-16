@@ -2,6 +2,30 @@
   <h2>Please enter your information</h2>
 
   <div class="form-group">
+    <label for="firstName">First Name</label>
+    <input id="firstName" type="text" required name="firstName" class="form-control" placeholder="First Name" ngModel
+      #firstName="ngModel">
+    <small [hidden]="firstName.valid || (firstName.pristine && !submitted)" class="text-danger">Please enter a valid
+      firstName</small>
+  </div>
+
+  <div class="form-group">
+    <label for="fatherName">Father Name</label>
+    <input id="fatherName" type="text" required name="fatherName" class="form-control" placeholder="First Name" ngModel
+      #fatherName="ngModel">
+    <small [hidden]="fatherName.valid || (fatherName.pristine && !submitted)" class="text-danger">Please enter a valid
+      fatherName</small>
+  </div>
+
+  <div class="form-group">
+    <label for="grandFatherName">Grand Father Name</label>
+    <input id="grandFatherName" type="text" required name="grandFatherName" class="form-control" placeholder="First Name" ngModel
+      #grandFatherName="ngModel">
+    <small [hidden]="grandFatherName.valid || (grandFatherName.pristine && !submitted)" class="text-danger">Please enter a valid
+      grandFatherName</small>
+  </div>
+
+  <div class="form-group">
     <label for="email">Email</label>
     <input id="email" type="text" required name="email" validateEmail class="form-control" placeholder="Email" ngModel
       #email="ngModel">
