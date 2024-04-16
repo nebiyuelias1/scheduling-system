@@ -71,7 +71,7 @@ dotnet run
 You can now access the application by visiting https://localhost:5001 in your web browser. Your browser might complain about the URL not being secure but you can simply proceed because this is just a development server. Look at the [howtouse.md](/howtouse.md) file for more details about using the app.
 
 ## References
-For those interested in delving deeper into the Genetic Algorithm utilized in our app, we recommend exploring the following research:
+For those interested in delving deeper into the Genetic Algorithm utilized in our app, I recommend exploring the following research:
 
 [[1]](https://ieeexplore.ieee.org/abstract/document/7577525) S. Parera, H. T. Sukmana and L. K. Wardhani, "Application of genetic algorithm for class scheduling (Case study: Faculty of science and technology UIN Jakarta)," 2016 4th International Conference on Cyber and IT Service Management, Bandung, Indonesia, 2016, pp. 1-5
 
