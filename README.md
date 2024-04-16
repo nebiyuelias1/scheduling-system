@@ -29,6 +29,21 @@ Before you begin, make sure you have the following installed on your machine:
 }
 ```
 
+## Building the Angular Client
+1. Navigate to the root directory of the Angular project in your terminal or command prompt:
+```
+cd ClientApp
+```
+2. Run the following command to install the required dependencies:
+```
+npm install
+```
+3. After the installation is complete, run the following command to build the Angular Client:
+```
+npm run build
+```
+4. The Angular application should now be built under the `dist` directory.
+
 ## Running the ASP.NET Core API
 1. Navigate to the root directory of the ASP.NET Core project in your terminal or command prompt.
 2. Run the following command to restore dependencies:
@@ -49,23 +64,8 @@ dotnet run
 ```
 6. The API should now be running on https://localhost:5001 (or http://localhost:5000).
 
-## Running the Angular Client
-1. Navigate to the root directory of the Angular project in your terminal or command prompt:
-```
-cd ClientApp
-```
-2. Run the following command to install the required dependencies:
-```
-npm install
-```
-3. After the installation is complete, run the following command to start the Angular development server:
-```
-ng serve
-```
-4. The Angular application should now be accessible at http://localhost:4200 in your web browser.
-
 ## Accessing the Application
-You can now access the application by visiting http://localhost:4200 in your web browser. The Angular frontend communicates with the ASP.NET Core API running on https://localhost:5001 to fetch and manipulate data.
+You can now access the application by visiting https://localhost:5001 in your web browser. Your browser might complain about the URL not being secure but you can simply proceed because this is just a development server. Look at the [howtouse.md](/howtouse.md) file for more details about using the app.
 
 ## References
 For those interested in delving deeper into the Genetic Algorithm utilized in our app, we recommend exploring the following research:
