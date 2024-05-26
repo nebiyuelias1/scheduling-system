@@ -47,7 +47,7 @@ namespace SchedulingSystem.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] CurriculumResource curriculumResource)
+        public async Task<IActionResult> Create([FromBody] CurriculumResource curriculumResource)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -55,7 +55,7 @@ namespace SchedulingSystem.Controllers
             var curriculum = mapper.Map<CurriculumResource, Curriculum>(curriculumResource);
 
             unitOfWork.Curriculums.Add(curriculum);
-            unitOfWork.CompleteAsync();
+            await unitOfWork.CompleteAsync();
 
             mapper.Map<Curriculum, CurriculumResource>(curriculum, curriculumResource);
 
