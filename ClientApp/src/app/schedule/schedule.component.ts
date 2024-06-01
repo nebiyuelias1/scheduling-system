@@ -37,9 +37,9 @@ export class ScheduleComponent implements OnInit {
   }
 
   saveSchedule(e) {
-    // this.scheduleService.saveSchedule(this.section.id, this.schedule)
-    //   .subscribe(() => {
-    //     console.log('schedule generated...');
-    //   }, err => console.error(err));
+    this.scheduleService.saveSchedule(this.section.id, this.schedule)
+      .subscribe(() => {
+        console.log('schedule generated...');
+      }, err => console.error(err));
   }
 }
