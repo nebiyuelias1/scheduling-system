@@ -67,7 +67,7 @@ export class CommonService {
   }
 
   generateTimeTable(sectionId) {
-    return this.http.post('/api/schedules/generate/' + sectionId, {});
+    return this.http.get('/api/schedules/generate/' + sectionId, {});
   }
 
   getWeekDays() {

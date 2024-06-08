@@ -25,20 +25,19 @@ export class ScheduleComponent implements OnInit {
       .subscribe(s => {
         this.section = s;
       }, err => console.error(err));
-  }
 
-  viewSchedule() {
-    this.commonService.getTimetable(this.section.id)
-      .subscribe(s => {
-        this.schedule = s;
-        console.log(this.schedule);
-      },
-        err => console.log(err));
+    this.commonService.getTimetable(+id)
+    .subscribe(s => {
+      this.schedule = s;
+      console.log(this.schedule);
+    },
+      err => console.log(err));
   }
 
   generateSchedule() {
     this.commonService.generateTimeTable(this.section.id)
-      .subscribe(_ => {
+      .subscribe(s => {
+        this.schedule = s;
       },
         err => console.log(err));
   }
