@@ -1,6 +1,6 @@
 # iScheduler 2.0
 
-Welcome to iScheduler 2.0, this is an improved version of a project I did for my final project during my undergraduate study. The SRS document can be accessed [here](https://drive.google.com/file/d/10PftuBFP1mT_ty_PW3v7BaDuwwUc_ozZ/view?usp=sharing).
+Welcome to iScheduler 2.0, this is an improved version (the old version can be found [here](https://github.com/nebiyuelias1/genetic-algorithm-based-scheduling-system)) of a project I did for my final project during my undergraduate study. The SRS document can be accessed [here](https://drive.google.com/file/d/10PftuBFP1mT_ty_PW3v7BaDuwwUc_ozZ/view?usp=sharing).
 
 The App is designed specifically for Ethiopian universities and it solves the problem of generating class timetables automatically. I've utilized a [genetic algorithm](https://en.wikipedia.org/wiki/Genetic_algorithm) for this purpose and it's very interesting how the algorithm works.
 
