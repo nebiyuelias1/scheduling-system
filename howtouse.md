@@ -11,4 +11,4 @@
 * You should then create the section and also all the courses for that are though under a curriculum.
 * After that you should create a schedule configuration.
 * Hopefully, you should generate the schedule.
-
+![Schedule](screenshots/Schedule.png)
