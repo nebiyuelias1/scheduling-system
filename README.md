@@ -57,7 +57,6 @@ npm run build
 ```
 dotnet restore
 ```
-![Dotnet restore](screenshots/dotnet_restore.png "dotnet restore")
 3. Install entity framework globally:
 ```
 dotnet tool install --global dotnet-ef
