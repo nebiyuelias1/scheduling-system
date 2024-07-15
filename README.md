@@ -1,5 +1,5 @@
 # iScheduler 2.0
-![Scheduling-system](screenshots\timetable_generation.gif "Timetable Generation")
+![Scheduling-system](screenshots/timetable_generation.gif "Timetable Generation")
 
 Welcome to iScheduler 2.0, this is an improved version (the old version can be found [here](https://github.com/nebiyuelias1/genetic-algorithm-based-scheduling-system)) of a project I did for my final project during my undergraduate study. The SRS document can be accessed [here](https://drive.google.com/file/d/10PftuBFP1mT_ty_PW3v7BaDuwwUc_ozZ/view?usp=sharing).
 
@@ -38,17 +38,17 @@ Before you begin, make sure you have the following installed on your machine:
 ```
 cd ClientApp
 ```
-![Changing-Directory-To-ClientApp](screenshots\Cd_clientApp.png "cd ClientApp")
+![Changing-Directory-To-ClientApp](screenshots/Cd_clientApp.png "cd ClientApp")
 2. Run the following command to install the required dependencies:
 ```
 npm install
 ```
-![npm-install](screenshots\npm_install.png "npm install")
+![npm-install](screenshots/npm_install.png "npm install")
 3. After the installation is complete, run the following command to build the Angular Client:
 ```
 npm run build
 ```
-![Building The Angular](screenshots\npm_run_build.png "npm run build")
+![Building The Angular](screenshots/npm_run_build.png "npm run build")
 4. The Angular application should now be built under the `dist` directory.
 
 ## Running the ASP.NET Core API
@@ -57,24 +57,24 @@ npm run build
 ```
 dotnet restore
 ```
-![Dotnet restore](screenshots\dotnet_restore.png "dotnet restore")
+![Dotnet restore](screenshots/dotnet_restore.png "dotnet restore")
 3. Install entity framework globally:
 ```
 dotnet tool install --global dotnet-ef
 ```
-![Install entity framework globally](screenshots\dotnet_tool_install_global_dotnet_ef.png "dotnet tool install --global dotnet-ef")
+![Install entity framework globally](screenshots/dotnet_tool_install_global_dotnet_ef.png "dotnet tool install --global dotnet-ef")
 4. After the restoration is complete, run the following command to apply any pending migrations and seed data:
 ```
 dotnet ef database update
 ```
-![Updating The Databasef](screenshots\dotnet_ef_database_update.png "dotnet ef database update")
+![Updating The Databasef](screenshots/dotnet_ef_database_update.png "dotnet ef database update")
 5. Once the database is updated, run the following command to start the ASP.NET Core API:
 ```
 dotnet run
 ```
-![Running The Project](screenshots\dotnet_run.png "dotnet run")
+![Running The Project](screenshots/dotnet_run.png "dotnet run")
 6. The API should now be running on https://localhost:5001 (or http://localhost:5000).
-![Localhost:5000 and Localhost:5001](screenshots\localhost.png "Localhosts")
+![Localhost:5000 and Localhost:5001](screenshots/localhost.png "Localhosts")
 
 ## Accessing the Application
 You can now access the application by visiting https://localhost:5001 in your web browser. Your browser might complain about the URL not being secure but you can simply proceed because this is just a development server. Look at the [howtouse.md](/howtouse.md) file for more details about using the app.
