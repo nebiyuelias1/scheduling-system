@@ -1,4 +1,5 @@
 ## How to use the system?
+> If you're looking for a database dump from SQL server you can find it [here](https://drive.google.com/file/d/1cIRQlve0FuZlnZ68Kl_KbX6CiqhvZkKb/view?usp=drivesdk).
 > The default password for the users created by the system is `P@ssw0rd`
 
 ### How to create an admin user?
